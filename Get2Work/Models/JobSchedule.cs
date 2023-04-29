@@ -11,6 +11,7 @@ namespace Get2Work.Models
         public int JobId { get; set; }
         public Job Job { get; set; }
         public int DayId { get; set; }
+        public Day Day { get; set; }
        
         public string Notes { get; set; }
         public DateTime? TimeIn { get; set; }

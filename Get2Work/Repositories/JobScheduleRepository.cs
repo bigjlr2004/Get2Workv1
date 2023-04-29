@@ -25,11 +25,13 @@ namespace Get2Work.Repositories
                             up.Id as ProfileId, up.FirebaseUserId, up.DisplayName AS UserProfileName, 
                             up.FirstName, up.LastName,up.Email, up.Notes, up.HireDate, 
                             up.UserTypeId, up.ActiveStatus, up.Address,
-                            s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus
+                            s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus,
+                            d.Name as DayName
                             FROM JobSchedule js                    
                             Join Job j on js.JobId = j.Id
                             JOIN UserProfile up on j.UserProfileId = up.Id
                             JOIN Store s on s.Id = j.StoreId
+                            JOIN Day d on d.Id = js.DayId
                         ";
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -52,6 +54,13 @@ namespace Get2Work.Repositories
                 Id = DbUtils.GetInt(reader, "Id"),
                 Date = DbUtils.GetDateTime(reader, "Date"),
                 DayId = DbUtils.GetInt(reader, "DayId"),
+                
+                Day = new Day()
+                {
+                    Id = DbUtils.GetInt(reader, "DayId"),
+                    Name = DbUtils.GetString(reader, "DayName")
+                },
+
                 TimeIn = DbUtils.GetNullableDateTime(reader, "TimeIn"),
                 TimeOut = DbUtils.GetNullableDateTime(reader, "TimeOut"),
                 StartingOdometer = DbUtils.GetNullableInt(reader, "StartingOdometer"),
