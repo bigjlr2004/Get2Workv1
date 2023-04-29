@@ -148,9 +148,7 @@ namespace Get2Work.Repositories
                     DbUtils.AddParameter(cmd, "@HireDate", user.HireDate);
                     DbUtils.AddParameter(cmd, "@Notes", user.Notes);
                     DbUtils.AddParameter(cmd, "@Address", user.Address);
-                   
-                    
-
+                  
                     cmd.ExecuteNonQuery();
                 }
             }

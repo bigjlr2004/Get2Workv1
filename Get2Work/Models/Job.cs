@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic;
+using System;
 
 namespace Get2Work.Models
 {
@@ -6,10 +7,10 @@ namespace Get2Work.Models
     {
         public int Id { get; set; }
         public int UserProfileId { get; set; }
-        public UserProfile Profile { get; set; }
+        public UserProfile UserProfile { get; set; }
         public string Description { get; set; }
-        public DateAndTime CreateDateTime { get; set; }
-        public DateAndTime ScheduledTime { get; set; }
+        public DateTime CreateDateTime { get; set; }
+        public DateTime ScheduledTime { get; set; }
         public int StoreId   { get; set; }
         public Store Store { get; set; }
 
