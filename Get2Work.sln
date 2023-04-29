@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Get2Work", "Get2Work\Get2Work.csproj", "{1E99EFEE-EE99-4B26-880D-EF38C9EE55EC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1E99EFEE-EE99-4B26-880D-EF38C9EE55EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E99EFEE-EE99-4B26-880D-EF38C9EE55EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E99EFEE-EE99-4B26-880D-EF38C9EE55EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E99EFEE-EE99-4B26-880D-EF38C9EE55EC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B861E00B-00CB-4E05-AF38-72E25208D524}
+	EndGlobalSection
+EndGlobal
