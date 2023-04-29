@@ -26,6 +26,7 @@ namespace Get2Work
             services.AddTransient<IJobRepository, JobRepository>();
             services.AddTransient<IStoreRepository, StoreRepository>();
             services.AddTransient<IJobScheduleRepository, JobScheduleRepository>();
+            services.AddTransient<IDayRepository, DayRepository>();
 
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";
