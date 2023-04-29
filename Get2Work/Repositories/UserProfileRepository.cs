@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using Get2Work.Models;
 using Microsoft.Data.SqlClient;
 using Get2Work.Utils;
-using System.Linq;
-using System.Xml.Linq;
-using Microsoft.AspNetCore.Authentication.Cookies;
+
 
 namespace Get2Work.Repositories
 {
@@ -97,48 +95,7 @@ namespace Get2Work.Repositories
                 }
             }
         }
-        //public UserProfile GetByIdWithVideos(int id)
-        //{
-        //    using (var conn = Connection)
-        //    {
-        //        conn.Open();
-        //        using (var cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = @"
-        //                 SELECT up.ID, up.Name, up.Email, up.HireDate AS UserProfileHireDate,
-        //                    up.ImageUrl AS UserProfileImageUrl,
 
-        //                 v.Id as VideoId, v.Title, v.Description, v.Url, v.HireDate, v.UserProfileId,
-        //                 c.Id AS CommentId, c.Message, c.UserProfileId AS CommentUserProfileId
-        //                FROM UserProfile up 
-        //                    JOIN Video v ON v.UserProfileId = up.Id
-        //                    LEFT JOIN Comment c on c.VideoId = v.id
-        //                WHERE up.Id = @Id
-        //                    ";
-
-        //            DbUtils.AddParameter(cmd, "@Id", id);
-
-        //            using (SqlDataReader reader = cmd.ExecuteReader())
-        //            {
-
-        //                UserProfile user = null;
-        //                while (reader.Read())
-        //                {
-
-        //                        user = new UserProfile()
-        //                        {
-        //                            Id = DbUtils.GetInt(reader, "Id"),
-        //                            Name = DbUtils.GetString(reader, "Name"),
-        //                            Email = DbUtils.GetString(reader, "Email"),
-        //                            HireDate = DbUtils.GetDateTime(reader, "UserProfileHireDate"),
-        //                        };
-        //                }
-        //                return user;
-
-        //            }
-        //        }
-        //    }
-        //}
         public void Add(UserProfile user)
         {
             using (var conn = Connection)
@@ -181,8 +138,8 @@ namespace Get2Work.Repositories
                                     Email = @Email,
                                     HireDate = @HireDate,
                                     Notes = @Notes,
-                                    Address =@Address,
-                                WHERE Id= @Id";
+                                    Address =@Address
+                                WHERE Id = @Id";
                     DbUtils.AddParameter(cmd, "@Id", user.Id);
                     DbUtils.AddParameter(cmd, "@FirstName", user.FirstName);
                     DbUtils.AddParameter(cmd, "@LastName", user.LastName);
