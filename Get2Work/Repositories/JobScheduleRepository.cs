@@ -47,6 +47,35 @@ namespace Get2Work.Repositories
                 }
             }
         }
+        public void Add(JobSchedule newJob)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                    INSERT INTO JobSchedule (Date, JobId, DayId, TimeIn, TimeOut, StartingOdometer, EndingOdometer, Notes, Halfs, Pints, Snacks, Complete)
+                         OUTPUT INSERTED.ID 
+                        VALUES (@Date, @JobId, @DayId, @TimeIn, @TimeOut, @StartingOdometer, @EndingOdometer, @Notes, @Halfs, @Pints, @Snacks, @Complete)";
+
+                    DbUtils.AddParameter(cmd, "@Date", newJob.Date);
+                    DbUtils.AddParameter(cmd, "@JobId", newJob.JobId);
+                    DbUtils.AddParameter(cmd, "@TimeIn", newJob.TimeIn);
+                    DbUtils.AddParameter(cmd, "@TimeOut", newJob.TimeOut);
+                    DbUtils.AddParameter(cmd, "@DayId", newJob.DayId);
+                    DbUtils.AddParameter(cmd, "@StartingOdometer", newJob.StartingOdometer);
+                    DbUtils.AddParameter(cmd, "@EndingOdometer", newJob.EndingOdometer);
+                    DbUtils.AddParameter(cmd, "@Notes", newJob.Notes);
+                    DbUtils.AddParameter(cmd, "@Halfs", newJob.Halfs); 
+                    DbUtils.AddParameter(cmd, "@Pints", newJob.Pints);
+                    DbUtils.AddParameter(cmd, "@Snacks", newJob.Snacks);
+                    DbUtils.AddParameter(cmd, "@Complete", newJob.Complete);
+
+                    newJob.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
         private JobSchedule NewJobSchedulefromReader(SqlDataReader reader)
         {
             return new JobSchedule()
