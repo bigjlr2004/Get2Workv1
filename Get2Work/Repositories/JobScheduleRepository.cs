@@ -3,6 +3,7 @@ using Get2Work.Utils;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace Get2Work.Repositories
 {
@@ -67,7 +68,7 @@ namespace Get2Work.Repositories
                     DbUtils.AddParameter(cmd, "@StartingOdometer", newJob.StartingOdometer);
                     DbUtils.AddParameter(cmd, "@EndingOdometer", newJob.EndingOdometer);
                     DbUtils.AddParameter(cmd, "@Notes", newJob.Notes);
-                    DbUtils.AddParameter(cmd, "@Halfs", newJob.Halfs); 
+                    DbUtils.AddParameter(cmd, "@Halfs", newJob.Halfs);
                     DbUtils.AddParameter(cmd, "@Pints", newJob.Pints);
                     DbUtils.AddParameter(cmd, "@Snacks", newJob.Snacks);
                     DbUtils.AddParameter(cmd, "@Complete", newJob.Complete);
@@ -76,14 +77,77 @@ namespace Get2Work.Repositories
                 }
             }
         }
+        public void Update(JobSchedule job)
+        {
+
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            Update JobSchedule
+                            SET Date = @Date,
+                            JobId = @JobId,
+                            TimeIn = @TimeIn,
+                            TimeOut = @TimeOut,
+                            DayId = @DayId,
+                            StartingOdometer = @StartingOdometer,
+                            EndingOdometer = @EndingOdometer,
+                            Notes = @Notes,
+                            Halfs = @Halfs,
+                            Pints = @Pints,
+                            Snacks = @Snacks,
+                            Complete = @Complete
+                            WHERE Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Id", job.Id);
+                    DbUtils.AddParameter(cmd, "@Date", job.Date);
+                    DbUtils.AddParameter(cmd, "@JobId", job.JobId);
+                    DbUtils.AddParameter(cmd, "@TimeIn", job.TimeIn);
+                    DbUtils.AddParameter(cmd, "@TimeOut", job.TimeOut);
+                    DbUtils.AddParameter(cmd, "@DayId", job.DayId);
+                    DbUtils.AddParameter(cmd, "@StartingOdometer", job.StartingOdometer);
+                    DbUtils.AddParameter(cmd, "@EndingOdometer", job.EndingOdometer);
+                    DbUtils.AddParameter(cmd, "@Notes", job.Notes);
+                    DbUtils.AddParameter(cmd, "@Halfs", job.Halfs);
+                    DbUtils.AddParameter(cmd, "@Pints", job.Pints);
+                    DbUtils.AddParameter(cmd, "@Snacks", job.Snacks);
+                    DbUtils.AddParameter(cmd, "@Complete", job.Complete);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        public void AddNew(Schedule newJob)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                    INSERT INTO JobSchedule (Date, JobId, DayId)
+                         OUTPUT INSERTED.ID 
+                        VALUES (@Date, @JobId, @DayId)";
+
+                    DbUtils.AddParameter(cmd, "@Date", newJob.Date);
+                    DbUtils.AddParameter(cmd, "@JobId", newJob.JobId);
+                    DbUtils.AddParameter(cmd, "@DayId", newJob.DayId);
+
+
+                    newJob.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
         private JobSchedule NewJobSchedulefromReader(SqlDataReader reader)
         {
-            return new JobSchedule()
+            var jobSchedule = new JobSchedule()
             {
-                Id = DbUtils.GetInt(reader, "Id"),
+                Id = DbUtils.GetInt(reader, "JobScheduleId"),
                 Date = DbUtils.GetDateTime(reader, "Date"),
                 DayId = DbUtils.GetInt(reader, "DayId"),
-                
+
                 Day = new Day()
                 {
                     Id = DbUtils.GetInt(reader, "DayId"),
@@ -94,11 +158,10 @@ namespace Get2Work.Repositories
                 TimeOut = DbUtils.GetNullableDateTime(reader, "TimeOut"),
                 StartingOdometer = DbUtils.GetNullableInt(reader, "StartingOdometer"),
                 EndingOdometer = DbUtils.GetNullableInt(reader, "EndingOdometer"),
-                Halfs = DbUtils.GetInt(reader, "Halfs"),
-                Pints = DbUtils.GetInt(reader, "Pints"),
-                Snacks = DbUtils.GetInt(reader, "Snacks"),
+                Halfs = DbUtils.GetNullableInt(reader, "Halfs"),
+                Pints = DbUtils.GetNullableInt(reader, "Pints"),
+                Snacks = DbUtils.GetNullableInt(reader, "Snacks"),
                 Notes = DbUtils.GetString(reader, "Notes"),
-                Complete = reader.GetBoolean(reader.GetOrdinal("Complete")),
                 JobId = DbUtils.GetInt(reader, "JobId"),
 
                 Job = new Job()
@@ -135,10 +198,19 @@ namespace Get2Work.Repositories
                         Address = DbUtils.GetString(reader, "Address"),
                         ActiveStatus = reader.GetBoolean(reader.GetOrdinal("ActiveStatus")),
                     }
-
                 }
-
             };
+                    
+
+            if (DbUtils.IsNotDbNull(reader, "Complete"))
+            {
+                jobSchedule.Complete = reader.GetBoolean(reader.GetOrdinal("Complete"));
+
+                            }
+            return jobSchedule;
         }
     }
+    
 }
+    
+

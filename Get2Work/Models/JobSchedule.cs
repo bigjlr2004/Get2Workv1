@@ -18,9 +18,9 @@ namespace Get2Work.Models
         public DateTime? TimeOut { get; set; }
         public int? StartingOdometer { get; set; }
         public int? EndingOdometer { get; set; }
-        public int Halfs { get; set; }
-        public int Pints { get; set; }
-        public int Snacks { get; set; }
+        public int? Halfs { get; set; }
+        public int? Pints { get; set; }
+        public int? Snacks { get; set; }
         public bool Complete { get; set; }
     }
 }
