@@ -7,6 +7,7 @@ namespace Get2Work.Repositories
     {
         List<JobSchedule> GetAll();
         public void Add(JobSchedule newJob);
-
+        public void AddNew(Schedule newJob);
+        public void Update(JobSchedule job);
     }
 }
