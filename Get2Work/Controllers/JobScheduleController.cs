@@ -1,6 +1,9 @@
-﻿using Get2Work.Repositories;
+﻿using Get2Work.Models;
+using Get2Work.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
+using System;
 using System.Linq;
 
 namespace Get2Work.Controllers
@@ -22,5 +25,31 @@ namespace Get2Work.Controllers
             var scheduledJobs = _jobScheduleRepository.GetAll();
             return Ok(scheduledJobs);
         }
+
+        [HttpPost("Add")]
+        public IActionResult Add(JobSchedule newJob)
+        {
+            try
+            {
+                newJob.StartingOdometer = 0;
+                newJob.EndingOdometer = 0;
+                newJob.Halfs = 0;
+                newJob.Pints = 0;
+                newJob.Snacks = 0;
+                newJob.Complete = false;
+
+                _jobScheduleRepository.Add(newJob);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+
+
+
+            
+        }
     }
 }
+
