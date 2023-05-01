@@ -48,6 +48,46 @@ namespace Get2Work.Repositories
                 }
             }
         }
+        public List<JobSchedule> GetAllJobScheduleByUserId(int userId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                    SELECT  js.Id as JobScheduleId, js.Date, js.JobId, js.DayId, js.Notes, js.TimeIn, 
+                            js.TimeOut, js.StartingOdometer,js.EndingOdometer, js.Halfs, js.Pints, 
+                            js.Snacks, js.Complete,j.Id, j.UserProfileId, j.Description, j.CreateDateTime, 
+                            j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
+                            up.Id as ProfileId, up.FirebaseUserId, up.DisplayName AS UserProfileName, 
+                            up.FirstName, up.LastName,up.Email, up.Notes, up.HireDate, 
+                            up.UserTypeId, up.ActiveStatus, up.Address,
+                            s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus,
+                            d.Name as DayName
+                            FROM JobSchedule js                    
+                            Join Job j on js.JobId = j.Id
+                            JOIN UserProfile up on j.UserProfileId = up.Id
+                            JOIN Store s on s.Id = j.StoreId
+                            JOIN Day d on d.Id = js.DayId
+                            WHERE up.Id = @Id
+                        ";
+                    DbUtils.AddParameter(cmd, "@Id", userId);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+
+                        var users = new List<JobSchedule>();
+                        while (reader.Read())
+                        {
+                            users.Add(NewJobSchedulefromReader(reader));
+                        }
+
+                        return users;
+                    }
+                }
+            }
+        }
+
         public void Add(JobSchedule newJob)
         {
             using (var conn = Connection)
@@ -74,6 +114,45 @@ namespace Get2Work.Repositories
                     DbUtils.AddParameter(cmd, "@Complete", newJob.Complete);
 
                     newJob.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+        public JobSchedule GetJobScheduleById(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                         SELECT  js.Id as JobScheduleId, js.Date, js.JobId, js.DayId, js.Notes, js.TimeIn, 
+                            js.TimeOut, js.StartingOdometer,js.EndingOdometer, js.Halfs, js.Pints, 
+                            js.Snacks, js.Complete,j.Id, j.UserProfileId, j.Description, j.CreateDateTime, 
+                            j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
+                            up.Id as ProfileId, up.FirebaseUserId, up.DisplayName AS UserProfileName, 
+                            up.FirstName, up.LastName,up.Email, up.Notes, up.HireDate, 
+                            up.UserTypeId, up.ActiveStatus, up.Address,
+                            s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus,
+                            d.Name as DayName
+                            FROM JobSchedule js                    
+                            Join Job j on js.JobId = j.Id
+                            JOIN UserProfile up on j.UserProfileId = up.Id
+                            JOIN Store s on s.Id = j.StoreId
+                            JOIN Day d on d.Id = js.DayId
+                            WHERE js.Id = @Id
+                        ";
+
+                    DbUtils.AddParameter(cmd, "@Id", id);
+                   JobSchedule jobSchedule = null;
+
+                    var reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        jobSchedule = NewJobSchedulefromReader(reader);
+                    }
+                    reader.Close();
+
+                    return jobSchedule;
                 }
             }
         }
