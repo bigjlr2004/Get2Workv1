@@ -26,7 +26,24 @@ const _saveUser = (userProfile) => {
       body: JSON.stringify(userProfile)
     }).then(resp => resp.json()));
 };
-
+export const getUserProfiles = () => {
+  return getToken().then((token) => {
+    return fetch(`${_apiUrl}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((resp) => {
+      if (resp.ok) {
+        return resp.json();
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to get scheduledJobs"
+        );
+      }
+    });
+  });
+};
 
 
 export const getToken = () => firebase.auth().currentUser.getIdToken();
@@ -57,9 +74,9 @@ export const logout = () => {
 
 export const register = (userProfile, password) => {
   return firebase.auth().createUserWithEmailAndPassword(userProfile.email, password)
-    .then((createResponse) => _saveUser({ 
-      ...userProfile, 
-      firebaseUserId: createResponse.user.uid 
+    .then((createResponse) => _saveUser({
+      ...userProfile,
+      firebaseUserId: createResponse.user.uid
     }));
 };
 

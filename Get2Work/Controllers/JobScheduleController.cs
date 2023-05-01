@@ -22,10 +22,9 @@ namespace Get2Work.Controllers
 
         }
         [HttpGet("JobScheduleForWeek")]
-        public IActionResult WeekSchedule(DateTime Today)
-        {
+        public IActionResult WeekSchedule()        {
             //Get todays Date
-            
+            DateTime Today = DateTime.Now;
             string formattedDate = Today.ToString("yyyy-MM-dd");
             DateTime today = DateTime.ParseExact(formattedDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             //Get the current day weekday string
@@ -39,9 +38,9 @@ namespace Get2Work.Controllers
         }
 
         [HttpGet("JobScheduleForScheduleByDateRange")]
-        public IActionResult Today(DateTime Today)
+        public IActionResult Today()
         {
-                      
+            DateTime Today = DateTime.Now;
             DateTime NextDay = Today.AddHours(24);
             return Ok(_jobScheduleRepository.ScheduleByDateRange(Today, NextDay));
         }
