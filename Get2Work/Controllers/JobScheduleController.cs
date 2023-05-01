@@ -92,7 +92,7 @@ namespace Get2Work.Controllers
             //Send the weekday string off to calculate the number of days to subtract to go back to Sunday of the current week.
             int StablizeDate = GetStartDate(dayOfWeek.ToString());
             //Stabilize date by adding the Stablize Date to Todays Date
-            DateTime DateToBeScheduled = today.AddDays(StablizeDate);
+            DateTime ChangedToSundayDate = today.AddDays(StablizeDate);
 
             //Create a list to store the scheduled dates for the job.
             List<DateTime> days = new List<DateTime>();
@@ -105,18 +105,18 @@ namespace Get2Work.Controllers
                 //passed to us with the job.
                 foreach (var day in schedule.DaysScheduled)
                     {
-                        //Calculate the DateToBeScheduled by adding the integer that corresponds to the day checked in the
-                        //DaysScheduled List plus the number of the week we are iterating through
-                     DateToBeScheduled = today.AddDays((day ) + addweek);
+                        //Calculate the Date To Be Scheduled by adding the integer that corresponds to the day checked in the
+                        //DaysScheduled List plus the number of the week we are iterating through to the ChangedToSundayDate.
+                     DateTime ScheduledDate = ChangedToSundayDate.AddDays((day ) + addweek);
                     //If Date to be Scheduled is equal to today or in the future then we add it to the schedule.
-                    if (DateToBeScheduled >= DateTime.Today)
+                    if (ScheduledDate >= DateTime.Today)
                     {
                         //The DayId is a list of integers from 1-7; we use the corresponding intger passed in the Days Scheduled +1
                         //Becuase the integers passed start with 0 and run through 7.
                         schedule.DayId = day + 1;
-                        schedule.Date = DateToBeScheduled;
+                        schedule.Date = ScheduledDate;
                         _jobScheduleRepository.AddNew(schedule);
-                        days.Add(DateToBeScheduled);
+                        days.Add(ScheduledDate);
                     }
                 } 
             }
