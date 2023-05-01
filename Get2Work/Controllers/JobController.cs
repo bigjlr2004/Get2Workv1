@@ -8,7 +8,7 @@ using System;
 
 namespace Get2Work.Controllers
 {
-    [Authorize]
+    
     [Route("api/[controller]")]
     [ApiController]
     public class JobController : ControllerBase
@@ -29,10 +29,15 @@ namespace Get2Work.Controllers
             return Ok(_jobRepository.GetAll());
         }
 
-        [HttpGet("getalljobsbyuserId/{id}")]
+        [HttpGet("getAllJobsByUserId/{id}")]
         public IActionResult GetById(int id)
         {
             return Ok(_jobRepository.GetJobsByUserId(id));
+        }
+        [HttpGet("{id}")]
+        public IActionResult GetJobById(int id)
+        {
+            return Ok(_jobRepository.GetJobById(id));
         }
 
         [HttpPut("Edit")]

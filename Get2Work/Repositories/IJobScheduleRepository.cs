@@ -9,5 +9,7 @@ namespace Get2Work.Repositories
         public void Add(JobSchedule newJob);
         public void AddNew(Schedule newJob);
         public void Update(JobSchedule job);
+        public JobSchedule GetJobScheduleById(int id);
+        public List<JobSchedule> GetAllJobScheduleByUserId(int userId);
     }
 }

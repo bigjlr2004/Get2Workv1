@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Get2Work.Utils;
 using Microsoft.Data.SqlClient;
 using static Azure.Core.HttpHeader;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Get2Work.Repositories
 {
@@ -40,6 +41,39 @@ namespace Get2Work.Repositories
                         return jobs;
                 };
                 
+            }
+        }
+        public Job GetJobById(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                         SELECT j.Id, j.UserProfileId, j.Description, j.CreateDateTime, 
+                    j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
+                    up.Id as ProfileId, up.FirebaseUserId, up.DisplayName AS UserProfileName, up.FirstName, up.LastName,
+                    up.Email, up.Notes, up.HireDate, up.UserTypeId, up.ActiveStatus, up.Address,
+                    s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus
+                    FROM Job j
+                    JOIN UserProfile up on j.UserProfileId = up.Id
+                    JOIN Store s on s.Id = j.StoreId
+                    WHERE j.Id = @Id
+                        ";
+
+                    DbUtils.AddParameter(cmd, "@Id", id);
+                    Job job = null;
+
+                    var reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        job = NewJobfromReader(reader);
+                    }
+                    reader.Close();
+
+                    return job;
+                }
             }
         }
 

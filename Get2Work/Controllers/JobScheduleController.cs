@@ -49,6 +49,16 @@ namespace Get2Work.Controllers
             }
             
         }
+        [HttpGet("{id}")]
+        public IActionResult GetJobScheduleById(int id)
+        {
+            return Ok(_jobScheduleRepository.GetJobScheduleById(id));
+        }
+        [HttpGet("getAllJobScheduleByUserId/{id}")]
+        public IActionResult GetById(int id)
+        {
+            return Ok(_jobScheduleRepository.GetAllJobScheduleByUserId(id));
+        }
         [HttpPut("Edit")]
         public IActionResult Edit(int id, JobSchedule job)
         {
