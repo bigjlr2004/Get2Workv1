@@ -64,31 +64,25 @@ namespace Get2Work.Controllers
                 new { firebaseUserId = userProfile.FirebaseUserId },
                 userProfile);
         }
-        [HttpPut("update")]
+    
+        [HttpPut("deactivate")]
         public IActionResult Deactivate(UserProfile profile)
         {
-           _userProfileRepository.Update(profile);
+            UserProfile userProfile = _userProfileRepository.GetById(profile.Id);
+
+            _userProfileRepository.ChangeActivation(userProfile, false);
 
             return NoContent();
         }
-        //[HttpPut("deactivate")]
-        //public IActionResult Deactivate(UserProfile profile)
-        //{
-        //    UserProfile userProfile = _userProfileRepository.GetById(profile.Id);
 
-        //    _userProfileRepository.ChangeActivation(userProfile, false);
+        [HttpPut("activate")]
+        public IActionResult Activate(UserProfile profile)
+        {
+            UserProfile userProfile = _userProfileRepository.GetById(profile.Id);
 
-        //    return NoContent();
-        //}
+            _userProfileRepository.ChangeActivation(userProfile, true);
 
-        //[HttpPut("activate")]
-        //public IActionResult Activate(UserProfile profile)
-        //{
-        //    UserProfile userProfile = _userProfileRepository.GetById(profile.Id);
-
-        //    _userProfileRepository.ChangeActivation(userProfile, true);
-
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace Get2Work.Repositories
         public void Add(UserProfile user);
         //public void Delete(int id);
         public void Update(UserProfile user);
-
+        public void ChangeActivation(UserProfile userProfile, bool activated);
         public UserProfile GetByFirebaseUserId(string firebaseuserId);
 
     }

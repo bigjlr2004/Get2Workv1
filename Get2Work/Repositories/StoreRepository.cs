@@ -105,6 +105,32 @@ namespace Get2Work.Repositories
                 }
             }
         }
+        public void ChangeActivation(Store store, bool activated)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        
+                                Update Store
+                                SET Name = @Name,
+                                    PhoneNumber = @PhoneNumber,
+                                    Address =@Address,
+                                    ActiveStatus = @ActiveStatus
+                                WHERE Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Id", store.Id);
+                    DbUtils.AddParameter(cmd, "@Name", store.Name);
+                    DbUtils.AddParameter(cmd, "@PhoneNumber", store.PhoneNumber);
+                    DbUtils.AddParameter(cmd, "@Address", store.Address);
+                    DbUtils.AddParameter(cmd, "@ActiveStatus", activated);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
         private Store NewStorefromReader(SqlDataReader reader)
         {
             return new Store()

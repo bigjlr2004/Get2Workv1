@@ -9,6 +9,7 @@ namespace Get2Work.Repositories
         public Store GetById(int id);
         public void Add(Store Store);
         public void Update(Store Store);
+        public void ChangeActivation(Store store, bool activated);
 
     }
 }
