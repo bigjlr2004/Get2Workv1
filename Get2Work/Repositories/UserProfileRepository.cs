@@ -140,6 +140,7 @@ namespace Get2Work.Repositories
                                     Notes = @Notes,
                                     Address =@Address
                                 WHERE Id = @Id";
+
                     DbUtils.AddParameter(cmd, "@Id", user.Id);
                     DbUtils.AddParameter(cmd, "@FirstName", user.FirstName);
                     DbUtils.AddParameter(cmd, "@LastName", user.LastName);
@@ -153,19 +154,40 @@ namespace Get2Work.Repositories
                 }
             }
         }
-        //public void Delete(int id)
-        //{
-        //    using (var conn = Connection)
-        //    {
-        //        conn.Open();
-        //        using (var cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = "DELETE FROM UserProfile WHERE Id = @Id";
-        //            DbUtils.AddParameter(cmd, "@id", id);
-        //            cmd.ExecuteNonQuery();
-        //        }
-        //    }
-        //}
+        public void ChangeActivation(UserProfile userProfile, bool activated)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                         Update UserProfile
+                                SET FirstName = @FirstName,
+                                    LastName = @LastName,
+                                    DisplayName = @DisplayName,
+                                    Email = @Email,
+                                    HireDate = @HireDate,
+                                    Notes = @Notes,
+                                    Address =@Address,
+                                    ActiveStatus= @ActiveStatus
+                                WHERE Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Id", userProfile.Id);
+                    DbUtils.AddParameter(cmd, "@FirstName", userProfile.FirstName);
+                    DbUtils.AddParameter(cmd, "@LastName", userProfile.LastName);
+                    DbUtils.AddParameter(cmd, "@DisplayName", userProfile.DisplayName);
+                    DbUtils.AddParameter(cmd, "@Email", userProfile.Email);
+                    DbUtils.AddParameter(cmd, "@HireDate", userProfile.HireDate);
+                    DbUtils.AddParameter(cmd, "@Notes", userProfile.Notes);
+                    DbUtils.AddParameter(cmd, "@Address", userProfile.Address);
+                    cmd.Parameters.AddWithValue("@ActiveStatus", activated);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+    
         private UserProfile NewUserProfilefromReader (SqlDataReader reader)
         {
            return new UserProfile()

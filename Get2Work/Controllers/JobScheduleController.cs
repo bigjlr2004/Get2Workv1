@@ -20,6 +20,15 @@ namespace Get2Work.Controllers
             _jobScheduleRepository = jobScheduleRepository;
 
         }
+
+        [HttpGet("JobScheduleForSingleDate")]
+        public IActionResult Today(DateTime Today)
+        {
+            DateTime PreviousDay = Today.AddDays(-1);
+            DateTime NextDay = Today.AddDays(1);
+            return Ok(_jobScheduleRepository.SingleDate(PreviousDay, NextDay));
+        }
+
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -63,6 +72,13 @@ namespace Get2Work.Controllers
         public IActionResult Edit(int id, JobSchedule job)
         {
             _jobScheduleRepository.Update(job);
+            return NoContent();
+        }
+
+        [HttpDelete("DeleteJobSchedule/{id}")]
+        public IActionResult DeleteJobSchedule(int id)
+        {
+            _jobScheduleRepository.DeleteFutureJobSchedule(id);
             return NoContent();
         }
 

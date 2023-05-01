@@ -41,12 +41,31 @@ namespace Get2Work.Controllers
         [HttpPost]
         public IActionResult Post(Store Store)
         {
-           
             _storeRepository.Add(Store);
 
             return NoContent();
-
         }
 
+        [HttpPut("deactivate")]
+        public IActionResult Deactivate(Store profile)
+        {
+            Store store = _storeRepository.GetById(profile.Id);
+
+            _storeRepository.ChangeActivation(store, false);
+
+            return NoContent();
+        }
+
+        [HttpPut("activate")]
+        public IActionResult Activate(Store profile)
+        {
+            Store store = _storeRepository.GetById(profile.Id);
+
+            _storeRepository.ChangeActivation(store, true);
+
+            return NoContent();
+        }
     }
+
+
 }
