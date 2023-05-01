@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace Get2Work.Controllers
@@ -20,13 +21,28 @@ namespace Get2Work.Controllers
             _jobScheduleRepository = jobScheduleRepository;
 
         }
+        [HttpGet("JobScheduleForWeek")]
+        public IActionResult WeekSchedule()        {
+            //Get todays Date
+            DateTime Today = DateTime.Now;
+            string formattedDate = Today.ToString("yyyy-MM-dd");
+            DateTime today = DateTime.ParseExact(formattedDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            //Get the current day weekday string
+            DayOfWeek dayOfWeek = today.DayOfWeek;
+            //Send the weekday string off to calculate the number of days to subtract to go back to Sunday of the current week.
+            int StablizeDate = GetStartDate(dayOfWeek.ToString());
+            //Stabilize date by adding the Stablize Date to Todays Date
+            DateTime ChangedToSundayDate = today.AddDays(StablizeDate);
+            DateTime NextDay = ChangedToSundayDate.AddDays(8);
+            return Ok(_jobScheduleRepository.ScheduleByDateRange(ChangedToSundayDate, NextDay));
+        }
 
-        [HttpGet("JobScheduleForSingleDate")]
-        public IActionResult Today(DateTime Today)
+        [HttpGet("JobScheduleForScheduleByDateRange")]
+        public IActionResult Today()
         {
-            DateTime PreviousDay = Today.AddDays(-1);
-            DateTime NextDay = Today.AddDays(1);
-            return Ok(_jobScheduleRepository.SingleDate(PreviousDay, NextDay));
+            DateTime Today = DateTime.Now;
+            DateTime NextDay = Today.AddHours(24);
+            return Ok(_jobScheduleRepository.ScheduleByDateRange(Today, NextDay));
         }
 
         [HttpGet]
@@ -111,9 +127,9 @@ namespace Get2Work.Controllers
                     //If Date to be Scheduled is equal to today or in the future then we add it to the schedule.
                     if (ScheduledDate >= DateTime.Today)
                     {
-                        //The DayId is a list of integers from 1-7; we use the corresponding intger passed in the Days Scheduled +1
-                        //Becuase the integers passed start with 0 and run through 7.
-                        schedule.DayId = day + 1;
+                        //The DayId is a list of integers from 1-7; we use the corresponding integer passed in the Days Scheduled +1
+                        //Because the integers passed start with 0 and run through 7.
+                        schedule.DayId = day+1;
                         schedule.Date = ScheduledDate;
                         _jobScheduleRepository.AddNew(schedule);
                         days.Add(ScheduledDate);

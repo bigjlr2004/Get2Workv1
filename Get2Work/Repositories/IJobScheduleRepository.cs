@@ -13,6 +13,6 @@ namespace Get2Work.Repositories
         public JobSchedule GetJobScheduleById(int id);
         public List<JobSchedule> GetAllJobScheduleByUserId(int userId);
         public void DeleteFutureJobSchedule(int JobId);
-        public List<JobSchedule> SingleDate(DateTime PreviousDay, DateTime NextDay);
+        public List<JobSchedule> ScheduleByDateRange(DateTime PreviousDay, DateTime NextDay);
     }
 }

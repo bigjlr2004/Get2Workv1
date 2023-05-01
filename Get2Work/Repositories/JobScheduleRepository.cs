@@ -241,7 +241,7 @@ namespace Get2Work.Repositories
                 }
             }
         }
-        public List<JobSchedule> SingleDate(DateTime PreviousDay, DateTime NextDay)
+        public List<JobSchedule> ScheduleByDateRange(DateTime PreviousDay, DateTime NextDay)
         {
             using (var conn = Connection)
             {
@@ -263,7 +263,8 @@ namespace Get2Work.Repositories
                             JOIN UserProfile up on j.UserProfileId = up.Id
                             JOIN Store s on s.Id = j.StoreId
                             JOIN Day d on d.Id = js.DayId
-                        WHERE js.Date > @PreviousDay AND js.Date < @NextDay";
+                        WHERE js.Date > @PreviousDay AND js.Date < @NextDay
+                            ORDER BY js.Date ASC";
 
                     cmd.Parameters.AddWithValue("@PreviousDay", PreviousDay);
                     cmd.Parameters.AddWithValue("@NextDay", NextDay);
