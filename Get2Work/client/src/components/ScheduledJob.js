@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 
 const ScheduledJob = ({ scheduledjob }) => {
 
-    const ReturnTime = (Dates) => {
-        const date = new Date(Dates);
+    const ReturnTime = (datetoBeConverted) => {
+        const date = new Date(datetoBeConverted);
         const options = {
             hour: 'numeric',
             minute: 'numeric'
@@ -23,7 +23,7 @@ const ScheduledJob = ({ scheduledjob }) => {
                 </Link>
             </p>
             <CardBody>
-                <ul class="social-list">
+                <ul className="social-list">
                     <li> Store: {scheduledjob.job.store.name} </li>
                     <li> Employee: {scheduledjob.job.userProfile.displayName}</li>
                     <li> Employee Email: {scheduledjob.job.userProfile.email}</li>
