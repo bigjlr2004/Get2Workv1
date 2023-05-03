@@ -96,6 +96,7 @@ const EditStore = () => {
                         </div>
                     </fieldset>
                     <button
+                        style={{ marginTop: '20px' }}
                         className="btn btn-success"
                         onClick={(event) => {
                             handleSubmitStore(event)

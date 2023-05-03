@@ -22,7 +22,7 @@ const StoreList = () => {
             <h2>Store List</h2>
 
 
-            <Button tag={Link} to="/addstore" color="primary" style={{ marginBottom: '20px' }}>Add Store</Button>
+            <Button tag={Link} to="/addstore" className="btn btn-success" style={{ marginBottom: '20px' }}>Add Store</Button>
             <div className="row justify-content-center">
                 {stores.map((p) => (
                     <Store Store={p} key={p.id} />

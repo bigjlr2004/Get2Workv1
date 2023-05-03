@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { getUserProfiles } from "../modules/authManager";
+import { getUserProfiles } from "../../modules/authManager";
 import User from "./User";
 
 

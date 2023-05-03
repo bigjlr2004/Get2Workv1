@@ -8,7 +8,7 @@ namespace Get2Work.Repositories
         List<Job> GetAll();
         List<Job> GetJobsByUserId(int id);
         void Update(Job job);
-        void Add(Job job);
+        int Add(Job job);
         Job GetJobById(int id);
     }
 }

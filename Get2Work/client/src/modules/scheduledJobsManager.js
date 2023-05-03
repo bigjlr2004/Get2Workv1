@@ -21,4 +21,5 @@ export const getDailyScheduledJobs = () => {
             }
         });
     });
-};
+}
+
