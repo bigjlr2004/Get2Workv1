@@ -111,7 +111,7 @@ namespace Get2Work.Repositories
 
             }
         }
-        public void Add(Job job)
+        public int Add(Job job)
         {
             using (var conn = Connection)
             {
@@ -133,6 +133,7 @@ namespace Get2Work.Repositories
 
                     job.Id = (int)cmd.ExecuteScalar();
                 }
+                return job.Id;
             }
         }
         public void Update(Job job)
@@ -173,8 +174,8 @@ namespace Get2Work.Repositories
             {
                 Id = DbUtils.GetInt(reader, "Id"),
                 Description = DbUtils.GetString(reader, "Description"),
-                CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
-                ScheduledTime = DbUtils.GetDateTime(reader, "ScheduledTime"),
+                CreateDateTime = DbUtils.GetString(reader, "CreateDateTime"),
+                ScheduledTime = DbUtils.GetString(reader, "ScheduledTime"),
                 Notes = DbUtils.GetString(reader, "Notes"),
                 ActiveStatus = reader.GetBoolean(reader.GetOrdinal("ActiveStatus")),
                 UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),

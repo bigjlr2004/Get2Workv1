@@ -314,8 +314,8 @@ namespace Get2Work.Repositories
                 {
                     Id = DbUtils.GetInt(reader, "JobId"),
                     Description = DbUtils.GetString(reader, "Description"),
-                    CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
-                    ScheduledTime = DbUtils.GetDateTime(reader, "ScheduledTime"),
+                    CreateDateTime = DbUtils.GetString(reader, "CreateDateTime"),
+                    ScheduledTime = DbUtils.GetString(reader, "ScheduledTime"),
                     Notes = DbUtils.GetString(reader, "Notes"),
                     ActiveStatus = reader.GetBoolean(reader.GetOrdinal("ActiveStatus")),
                     UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),

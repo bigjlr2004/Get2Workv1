@@ -11,7 +11,8 @@ namespace Get2Work.Models
         public DateTime Date { get; set; } = DateTime.Now;
         public int JobId { get; set; }
         public int DayId { get; set; }
-       
+
+
         public List<int> DaysScheduled { get; set; }
     }
 

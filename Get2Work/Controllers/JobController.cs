@@ -16,11 +16,14 @@ namespace Get2Work.Controllers
 
         private readonly IUserProfileRepository _userProfileRepository;
         private readonly IJobRepository _jobRepository;
+        private readonly IJobScheduleRepository _jobScheduleRepository;
         public JobController(IUserProfileRepository userProfileRepository,
-                             IJobRepository jobRepository)
+                             IJobRepository jobRepository,
+                             IJobScheduleRepository jobScheduleRepository)
         {
             _userProfileRepository = userProfileRepository;
             _jobRepository = jobRepository;
+            _jobScheduleRepository = jobScheduleRepository;
         }
 
         [HttpGet]
@@ -47,14 +50,15 @@ namespace Get2Work.Controllers
             return NoContent();
         }
 
-        [HttpPost]
+        [HttpPost("AddJob")]
         public IActionResult Post(Job job)
         {
-            job.CreateDateTime = DateTime.Now;
+          
             job.ActiveStatus = true;
-            _jobRepository.Add(job);
+          int JobId = _jobRepository.Add(job);
+            
 
-            return NoContent();
+            return Ok(job.Id);
 
         }
     }

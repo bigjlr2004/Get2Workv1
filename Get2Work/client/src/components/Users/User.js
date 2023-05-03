@@ -15,7 +15,7 @@ const User = ({ user }) => {
                 </Link>
             </p>
             <CardBody>
-                <ul class="social-list">
+                <ul className="social-list">
                     <li> Email: {user.email}</li>
                     <li> Address: {user.address}</li>
                 </ul>

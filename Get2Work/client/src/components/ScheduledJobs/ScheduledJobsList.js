@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getDailyScheduledJobs } from "../modules/scheduledJobsManager";
+import { getDailyScheduledJobs } from "../../../modules/scheduledJobsManager";
 import ScheduledJob from "./ScheduledJob";
 
 
