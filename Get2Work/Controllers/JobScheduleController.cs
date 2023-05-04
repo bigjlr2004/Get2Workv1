@@ -130,11 +130,12 @@ namespace Get2Work.Controllers
                         //The DayId is a list of integers from 1-7; we use the corresponding integer passed in the Days Scheduled +1
                         //Because the integers passed start with 0 and run through 7.
                         schedule.DayId = day+1;
-                        schedule.Date = ScheduledDate;
+                        //schedule.Date = ScheduledDate;
                         _jobScheduleRepository.AddNew(schedule);
                         days.Add(ScheduledDate);
                     }
                 } 
+
             }
                                  
             return Ok(days);

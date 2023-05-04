@@ -8,7 +8,7 @@ namespace Get2Work.Models
     {
 
         public int Id { get; set; }
-        public DateTime Date { get; set; } = DateTime.Now;
+        public string Date { get; set; } 
         public int JobId { get; set; }
         public int DayId { get; set; }
 

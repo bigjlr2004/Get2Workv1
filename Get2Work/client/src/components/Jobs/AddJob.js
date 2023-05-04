@@ -16,7 +16,8 @@ const AddJob = () => {
         scheduledTime: "",
         storeId: "",
         notes: "",
-        activestatus: true
+        activestatus: true,
+        dayIds: []
 
 
     })
@@ -24,13 +25,6 @@ const AddJob = () => {
     const [stores, setStores] = useState([]);
     const [days, setDays] = useState([]);
     const [users, setUsers] = useState([]);
-    const [jobSchedule, setjobSchedule] = useState({
-        daysScheduled: [],
-        Date: 0,
-        JobId: 0,
-        DayId: 0
-
-    });
 
 
     const getStore = () => {
@@ -47,11 +41,7 @@ const AddJob = () => {
     const handleSubmitJob = (evt) => {
         evt.preventDefault();
         if (job.userProfileId && job.description && job.createDateTime && job.scheduledTime && job.storeId) {
-            // addNewJob(job).then((returnedData) => {
-            //     const scheduleObject = { ...jobSchedule };
-            //     scheduleObject.JobId = returnedData;
-            //     setSchedule(scheduleObject).then(data => {
-            //         console.log(data);
+
 
             addNewJob(job).then(() => {
                 const copy = { ...job };
@@ -61,6 +51,7 @@ const AddJob = () => {
                 copy.scheduledTime = "";
                 copy.storeId = "";
                 copy.notes = "";
+                copy.dayIds = [];
                 setJob(copy);
                 navigate("/")
 
@@ -75,15 +66,15 @@ const AddJob = () => {
         const value = parseInt(event.target.value);
         if (event.target.checked) {
             // Add the value to the array if the checkbox is checked
-            setjobSchedule({
-                ...jobSchedule,
-                daysScheduled: [...jobSchedule.daysScheduled, value],
+            setJob({
+                ...job,
+                dayIds: [...job.dayIds, value],
             });
         } else {
             // Remove the value from the array if the checkbox is unchecked
-            setjobSchedule({
-                ...jobSchedule,
-                daysScheduled: jobSchedule.daysScheduled.filter((item) => item !== value),
+            setJob({
+                ...job,
+                dayIds: job.dayIds.filter((item) => item !== value),
             });
         }
     };
@@ -121,7 +112,7 @@ const AddJob = () => {
                                         <label>
                                             <input
                                                 type="checkbox"
-                                                value={(dayObj.id - 1)}
+                                                value={(dayObj.id)}
                                                 onChange={handleCheckboxChange}
                                             />
                                             {dayObj.name}
