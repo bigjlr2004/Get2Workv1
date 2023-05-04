@@ -5,6 +5,9 @@ using Get2Work.Utils;
 using Microsoft.Data.SqlClient;
 using static Azure.Core.HttpHeader;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Xml.Linq;
+using System;
 
 namespace Get2Work.Repositories
 {
@@ -21,14 +24,17 @@ namespace Get2Work.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT j.Id, j.UserProfileId, j.Description, j.CreateDateTime, 
+                  SELECT j.Id, j.UserProfileId, j.Description, j.CreateDateTime, 
                     j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
                     up.Id as ProfileId, up.FirebaseUserId, up.DisplayName AS UserProfileName, up.FirstName, up.LastName,
                     up.Email, up.Notes, up.HireDate, up.UserTypeId, up.ActiveStatus, up.Address,
-                    s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus
+                    s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus,
+                    d.Name as WeekDay
                     FROM Job j
                     JOIN UserProfile up on j.UserProfileId = up.Id
-                    JOIN Store s on s.Id = j.StoreId";
+                    JOIN Store s on s.Id = j.StoreId
+                    JOIN DaysScheduled ds on ds.jobId = j.Id
+                    JOIN Day  d on ds.DayId = d.Id";
 
                     var reader = cmd.ExecuteReader();
                     
@@ -36,10 +42,109 @@ namespace Get2Work.Repositories
                         var jobs = new List<Job>();
                         while (reader.Read())
                         {
+                            var jobId = DbUtils.GetInt(reader, "id");
                             jobs.Add(NewJobfromReader(reader));
                         }
                         return jobs;
                 };
+                
+            }
+        }
+        public List<Job> GetAllWithDayList()
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                  SELECT j.Id, j.UserProfileId, j.Description, j.CreateDateTime, 
+                    j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
+                    up.Id as ProfileId, up.FirebaseUserId, up.DisplayName AS UserProfileName, up.FirstName, up.LastName, up.PhoneNumber,
+                    up.Email, up.Notes, up.HireDate, up.UserTypeId, up.ActiveStatus, up.Address,
+                    s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus,
+                    d.Id as DayId,d.Name as WeekDay
+                    FROM Job j
+                    JOIN UserProfile up on j.UserProfileId = up.Id
+                    JOIN Store s on s.Id = j.StoreId
+                    JOIN DaysScheduled ds on ds.jobId = j.Id
+                    JOIN Day d on ds.DayId = d.Id
+                    WHERE d.Name = @Day
+                        ";
+
+                    DateTime today = DateTime.Now;
+                    //Get the current day weekday string
+                    DayOfWeek dayOfWeek = today.DayOfWeek;
+                    string day = dayOfWeek.ToString();
+
+                    DbUtils.AddParameter(cmd, "@Day", day);
+
+                   
+
+                    var reader = cmd.ExecuteReader();
+
+
+
+                    var jobs = new List<Job>();
+                    while (reader.Read())
+                    {
+                        var jobId = DbUtils.GetInt(reader, "Id");
+                        var existingjob = jobs.FirstOrDefault(p => p.Id == jobId);
+                        if (existingjob == null)
+                        {
+                            existingjob = new Job()
+                            {
+                                Id = DbUtils.GetInt(reader, "Id"),
+                                Description = DbUtils.GetString(reader, "Description"),
+                                CreateDateTime = DbUtils.GetString(reader, "CreateDateTime"),
+                                ScheduledTime = DbUtils.GetString(reader, "ScheduledTime"),
+                                Notes = DbUtils.GetString(reader, "Notes"),
+                                ActiveStatus = reader.GetBoolean(reader.GetOrdinal("ActiveStatus")),
+                                UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+
+                                UserProfile = new UserProfile()
+                                {
+                                    Id = DbUtils.GetInt(reader, "ProfileId"),
+                                    FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
+                                    DisplayName = DbUtils.GetString(reader, "UserProfileName"),
+                                    FirstName = DbUtils.GetString(reader, "FirstName"),
+                                    LastName = DbUtils.GetString(reader, "LastName"),
+                                    PhoneNumber = DbUtils.GetString(reader,"PhoneNumber"),
+                                    HireDate = DbUtils.GetDateTime(reader, "HireDate"),
+                                    Email = DbUtils.GetString(reader, "Email"),
+                                    Notes = DbUtils.GetString(reader, "Notes"),
+                                    UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
+                                    Address = DbUtils.GetString(reader, "Address"),
+                                    ActiveStatus = reader.GetBoolean(reader.GetOrdinal("ActiveStatus"))
+                                },
+                                StoreId = DbUtils.GetInt(reader, "StoreId"),
+
+                                Store = new Store()
+                                {
+                                    Id = DbUtils.GetInt(reader, "StoreId"),
+                                    Name = DbUtils.GetString(reader, "Name"),
+                                    PhoneNumber = DbUtils.GetString(reader, "PhoneNumber"),
+                                    Address = DbUtils.GetString(reader, "Address"),
+                                    ActiveStatus = reader.GetBoolean(reader.GetOrdinal("ActiveStatus")),
+                                },
+                                    Days = new List<Day>()
+                            };
+                                    jobs.Add(existingjob);
+                        }
+                                    if (DbUtils.IsNotDbNull(reader, "WeekDay"))
+                                        {
+                                            existingjob.Days.Add(new Day()
+                                            {
+                                                Id = DbUtils.GetInt(reader, "DayId"),
+                                                Name = DbUtils.GetString(reader, "WeekDay"),
+                                    
+                                            });
+                                    }
+                            
+                    }
+                            return jobs;
+                }
                 
             }
         }

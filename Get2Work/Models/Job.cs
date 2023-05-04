@@ -17,6 +17,10 @@ namespace Get2Work.Models
 
         public string Notes { get; set; }
         public bool ActiveStatus { get; set; }
+
+        public List<int> DayIds { get; set; }
+
+        public List<Day> Days { get; set; }
        
     }
 }

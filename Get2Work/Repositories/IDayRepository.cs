@@ -7,5 +7,6 @@ namespace Get2Work.Repositories
     {
         List<Day> GetAll();
         public Day GetDayById(int id);
+        public void AddDaysScheduled(int jobId, int dayId);
     }
 }

@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { getDailyScheduledJobs } from "../../../modules/scheduledJobsManager";
+
 import ScheduledJob from "./ScheduledJob";
+import { getDailyScheduledJobs } from "../../modules/scheduledJobsManager";
 
 
 
-const ScheduledJobsList = () => {
+
+const ScheduledJobList = () => {
     const [jobs, setJobs] = useState([]);
+
+
 
     const getJobs = () => {
         getDailyScheduledJobs().then(data => setJobs(data));
     };
 
+
     useEffect(() => {
         getJobs();
+
     }, []);
 
 
@@ -28,4 +34,4 @@ const ScheduledJobsList = () => {
     );
 };
 
-export default ScheduledJobsList
+export default ScheduledJobList

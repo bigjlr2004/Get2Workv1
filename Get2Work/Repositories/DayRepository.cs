@@ -38,6 +38,27 @@ namespace Get2Work.Repositories
                 }
             }
         }
+        public void AddDaysScheduled(int jobId, int dayId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                    INSERT INTO DaysScheduled (JobId, DayId)
+                         OUTPUT INSERTED.ID 
+                        VALUES (@JobId, @DayId)";
+
+                    DbUtils.AddParameter(cmd, "@JobId", jobId);
+                    DbUtils.AddParameter(cmd, "@DayId", dayId);
+                   
+
+                   cmd.ExecuteNonQuery();
+                }
+               
+            }
+        }
         public Day GetDayById(int id)
         {
             using (var conn = Connection)

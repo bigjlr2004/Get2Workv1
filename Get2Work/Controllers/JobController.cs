@@ -17,19 +17,22 @@ namespace Get2Work.Controllers
         private readonly IUserProfileRepository _userProfileRepository;
         private readonly IJobRepository _jobRepository;
         private readonly IJobScheduleRepository _jobScheduleRepository;
+        private readonly IDayRepository _dayRepository;
         public JobController(IUserProfileRepository userProfileRepository,
                              IJobRepository jobRepository,
-                             IJobScheduleRepository jobScheduleRepository)
+                             IJobScheduleRepository jobScheduleRepository,
+                             IDayRepository dayRepository)
         {
             _userProfileRepository = userProfileRepository;
             _jobRepository = jobRepository;
             _jobScheduleRepository = jobScheduleRepository;
+            _dayRepository = dayRepository;
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_jobRepository.GetAll());
+            return Ok(_jobRepository.GetAllWithDayList());
         }
 
         [HttpGet("getAllJobsByUserId/{id}")]
@@ -55,10 +58,14 @@ namespace Get2Work.Controllers
         {
           
             job.ActiveStatus = true;
-          int JobId = _jobRepository.Add(job);
-            
+            int JobId = _jobRepository.Add(job);
+            foreach (var day in job.DayIds)
+            {
+                int DayId = day;
+                _dayRepository.AddDaysScheduled(JobId, DayId);
+            }
 
-            return Ok(job.Id);
+                return Ok();
 
         }
     }
