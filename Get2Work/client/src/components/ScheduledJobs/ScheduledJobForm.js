@@ -9,10 +9,14 @@ const ScheduledJobForm = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const [job, setJob] = useState({})
+    const [timeDisplay, setTimeDisplay] = useState({
+        timeIn: "",
+        timeOut: ""
+    })
     const [newJob, setnewJob] = useState({
 
         jobId: id,
-        date: "May  4 2023 12:00AM",
+        completedDate: new Date(),
         notes: "",
         timeIn: "",
         timeOut: "",
@@ -63,13 +67,15 @@ const ScheduledJobForm = () => {
     const handleClockIn = () => {
         const now = new Date();
         const copy = { ...newJob };
-        copy.timeIn = returnTime(now)
+        copy.timeIn = now
+        timeDisplay.timeIn = returnTime(now)
         setnewJob(copy);
     }
     const handleClockOut = () => {
         const now = new Date();
         const copy = { ...newJob };
-        copy.timeOut = returnTime(now)
+        copy.timeOut = now;
+        timeDisplay.timeOut = returnTime(now)
         setnewJob(copy);
     }
     return (
@@ -82,11 +88,11 @@ const ScheduledJobForm = () => {
 
                     <div>
                         <button onClick={handleClockIn}>Time  In</button>
-                        <p>{newJob.timeIn}</p>
+                        <p>{timeDisplay.timeIn}</p>
                     </div>
                     <div>
                         <button onClick={handleClockOut}>Time Out</button>
-                        <p>{newJob.timeOut}</p>
+                        <p>{timeDisplay.timeOut}</p>
                     </div>
                     <fieldset>
                         <div className="form-group">

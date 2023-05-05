@@ -21,13 +21,16 @@ const ScheduledJob = ({ scheduledjob }) => {
                 <Link to={`/users/${scheduledjob.id}`}>
                     {scheduledjob.job.description}
                 </Link>
+                <p>Completed: {scheduledjob.date}</p>
+                <p>Completed Time: {scheduledjob.timeOut}</p>
             </p>
             <CardBody>
                 <ul className="social-list">
                     <li> Store: {scheduledjob.job.store.name} </li>
                     <li> Employee: {scheduledjob.job.userProfile.displayName}</li>
-                    <li> Employee Email: {scheduledjob.job.userProfile.email}</li>
-                    <li> Scheduled Time: {scheduledjob.job.scheduledTime}</li>
+                    <li> Halfs Stocked: {scheduledjob.halfs}</li>
+                    <li> Pints Stocked: {scheduledjob.pints}</li>
+                    <li> Snacks Stocked: {scheduledjob.snacks}</li>
                 </ul>
             </CardBody>
         </Card>
