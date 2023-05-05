@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { Card, CardBody } from "reactstrap";
 import { useNavigate, useParams } from 'react-router-dom'
 import { getJobById } from "../../modules/jobManager";
+import { completeJob } from "../../modules/scheduledJobsManager";
 
 
 const ScheduledJobForm = () => {
@@ -11,12 +12,12 @@ const ScheduledJobForm = () => {
     const [newJob, setnewJob] = useState({
 
         jobId: id,
-        date: "",
+        date: "May  4 2023 12:00AM",
         notes: "",
         timeIn: "",
         timeOut: "",
-        StartingOdometer: "",
-        endingOdometer: "",
+        StartingOdometer: 0,
+        endingOdometer: 0,
         halfs: 0,
         pints: 0,
         snacks: 0,
@@ -32,33 +33,43 @@ const ScheduledJobForm = () => {
 
     const handleSubmitnewJob = (evt) => {
         evt.preventDefault();
-        //     if (newJob.address && newJob.name) {
-        //         editnewJob(newJob)
-        //             .then(() => {
-        //                 // const copy = { ...newJob };
-        //                 // copy.name = "";
-        //                 // copy.phoneNumber = "";
-        //                 // copy.address = "";
-        //                 // setnewJob(copy);
-        //                 // navigate('/newJoblist')
+        if (newJob.jobId && newJob.date && newJob.notes && newJob.timeIn && newJob.timeOut
+            && newJob.StartingOdometer && newJob.endingOdometer && newJob.halfs && newJob.pints && newJob.snacks) {
+            newJob.complete = true;
+
+            completeJob(newJob)
+                .then(() => {
+
+                    navigate('/')
 
 
-        //             });
-        //     }
-        //     else {
-        //         alert('newJob cannot be blank.')
-        //     }
+                });
+        }
+        else {
+            alert('Fields cannot be blank cannot be blank.')
+        }
+    }
+
+    const returnTime = (datetoBeConverted) => {
+        const date = new Date(datetoBeConverted);
+        const options = {
+            hour: 'numeric',
+            minute: 'numeric'
+        };
+        const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
+        return formattedDate.toString()
+
     }
     const handleClockIn = () => {
         const now = new Date();
         const copy = { ...newJob };
-        copy.timeIn = now.toLocaleTimeString()
+        copy.timeIn = returnTime(now)
         setnewJob(copy);
     }
     const handleClockOut = () => {
         const now = new Date();
         const copy = { ...newJob };
-        copy.timeOut = now.toLocaleTimeString()
+        copy.timeOut = returnTime(now)
         setnewJob(copy);
     }
     return (
@@ -180,7 +191,7 @@ const ScheduledJobForm = () => {
 
                                 onChange={(event) => {
                                     const copy = { ...newJob };
-                                    copy.phoneNumber = event.target.value;
+                                    copy.notes = event.target.value;
                                     setnewJob(copy);
                                 }} />
                         </div>

@@ -62,6 +62,10 @@ const AddJob = () => {
             alert('job cannot be blank.')
         }
     };
+
+
+
+
     const handleCheckboxChange = (event) => {
         const value = parseInt(event.target.value);
         if (event.target.checked) {

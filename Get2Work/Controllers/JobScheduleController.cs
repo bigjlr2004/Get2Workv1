@@ -34,15 +34,14 @@ namespace Get2Work.Controllers
             //Stabilize date by adding the Stablize Date to Todays Date
             DateTime ChangedToSundayDate = today.AddDays(StablizeDate);
             DateTime NextDay = ChangedToSundayDate.AddDays(8);
-            return Ok(_jobScheduleRepository.ScheduleByDateRange(ChangedToSundayDate, NextDay));
+            return Ok(_jobScheduleRepository.ScheduleByDateRange());
         }
 
         [HttpGet("JobScheduleForScheduleByDateRange")]
         public IActionResult Today()
         {
-            DateTime Today = DateTime.Now;
-            DateTime NextDay = Today.AddHours(24);
-            return Ok(_jobScheduleRepository.ScheduleByDateRange(Today, NextDay));
+           
+            return Ok(_jobScheduleRepository.ScheduleByDateRange());
         }
 
         [HttpGet]
@@ -58,14 +57,7 @@ namespace Get2Work.Controllers
         {
             try
             {
-                newJob.StartingOdometer = 0;
-                newJob.EndingOdometer = 0;
-                newJob.Halfs = 0;
-                newJob.Pints = 0;
-                newJob.Snacks = 0;
-                newJob.Complete = false;
-
-                _jobScheduleRepository.Add(newJob);
+               _jobScheduleRepository.Add(newJob);
                 return Ok();
             }
             catch
@@ -129,7 +121,7 @@ namespace Get2Work.Controllers
                     {
                         //The DayId is a list of integers from 1-7; we use the corresponding integer passed in the Days Scheduled +1
                         //Because the integers passed start with 0 and run through 7.
-                        schedule.DayId = day+1;
+                       // schedule.DayId = day+1;
                         //schedule.Date = ScheduledDate;
                         _jobScheduleRepository.AddNew(schedule);
                         days.Add(ScheduledDate);

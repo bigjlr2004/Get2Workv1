@@ -20,15 +20,15 @@ namespace Get2Work.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                    SELECT  js.Id as JobScheduleId, js.Date, js.JobId, js.DayId, js.Notes, js.TimeIn, 
+                    SELECT  js.Id as JobScheduleId, js.Date, js.JobId, js.Notes, js.TimeIn, 
                             js.TimeOut, js.StartingOdometer,js.EndingOdometer, js.Halfs, js.Pints, 
                             js.Snacks, js.Complete,j.Id, j.UserProfileId, j.Description, j.CreateDateTime, 
                             j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
                             up.Id as ProfileId, up.FirebaseUserId, up.DisplayName AS UserProfileName, 
                             up.FirstName, up.LastName,up.Email, up.Notes, up.HireDate, 
                             up.UserTypeId, up.ActiveStatus, up.Address,
-                            s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus,
-                            d.Name as DayName
+                            s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus
+                           
                             FROM JobSchedule js                    
                             Join Job j on js.JobId = j.Id
                             JOIN UserProfile up on j.UserProfileId = up.Id
@@ -57,15 +57,14 @@ namespace Get2Work.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                    SELECT  js.Id as JobScheduleId, js.Date, js.JobId, js.DayId, js.Notes, js.TimeIn, 
+                    SELECT  js.Id as JobScheduleId, js.Date, js.JobId, js.Notes, js.TimeIn, 
                             js.TimeOut, js.StartingOdometer,js.EndingOdometer, js.Halfs, js.Pints, 
                             js.Snacks, js.Complete,j.Id, j.UserProfileId, j.Description, j.CreateDateTime, 
                             j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
                             up.Id as ProfileId, up.FirebaseUserId, up.DisplayName AS UserProfileName, 
                             up.FirstName, up.LastName,up.Email, up.Notes, up.HireDate, 
                             up.UserTypeId, up.ActiveStatus, up.Address,
-                            s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus,
-                            d.Name as DayName
+                            s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus
                             FROM JobSchedule js                    
                             Join Job j on js.JobId = j.Id
                             JOIN UserProfile up on j.UserProfileId = up.Id
@@ -97,15 +96,14 @@ namespace Get2Work.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                    INSERT INTO JobSchedule (Date, JobId, DayId, TimeIn, TimeOut, StartingOdometer, EndingOdometer, Notes, Halfs, Pints, Snacks, Complete)
+                    INSERT INTO JobSchedule (Date, JobId,  TimeIn, TimeOut, StartingOdometer, EndingOdometer, Notes, Halfs, Pints, Snacks, Complete)
                          OUTPUT INSERTED.ID 
-                        VALUES (@Date, @JobId, @DayId, @TimeIn, @TimeOut, @StartingOdometer, @EndingOdometer, @Notes, @Halfs, @Pints, @Snacks, @Complete)";
+                        VALUES (@Date, @JobId, @TimeIn, @TimeOut, @StartingOdometer, @EndingOdometer, @Notes, @Halfs, @Pints, @Snacks, @Complete)";
 
                     DbUtils.AddParameter(cmd, "@Date", newJob.Date);
                     DbUtils.AddParameter(cmd, "@JobId", newJob.JobId);
                     DbUtils.AddParameter(cmd, "@TimeIn", newJob.TimeIn);
                     DbUtils.AddParameter(cmd, "@TimeOut", newJob.TimeOut);
-                    DbUtils.AddParameter(cmd, "@DayId", newJob.DayId);
                     DbUtils.AddParameter(cmd, "@StartingOdometer", newJob.StartingOdometer);
                     DbUtils.AddParameter(cmd, "@EndingOdometer", newJob.EndingOdometer);
                     DbUtils.AddParameter(cmd, "@Notes", newJob.Notes);
@@ -126,20 +124,18 @@ namespace Get2Work.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                         SELECT  js.Id as JobScheduleId, js.Date, js.JobId, js.DayId, js.Notes, js.TimeIn, 
+                         SELECT  js.Id as JobScheduleId, js.Date, js.JobId, js.Notes, js.TimeIn, 
                             js.TimeOut, js.StartingOdometer,js.EndingOdometer, js.Halfs, js.Pints, 
                             js.Snacks, js.Complete,j.Id, j.UserProfileId, j.Description, j.CreateDateTime, 
                             j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
                             up.Id as ProfileId, up.FirebaseUserId, up.DisplayName AS UserProfileName, 
                             up.FirstName, up.LastName,up.Email, up.Notes, up.HireDate, 
                             up.UserTypeId, up.ActiveStatus, up.Address,
-                            s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus,
-                            d.Name as DayName
+                            s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus
                             FROM JobSchedule js                    
                             Join Job j on js.JobId = j.Id
                             JOIN UserProfile up on j.UserProfileId = up.Id
                             JOIN Store s on s.Id = j.StoreId
-                            JOIN Day d on d.Id = js.DayId
                             WHERE js.Id = @Id
                         ";
 
@@ -171,7 +167,6 @@ namespace Get2Work.Repositories
                             JobId = @JobId,
                             TimeIn = @TimeIn,
                             TimeOut = @TimeOut,
-                            DayId = @DayId,
                             StartingOdometer = @StartingOdometer,
                             EndingOdometer = @EndingOdometer,
                             Notes = @Notes,
@@ -186,7 +181,6 @@ namespace Get2Work.Repositories
                     DbUtils.AddParameter(cmd, "@JobId", job.JobId);
                     DbUtils.AddParameter(cmd, "@TimeIn", job.TimeIn);
                     DbUtils.AddParameter(cmd, "@TimeOut", job.TimeOut);
-                    DbUtils.AddParameter(cmd, "@DayId", job.DayId);
                     DbUtils.AddParameter(cmd, "@StartingOdometer", job.StartingOdometer);
                     DbUtils.AddParameter(cmd, "@EndingOdometer", job.EndingOdometer);
                     DbUtils.AddParameter(cmd, "@Notes", job.Notes);
@@ -207,13 +201,13 @@ namespace Get2Work.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                    INSERT INTO JobSchedule (Date, JobId, DayId)
+                    INSERT INTO JobSchedule (Date, JobId)
                          OUTPUT INSERTED.ID 
-                        VALUES (@Date, @JobId, @DayId)";
+                        VALUES (@Date, @JobId)";
 
                     DbUtils.AddParameter(cmd, "@Date", newJob.Date);
                     DbUtils.AddParameter(cmd, "@JobId", newJob.JobId);
-                    DbUtils.AddParameter(cmd, "@DayId", newJob.DayId);
+                   
 
 
                     newJob.Id = (int)cmd.ExecuteScalar();
@@ -241,7 +235,7 @@ namespace Get2Work.Repositories
                 }
             }
         }
-        public List<JobSchedule> ScheduleByDateRange(DateTime PreviousDay, DateTime NextDay)
+        public List<JobSchedule> ScheduleByDateRange()
         {
             using (var conn = Connection)
             {
@@ -249,25 +243,21 @@ namespace Get2Work.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     var sql = @"
-                      SELECT  js.Id as JobScheduleId, js.Date, js.JobId, js.DayId, js.Notes, js.TimeIn, 
+                      SELECT  js.Id as JobScheduleId, js.Date, js.JobId, js.Notes, js.TimeIn, 
                             js.TimeOut, js.StartingOdometer,js.EndingOdometer, js.Halfs, js.Pints, 
                             js.Snacks, js.Complete,j.Id, j.UserProfileId, j.Description, j.CreateDateTime, 
                             j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
                             up.Id as ProfileId, up.FirebaseUserId, up.DisplayName AS UserProfileName, 
                             up.FirstName, up.LastName,up.Email, up.Notes, up.HireDate, 
                             up.UserTypeId, up.ActiveStatus, up.Address,
-                            s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus,
-                            d.Name as DayName
+                            s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus
                             FROM JobSchedule js                    
                             Join Job j on js.JobId = j.Id
                             JOIN UserProfile up on j.UserProfileId = up.Id
                             JOIN Store s on s.Id = j.StoreId
-                            JOIN Day d on d.Id = js.DayId
-                        WHERE js.Date > @PreviousDay AND js.Date < @NextDay
-                            ORDER BY js.Date ASC";
+                      ";
 
-                    cmd.Parameters.AddWithValue("@PreviousDay", PreviousDay);
-                    cmd.Parameters.AddWithValue("@NextDay", NextDay);
+                   
                     cmd.CommandText = sql;
 
 
@@ -291,17 +281,11 @@ namespace Get2Work.Repositories
             var jobSchedule = new JobSchedule()
             {
                 Id = DbUtils.GetInt(reader, "JobScheduleId"),
-                Date = DbUtils.GetDateTime(reader, "Date"),
-                DayId = DbUtils.GetInt(reader, "DayId"),
+                Date = DbUtils.GetString(reader, "Date"),
+              
 
-                Day = new Day()
-                {
-                    Id = DbUtils.GetInt(reader, "DayId"),
-                    Name = DbUtils.GetString(reader, "DayName")
-                },
-
-                TimeIn = DbUtils.GetNullableDateTime(reader, "TimeIn"),
-                TimeOut = DbUtils.GetNullableDateTime(reader, "TimeOut"),
+                TimeIn = DbUtils.GetString(reader, "TimeIn"),
+                TimeOut = DbUtils.GetString(reader, "TimeOut"),
                 StartingOdometer = DbUtils.GetNullableInt(reader, "StartingOdometer"),
                 EndingOdometer = DbUtils.GetNullableInt(reader, "EndingOdometer"),
                 Halfs = DbUtils.GetNullableInt(reader, "Halfs"),

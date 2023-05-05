@@ -27,7 +27,7 @@ const ScheduledJob = ({ scheduledjob }) => {
                     <li> Store: {scheduledjob.job.store.name} </li>
                     <li> Employee: {scheduledjob.job.userProfile.displayName}</li>
                     <li> Employee Email: {scheduledjob.job.userProfile.email}</li>
-                    <li> Scheduled Time: {ReturnTime(scheduledjob.job.scheduledTime)}</li>
+                    <li> Scheduled Time: {scheduledjob.job.scheduledTime}</li>
                 </ul>
             </CardBody>
         </Card>
