@@ -65,39 +65,9 @@ const JobList = () => {
                 <div className="container">
                     <h2>Todays Jobs</h2>
                     <div className="row justify-content-center">
-
-
-
-
-
-
                         {jobsNotCompleted.map((p) => (
                             <Job job={p} key={p.id} />
                         ))}
-
-
-                        {/* 
-                        {
-
-                            completedJobs.map(
-                                (completedjob) => {
-                                    jobs.find((job) => {
-                                        if (job.id !== completedjob.jobId) {
-                                            arrayofjobs.push(job)
-                                        }
-                                    })
-                                    // const incomplete = jobs.find((job) => job.id === completedjob.jobId);
-                                    //if (incomplete) {
-                                    // arrayofjobs.push(jobs.filter((job) => job.id !== completedjob.jobId))
-                                    // <Job job={incomplete} key={incomplete.id} />
-                                    // } else {
-                                    //     return null;
-                                    console.log(arrayofjobs)
-
-
-                                }
-                            )
-                        } */}
                     </div>
                 </div>
             </Col>
