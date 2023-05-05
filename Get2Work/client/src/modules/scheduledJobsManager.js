@@ -4,7 +4,7 @@ const baseUrl = '/api/JobSchedule';
 
 
 
-export const getDailyScheduledJobs = () => {
+export const getCompletedJobs = () => {
     return getToken().then((token) => {
         return fetch(`${baseUrl}/JobScheduleForScheduleByDateRange`, {
             method: "GET",

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import ScheduledJob from "./ScheduledJob";
-import { getDailyScheduledJobs } from "../../modules/scheduledJobsManager";
+import { getCompletedJobs } from "../../modules/scheduledJobsManager";
 
 
 
@@ -11,13 +11,13 @@ const ScheduledJobList = () => {
 
 
 
-    const getJobs = () => {
-        getDailyScheduledJobs().then(data => setJobs(data));
+    const getCompleteJobs = () => {
+        getCompletedJobs().then(data => setJobs(data));
     };
 
 
     useEffect(() => {
-        getJobs();
+        getCompleteJobs();
 
     }, []);
 
