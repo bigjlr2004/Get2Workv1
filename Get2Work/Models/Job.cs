@@ -10,7 +10,7 @@ namespace Get2Work.Models
         public int UserProfileId { get; set; }
         public UserProfile UserProfile { get; set; }
         public string Description { get; set; }
-        public string CreateDateTime { get; set; }
+        public DateTime CreateDateTime { get; set; }
         public string ScheduledTime { get; set; }
         public int StoreId   { get; set; }
         public Store Store { get; set; }

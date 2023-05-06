@@ -2,22 +2,22 @@ import React, { useEffect, useState } from "react";
 import { Row, Col } from 'reactstrap';
 import { getJobList } from "../../modules/jobManager";
 import Job from "./Job";
-import { getCompletedJobs } from "../../modules/scheduledJobsManager";
-import ScheduledJob from "../ScheduledJobs/ScheduledJob";
+import { getCompletedJobs } from "../../modules/completedJobsManager";
+import CompletedJob from "../CompletedJobs/CompletedJob";
+
 
 
 
 const JobList = () => {
 
-    const [completedJobs, setCompletedJobs] = useState([]);
     const [scheduledJobs, setScheduledJobs] = useState([]);
+    const [completedJobs, setCompletedJobs] = useState([]);
     const getCompleteJobs = () => {
         getCompletedJobs().then(data => setCompletedJobs(data));
     };
     const getScheduledJobList = () => {
         getJobList().then(data => setScheduledJobs(data));
     };
-
     useEffect(() => {
         getCompleteJobs();
         getScheduledJobList();
@@ -26,7 +26,7 @@ const JobList = () => {
     const jobsNotCompleted = scheduledJobs.filter((job) => {
         // Find the completed job with the same ID as the current job
         const completedJob = completedJobs.find((completedjob) => {
-            return job.id === completedjob.jobId;
+            return job.id === completedjob.job.id;
         });
         // Return true if the job is not in completedJobs
         return !completedJob;
@@ -51,16 +51,12 @@ const JobList = () => {
                     <h2>Completed Jobs</h2>
                     <div className="row justify-content-center">
                         {completedJobs.map((p) => (
-                            <ScheduledJob scheduledjob={p} key={p.id} />
+                            <CompletedJob completedJob={p} key={p.id} />
                         ))}
                     </div>
                 </div>
             </Col>
         </Row>
-
-
-
-
     );
 };
 

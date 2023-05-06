@@ -18,7 +18,7 @@ const Job = ({ job }) => {
         <Card >
             <p className="text-left px-2">
                 Job Description: ---
-                <Link to={`/schedulejobForm/${job.id}`}>
+                <Link to={`/completejob/${job.id}`}>
                     {job.description}
                 </Link>
             </p>

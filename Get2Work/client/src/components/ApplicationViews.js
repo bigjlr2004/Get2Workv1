@@ -7,9 +7,9 @@ import StoreList from "./Store/StoreList";
 import EditStore from "./Store/EditStore";
 import AddStore from "./Store/AddStore";
 import AddJob from "./Jobs/AddJob";
-import ScheduledJobList from "./ScheduledJobs/ScheduledJobList";
 import JobList from "./Jobs/JobList";
-import ScheduledJobForm from "./ScheduledJobs/ScheduledJobForm";
+import Hello from "./Hello";
+import CompleteJobForm from "./CompletedJobs/CompleteJobForm";
 
 export default function ApplicationViews({ isLoggedIn }) {
   return (
@@ -18,9 +18,9 @@ export default function ApplicationViews({ isLoggedIn }) {
         <Route path="/">
           <Route
             index
-            element={isLoggedIn ? <ScheduledJobList /> : <Navigate to="/login" />}
+            element={isLoggedIn ? <Hello /> : <Navigate to="/login" />}
           />
-          <Route path="TodayList" element={<ScheduledJobList />} />
+
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="userlist" element={<UserList />} />
@@ -29,7 +29,7 @@ export default function ApplicationViews({ isLoggedIn }) {
           <Route path="joblist" element={<JobList />} />
           <Route path="addjob" element={<AddJob />} />
           <Route path="store/:id" element={<EditStore />} />
-          <Route path="schedulejobform/:id" element={<ScheduledJobForm />} />
+          <Route path="completejob/:id" element={<CompleteJobForm />} />
 
           <Route path="*" element={<p>Whoops, nothing here...</p>} />
         </Route>

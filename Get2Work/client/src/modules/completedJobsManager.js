@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom"
 import { getToken } from "./authManager";
-const baseUrl = '/api/JobSchedule';
+const baseUrl = '/api/CompletedJob';
 
 
 
 export const getCompletedJobs = () => {
     return getToken().then((token) => {
-        return fetch(`${baseUrl}/JobScheduleForScheduleByDateRange`, {
+        return fetch(`${baseUrl}`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`,

@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react"
 import { Card, CardBody } from "reactstrap";
 import { useNavigate, useParams } from 'react-router-dom'
 import { getJobById } from "../../modules/jobManager";
-import { completeJob } from "../../modules/scheduledJobsManager";
+import { completeJob } from "../../modules/completedJobsManager";
 
 
-const ScheduledJobForm = () => {
+
+const CompleteJobForm = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const [job, setJob] = useState({})
@@ -216,4 +217,4 @@ const ScheduledJobForm = () => {
     )
 }
 
-export default ScheduledJobForm;
+export default CompleteJobForm;

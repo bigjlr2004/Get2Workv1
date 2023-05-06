@@ -16,25 +16,26 @@ namespace Get2Work.Controllers
 
         private readonly IUserProfileRepository _userProfileRepository;
         private readonly IJobRepository _jobRepository;
-        private readonly IJobScheduleRepository _jobScheduleRepository;
         private readonly IDayRepository _dayRepository;
         public JobController(IUserProfileRepository userProfileRepository,
                              IJobRepository jobRepository,
-                             IJobScheduleRepository jobScheduleRepository,
                              IDayRepository dayRepository)
         {
             _userProfileRepository = userProfileRepository;
             _jobRepository = jobRepository;
-            _jobScheduleRepository = jobScheduleRepository;
             _dayRepository = dayRepository;
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_jobRepository.GetAllWithDayList());
+            return Ok(_jobRepository.GetAll());
         }
-
+        [HttpGet("GetAllJobsScheduledToday")]
+        public IActionResult GetAllJobsWithListofDays()
+        {
+            return Ok(_jobRepository.GetAllJobsScheduledToday());
+        }
         [HttpGet("getAllJobsByUserId/{id}")]
         public IActionResult GetById(int id)
         {
