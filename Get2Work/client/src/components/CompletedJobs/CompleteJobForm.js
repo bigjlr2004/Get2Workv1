@@ -17,10 +17,11 @@ const CompleteJobForm = () => {
     const [newJob, setnewJob] = useState({
 
         jobId: id,
-        completedDate: new Date(),
+        dateCompleted: "",
         notes: "",
         timeIn: "",
         timeOut: "",
+        jobScheduleId: "",
         StartingOdometer: 0,
         endingOdometer: 0,
         halfs: 0,
@@ -38,9 +39,11 @@ const CompleteJobForm = () => {
 
     const handleSubmitnewJob = (evt) => {
         evt.preventDefault();
-        if (newJob.jobId && newJob.date && newJob.notes && newJob.timeIn && newJob.timeOut
+        if (newJob.jobId && newJob.dateCompleted && newJob.notes && newJob.timeIn && newJob.timeOut
             && newJob.StartingOdometer && newJob.endingOdometer && newJob.halfs && newJob.pints && newJob.snacks) {
             newJob.complete = true;
+            newJob.jobScheduleId = job.jobScheduleId;
+
 
             completeJob(newJob)
                 .then(() => {
@@ -76,6 +79,7 @@ const CompleteJobForm = () => {
         const now = new Date();
         const copy = { ...newJob };
         copy.timeOut = now;
+        copy.dateCompleted = copy.timeOut;
         timeDisplay.timeOut = returnTime(now)
         setnewJob(copy);
     }

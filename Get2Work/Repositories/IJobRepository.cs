@@ -7,6 +7,7 @@ namespace Get2Work.Repositories
     {
         List<Job> GetAll();
         public List<Job> GetAllJobsScheduledToday();
+        public List<Job> GetAllJobsScheduledTodayByUser(string firebaseUserId);
         List<Job> GetJobsByUserId(int id);
         void Update(Job job);
         int Add(Job job);

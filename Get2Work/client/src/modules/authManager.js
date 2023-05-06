@@ -4,7 +4,16 @@ import "firebase/auth";
 
 const _apiUrl = "/api/userprofile";
 
-
+export const getUserDetails = (firebaseUUID) => {
+  return getToken().then(token => {
+    return fetch(`${_apiUrl}/${firebaseUUID}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then(res => res.json())
+  })
+}
 
 const _doesUserExist = (firebaseUserId) => {
   return getToken().then((token) =>
@@ -39,7 +48,7 @@ export const getUserProfiles = () => {
         return resp.json();
       } else {
         throw new Error(
-          "An unknown error occurred while trying to get scheduledJobs"
+          "An unknown error occurred while trying to get get User Profiles"
         );
       }
     });

@@ -48,6 +48,51 @@ namespace Get2Work.Repositories
                 }
             }
         }
+        public List<CompletedJob> GetTodaysCompletedJobsByUserId(string firebaseUserId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                   SELECT  cj.Id as CompletedJobId, cj.DateCompleted, cj.JobScheduleId, cj.Notes, cj.TimeIn, 
+                            cj.TimeOut, cj.StartingOdometer,cj.EndingOdometer, cj.Halfs, cj.Pints, 
+                            cj.Snacks, cj.Complete,j.Id as JobId, j.UserProfileId, j.Description, j.CreateDateTime, 
+                            j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
+                            up.Id as ProfileId, up.FirebaseUserId, up.DisplayName AS UserProfileName, 
+                            up.FirstName, up.LastName,up.Email,  
+                            up.UserTypeId, up.ActiveStatus, 
+                            s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus
+                           
+                            FROM CompletedJob cj                    
+                            Join JobSchedule js on js.Id = cj.JobScheduleId
+                            Join Job j on j.Id = js.JobId
+                            JOIN UserProfile up on j.UserProfileId = up.Id
+                            JOIN Store s on s.Id = j.StoreId
+                            JOIN Day d on d.Id = js.DayId
+                            WHERE CONVERT(DATE, DateCompleted) =  CONVERT(DATE, SYSDATETIME()) AND up.FireBaseUserId = @FirebaseUserId;
+                        ";
+                            DbUtils.AddParameter(cmd, "@FirebaseUserId", firebaseUserId);
+
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+
+                        var completedJobs = new List<CompletedJob>();
+                        while (reader.Read())
+                        {
+                            completedJobs.Add(NewCompletedJobfromReader(reader));
+                        }
+
+                        return completedJobs;
+                    }
+                }
+            }
+        }
+        
+
+
         public void Add(CompletedJob job)
         {
             using (var conn = Connection)
@@ -56,7 +101,7 @@ namespace Get2Work.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                    INSERT INTO JobSchedule (DateCompleted, JobScheduleId,  TimeIn, TimeOut, StartingOdometer, EndingOdometer, Notes, Halfs, Pints, Snacks, Complete)
+                    INSERT INTO CompletedJob (DateCompleted, JobScheduleId,  TimeIn, TimeOut, StartingOdometer, EndingOdometer, Notes, Halfs, Pints, Snacks, Complete)
                          OUTPUT INSERTED.ID 
                         VALUES (@DateCompleted, @JobScheduleId, @TimeIn, @TimeOut, @StartingOdometer, @EndingOdometer, @Notes, @Halfs, @Pints, @Snacks, @Complete)";
 
@@ -76,6 +121,7 @@ namespace Get2Work.Repositories
                 }
             }
         }
+        
         private CompletedJob NewCompletedJobfromReader(SqlDataReader reader)
         {
             var jobSchedule = new CompletedJob()

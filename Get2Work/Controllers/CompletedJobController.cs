@@ -1,7 +1,9 @@
 ﻿using Get2Work.Models;
 using Get2Work.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Get2Work.Controllers
 {
@@ -36,6 +38,14 @@ namespace Get2Work.Controllers
                 return BadRequest();
             }
 
+        }
+        [Authorize]
+        [HttpGet("usercompletedjobs")]
+        public IActionResult GetTodaysUserCompletedJobs()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            return Ok(_completedJobRepository.GetTodaysCompletedJobsByUserId(firebaseUserId));
         }
     }
 }

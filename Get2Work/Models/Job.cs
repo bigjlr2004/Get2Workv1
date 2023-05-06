@@ -8,6 +8,7 @@ namespace Get2Work.Models
     {
         public int Id { get; set; }
         public int UserProfileId { get; set; }
+        public int JobScheduleId { get; set; }
         public UserProfile UserProfile { get; set; }
         public string Description { get; set; }
         public DateTime CreateDateTime { get; set; }

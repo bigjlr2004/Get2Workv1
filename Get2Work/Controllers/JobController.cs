@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Security.Claims;
 
 namespace Get2Work.Controllers
 {
@@ -24,6 +25,15 @@ namespace Get2Work.Controllers
             _userProfileRepository = userProfileRepository;
             _jobRepository = jobRepository;
             _dayRepository = dayRepository;
+        }
+
+        [Authorize]
+        [HttpGet("userscheduledjobs")]
+        public IActionResult GetTodaysUserScheduledJobs()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            return Ok(_jobRepository.GetAllJobsScheduledTodayByUser(firebaseUserId));
         }
 
         [HttpGet]
