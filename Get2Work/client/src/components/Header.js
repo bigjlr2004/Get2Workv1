@@ -12,7 +12,7 @@ import {
 import { logout } from '../modules/authManager';
 
 
-export default function Header({ isLoggedIn }) {
+export default function Header({ isLoggedIn, role }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
@@ -29,11 +29,14 @@ export default function Header({ isLoggedIn }) {
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/">Home</NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/userjoblist">MyJobs</NavLink>
+                </NavItem>
               </>
             }
           </Nav>
           <Nav navbar>
-            {isLoggedIn &&
+            {role === "Manager" &&
               <>
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/addjob">New Job</NavLink>
@@ -44,12 +47,16 @@ export default function Header({ isLoggedIn }) {
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/storelist">Stores</NavLink>
                 </NavItem>
+              </>
+            }
+            {isLoggedIn &&
+              <>
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/joblist">JobList</NavLink>
                 </NavItem>
                 <NavItem>
                   <a aria-current="page" className="nav-link"
-                    style={{ cursor: "pointer" }} onClick={logout}>Logout</a>
+                    style={{ cursor: "pointer" }} onClick={logout} >Logout</a>
                 </NavItem>
               </>
             }

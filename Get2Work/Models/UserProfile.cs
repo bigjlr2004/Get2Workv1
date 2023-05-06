@@ -15,6 +15,15 @@ namespace Get2Work.Models
         public string Email { get; set; }
         public int UserTypeId { get; set; }
         public  bool ActiveStatus { get; set; }
-       
+        public UserType UserType { get; set; }
+
+        public string FullName
+        {
+            get
+            {
+                return $"{FirstName} {LastName}";
+            }
+        }
+
     }
 }

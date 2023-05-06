@@ -19,9 +19,10 @@ namespace Get2Work.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT up.Id, up.FirebaseUserId, up.DisplayName AS UserProfileName, up.FirstName, up.LastName,
-                            up.Email, up.UserTypeId, up.ActiveStatus
+                        SELECT up.Id, up.FirebaseUserId, up.DisplayName,  up.FirstName, up.LastName,
+                            up.Email, up.UserTypeId, up.ActiveStatus,  ut.Name AS UserTypeName
                           FROM UserProfile up
+                                LEFT JOIN UserType ut on up.UserTypeId = ut.Id
                           WHERE FirebaseUserId = @FirebaseUserId";
                     
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", firebaseUserId);
@@ -30,7 +31,22 @@ namespace Get2Work.Repositories
                     var reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                        userProfile = NewUserProfilefromReader(reader);
+                        userProfile = new UserProfile()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
+                            FirstName = DbUtils.GetString(reader, "FirstName"),
+                            LastName = DbUtils.GetString(reader, "LastName"),
+                            DisplayName = DbUtils.GetString(reader, "DisplayName"),
+                            Email = DbUtils.GetString(reader, "Email"),
+                            ActiveStatus = DbUtils.GetBool(reader, "ActiveStatus"),
+                            UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
+                            UserType = new UserType()
+                            {
+                                Id = DbUtils.GetInt(reader, "UserTypeId"),
+                                Name = DbUtils.GetString(reader, "UserTypeName"),
+                            }
+                        };
                     }
                     reader.Close();
 
@@ -46,7 +62,7 @@ namespace Get2Work.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT up.Id, up.FirebaseUserId, up.DisplayName AS UserProfileName, up.FirstName, up.LastName,
+                        SELECT up.Id, up.FirebaseUserId, up.DisplayName, up.FirstName, up.LastName,
                             up.Email,up.UserTypeId, up.ActiveStatus
                           FROM UserProfile up
                         ";
@@ -73,7 +89,7 @@ namespace Get2Work.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                         SELECT up.Id, up.FirebaseUserId, up.DisplayName AS UserProfileName, up.FirstName, up.LastName,
+                         SELECT up.Id, up.FirebaseUserId, up.DisplayName, up.FirstName, up.LastName,
                             up.Email, up.UserTypeId, up.ActiveStatus
                           FROM UserProfile up
                           WHERE up.Id = @Id";
@@ -177,7 +193,7 @@ namespace Get2Work.Repositories
             {
                 Id = DbUtils.GetInt(reader, "Id"),
                 FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
-                DisplayName = DbUtils.GetString(reader, "UserProfileName"),
+                DisplayName = DbUtils.GetString(reader, "DisplayName"),
                 FirstName = DbUtils.GetString(reader, "FirstName"),
                 LastName = DbUtils.GetString(reader, "LastName"),
                 Email = DbUtils.GetString(reader, "Email"),

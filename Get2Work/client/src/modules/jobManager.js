@@ -41,6 +41,25 @@ export const getJobList = () => {
         });
     });
 }
+export const getTodaysScheduledJobsByUser = () => {
+    return getToken().then((token) => {
+        return fetch(`${baseUrl}/userscheduledjobs`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }).then((resp) => {
+            if (resp.ok) {
+                return resp.json();
+            } else {
+                throw new Error(
+                    "An unknown error occurred while trying to get users scheduledJobs"
+                );
+            }
+        });
+    });
+}
+
 export const getJobById = (id) => {
     return getToken().then((token) => {
         return fetch(`${baseUrl}/${id}`, {
