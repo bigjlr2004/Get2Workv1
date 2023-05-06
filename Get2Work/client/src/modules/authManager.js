@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 
+
 const _apiUrl = "/api/userprofile";
 
 
@@ -69,6 +70,7 @@ export const login = (email, pw) => {
 
 export const logout = () => {
   firebase.auth().signOut()
+
 };
 
 

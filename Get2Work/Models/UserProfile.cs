@@ -12,11 +12,8 @@ namespace Get2Work.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
-        public DateTime HireDate { get; set; }
         public string Email { get; set; }
-        public string Notes { get; set; }
         public int UserTypeId { get; set; }
-        public string Address { get; set; }
         public  bool ActiveStatus { get; set; }
        
     }

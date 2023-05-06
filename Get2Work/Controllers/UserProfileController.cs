@@ -54,7 +54,7 @@ namespace Get2Work.Controllers
         [HttpPost]
         public IActionResult Post(UserProfile userProfile)
         {
-            userProfile.HireDate = DateTime.Now;
+           
             userProfile.UserTypeId = 2;
             userProfile.ActiveStatus = true;
             _userProfileRepository.Add(userProfile);

@@ -46,10 +46,9 @@ namespace Get2Work.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                    INSERT INTO DaysScheduled (JobId, DayId)
+                    INSERT INTO JobSchedule (JobId, DayId)
                          OUTPUT INSERTED.ID 
                         VALUES (@JobId, @DayId)";
-
                     DbUtils.AddParameter(cmd, "@JobId", jobId);
                     DbUtils.AddParameter(cmd, "@DayId", dayId);
                    

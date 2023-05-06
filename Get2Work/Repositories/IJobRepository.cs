@@ -6,7 +6,7 @@ namespace Get2Work.Repositories
     public interface IJobRepository
     {
         List<Job> GetAll();
-        List<Job> GetAllWithDayList();
+        public List<Job> GetAllJobsScheduledToday();
         List<Job> GetJobsByUserId(int id);
         void Update(Job job);
         int Add(Job job);

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { addNewJob, getDays } from "../../modules/jobManager";
 import { getStores } from "../../modules/storeManager";
 import { getUserProfiles } from "../../modules/authManager";
-import { setSchedule } from "../../modules/scheduledJobsManager";
+
 
 
 const AddJob = () => {

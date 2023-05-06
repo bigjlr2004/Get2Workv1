@@ -20,8 +20,7 @@ namespace Get2Work.Repositories
                 {
                     cmd.CommandText = @"
                         SELECT up.Id, up.FirebaseUserId, up.DisplayName AS UserProfileName, up.FirstName, up.LastName,
-                            up.Email, up.Notes, up.HireDate,
-                            up.UserTypeId, up.ActiveStatus, up.Address
+                            up.Email, up.UserTypeId, up.ActiveStatus
                           FROM UserProfile up
                           WHERE FirebaseUserId = @FirebaseUserId";
                     
@@ -48,8 +47,7 @@ namespace Get2Work.Repositories
                 {
                     cmd.CommandText = @"
                         SELECT up.Id, up.FirebaseUserId, up.DisplayName AS UserProfileName, up.FirstName, up.LastName,
-                            up.Email, up.Notes, up.HireDate,
-                            up.UserTypeId, up.ActiveStatus, up.Address
+                            up.Email,up.UserTypeId, up.ActiveStatus
                           FROM UserProfile up
                         ";
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -76,8 +74,7 @@ namespace Get2Work.Repositories
                 {
                     cmd.CommandText = @"
                          SELECT up.Id, up.FirebaseUserId, up.DisplayName AS UserProfileName, up.FirstName, up.LastName,
-                            up.Email, up.Notes, up.HireDate,
-                            up.UserTypeId, up.ActiveStatus, up.Address
+                            up.Email, up.UserTypeId, up.ActiveStatus
                           FROM UserProfile up
                           WHERE up.Id = @Id";
 
@@ -104,17 +101,14 @@ namespace Get2Work.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO UserProfile (DisplayName, FirstName, LastName, Email, HireDate, Notes, Address, ActiveStatus, UserTypeId, FirebaseUserId )
+                        INSERT INTO UserProfile (DisplayName, FirstName, LastName, Email, ActiveStatus, UserTypeId, FirebaseUserId )
                         OUTPUT INSERTED.ID
-                        VALUES (@DisplayName, @FirstName, @LastName, @Email, @HireDate, @Notes, @Address, @ActiveStatus, @UserTypeId, @FirebaseUserId)";
+                        VALUES (@DisplayName, @FirstName, @LastName, @Email, @ActiveStatus, @UserTypeId, @FirebaseUserId)";
 
                     DbUtils.AddParameter(cmd, "@FirstName", user.FirstName);
                     DbUtils.AddParameter(cmd, "@LastName", user.LastName);
                     DbUtils.AddParameter(cmd, "@DisplayName", user.DisplayName);
                     DbUtils.AddParameter(cmd, "@Email", user.Email);
-                    DbUtils.AddParameter(cmd, "@HireDate", user.HireDate);
-                    DbUtils.AddParameter(cmd, "@Notes", user.Notes);
-                    DbUtils.AddParameter(cmd, "@Address", user.Address);
                     DbUtils.AddParameter(cmd, "@ActiveStatus", user.ActiveStatus);
                     DbUtils.AddParameter(cmd, "@UserTypeId", user.UserTypeId);
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", user.FirebaseUserId);
@@ -136,19 +130,14 @@ namespace Get2Work.Repositories
                                     LastName = @LastName,
                                     DisplayName = @DisplayName,
                                     Email = @Email,
-                                    HireDate = @HireDate,
-                                    Notes = @Notes,
-                                    Address =@Address
-                                WHERE Id = @Id";
+                                    WHERE Id = @Id";
 
                     DbUtils.AddParameter(cmd, "@Id", user.Id);
                     DbUtils.AddParameter(cmd, "@FirstName", user.FirstName);
                     DbUtils.AddParameter(cmd, "@LastName", user.LastName);
                     DbUtils.AddParameter(cmd, "@DisplayName", user.DisplayName);
                     DbUtils.AddParameter(cmd, "@Email", user.Email);
-                    DbUtils.AddParameter(cmd, "@HireDate", user.HireDate);
-                    DbUtils.AddParameter(cmd, "@Notes", user.Notes);
-                    DbUtils.AddParameter(cmd, "@Address", user.Address);
+                   
                   
                     cmd.ExecuteNonQuery();
                 }
@@ -167,9 +156,6 @@ namespace Get2Work.Repositories
                                     LastName = @LastName,
                                     DisplayName = @DisplayName,
                                     Email = @Email,
-                                    HireDate = @HireDate,
-                                    Notes = @Notes,
-                                    Address =@Address,
                                     ActiveStatus= @ActiveStatus
                                 WHERE Id = @Id";
 
@@ -178,9 +164,6 @@ namespace Get2Work.Repositories
                     DbUtils.AddParameter(cmd, "@LastName", userProfile.LastName);
                     DbUtils.AddParameter(cmd, "@DisplayName", userProfile.DisplayName);
                     DbUtils.AddParameter(cmd, "@Email", userProfile.Email);
-                    DbUtils.AddParameter(cmd, "@HireDate", userProfile.HireDate);
-                    DbUtils.AddParameter(cmd, "@Notes", userProfile.Notes);
-                    DbUtils.AddParameter(cmd, "@Address", userProfile.Address);
                     cmd.Parameters.AddWithValue("@ActiveStatus", activated);
 
                     cmd.ExecuteNonQuery();
@@ -197,11 +180,8 @@ namespace Get2Work.Repositories
                 DisplayName = DbUtils.GetString(reader, "UserProfileName"),
                 FirstName = DbUtils.GetString(reader, "FirstName"),
                 LastName = DbUtils.GetString(reader, "LastName"),
-                HireDate = DbUtils.GetDateTime(reader, "HireDate"),
                 Email = DbUtils.GetString(reader, "Email"),
-                Notes = DbUtils.GetString(reader, "Notes"),
                 UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
-                Address = DbUtils.GetString(reader, "Address"),
                 ActiveStatus = reader.GetBoolean(reader.GetOrdinal("ActiveStatus"))
 
 
