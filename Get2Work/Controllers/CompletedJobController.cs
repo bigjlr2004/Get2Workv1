@@ -3,6 +3,7 @@ using Get2Work.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace Get2Work.Controllers
@@ -21,8 +22,14 @@ namespace Get2Work.Controllers
             [HttpGet]
         public IActionResult GetAll()
         {
-            var scheduledJobs = _completedJobRepository.GetAll();
-            return Ok(scheduledJobs);
+            var completedJobs = _completedJobRepository.GetAll();
+            return Ok(completedJobs);
+        }
+        [HttpGet("GetTodaysCompletedJobsAllUsers")]
+        public IActionResult GetTodaysCompletedJobsAllUsers()
+        {
+            var completedJobs = _completedJobRepository.GetTodaysCompletedJobsAllUsers();
+            return Ok(completedJobs);
         }
 
         [HttpPost("Add")]

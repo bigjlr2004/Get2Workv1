@@ -28,14 +28,21 @@ namespace Get2Work.Controllers
         }
 
         [Authorize]
-        [HttpGet("userscheduledjobs")]
+        [HttpGet("todayuserscheduledjobs")]
         public IActionResult GetTodaysUserScheduledJobs()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             return Ok(_jobRepository.GetAllJobsScheduledTodayByUser(firebaseUserId));
         }
+        [Authorize]
+        [HttpGet("userscheduledjobs")]
+        public IActionResult UserScheduledJobs()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
+            return Ok(_jobRepository.GetAllJobsScheduledByUser(firebaseUserId));
+        }
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -46,6 +53,13 @@ namespace Get2Work.Controllers
         {
             return Ok(_jobRepository.GetAllJobsScheduledToday());
         }
+        [HttpGet("specificday")]
+        public IActionResult Search(string q)
+        {
+
+            return Ok(_jobRepository.GetAllJobsSpecificDay(q));
+        }
+
         [HttpGet("getAllJobsByUserId/{id}")]
         public IActionResult GetById(int id)
         {

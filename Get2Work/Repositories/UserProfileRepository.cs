@@ -19,7 +19,7 @@ namespace Get2Work.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT up.Id, up.FirebaseUserId, up.DisplayName,  up.FirstName, up.LastName,
+                        SELECT up.Id, up.FirebaseUserId, up.DisplayName,  up.FirstName, up.LastName, up.PhoneNumber,
                             up.Email, up.UserTypeId, up.ActiveStatus,  ut.Name AS UserTypeName
                           FROM UserProfile up
                                 LEFT JOIN UserType ut on up.UserTypeId = ut.Id
@@ -37,6 +37,7 @@ namespace Get2Work.Repositories
                             FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
+                            PhoneNumber = DbUtils.GetString(reader, "PhoneNumber"),
                             DisplayName = DbUtils.GetString(reader, "DisplayName"),
                             Email = DbUtils.GetString(reader, "Email"),
                             ActiveStatus = DbUtils.GetBool(reader, "ActiveStatus"),

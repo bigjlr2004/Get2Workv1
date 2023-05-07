@@ -4,9 +4,9 @@ const baseUrl = '/api/CompletedJob';
 
 
 
-export const getCompletedJobs = () => {
+export const GetTodaysCompletedJobsAllUsers = () => {
     return getToken().then((token) => {
-        return fetch(`${baseUrl}`, {
+        return fetch(`${baseUrl}/GetTodaysCompletedJobsAllUsers`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -22,6 +22,7 @@ export const getCompletedJobs = () => {
         });
     });
 }
+
 export const getUsersCompletedJobs = () => {
     return getToken().then((token) => {
         return fetch(`${baseUrl}/usercompletedjobs`, {

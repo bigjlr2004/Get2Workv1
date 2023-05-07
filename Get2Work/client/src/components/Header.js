@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink as RRNavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Collapse,
   Navbar,
@@ -15,11 +16,14 @@ import { logout } from '../modules/authManager';
 export default function Header({ isLoggedIn, role }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
-
+  const navigate = useNavigate();
   return (
     <div>
       <Navbar color="light" light expand="md">
-        <NavbarBrand tag={RRNavLink} to="/">GET2WORK</NavbarBrand>
+        <div className="front_image">
+          <img src="https://bbcreameries.wpenginepowered.com/wp-content/uploads/2021/04/bluebell-logo-d-sh@2x-300x274.png"
+            style={{ width: 200, height: 175 }} alt="Kandy Korner Picture"></img></div>
+        <NavbarBrand tag={RRNavLink} to="/"></NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
@@ -29,13 +33,21 @@ export default function Header({ isLoggedIn, role }) {
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/">Home</NavLink>
                 </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/userjoblist">MyJobs</NavLink>
-                </NavItem>
               </>
             }
           </Nav>
           <Nav navbar>
+            {role === "Employee" &&
+              <>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/userdetails">MyInfo</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/userschedule">Schedule</NavLink>
+                </NavItem>
+
+              </>
+            }
             {role === "Manager" &&
               <>
                 <NavItem>
@@ -47,16 +59,22 @@ export default function Header({ isLoggedIn, role }) {
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/storelist">Stores</NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/weeklyview">Week Schedule</NavLink>
+                </NavItem>
               </>
             }
             {isLoggedIn &&
               <>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/joblist">JobList</NavLink>
-                </NavItem>
+
                 <NavItem>
                   <a aria-current="page" className="nav-link"
-                    style={{ cursor: "pointer" }} onClick={logout} >Logout</a>
+                    style={{ cursor: "pointer" }}
+                    onClick={(event) => {
+                      logout()
+                      navigate("/login")
+
+                    }} >Logout</a>
                 </NavItem>
               </>
             }
@@ -72,7 +90,9 @@ export default function Header({ isLoggedIn, role }) {
             }
           </Nav>
         </Collapse>
+
       </Navbar>
+
     </div>
   );
 }

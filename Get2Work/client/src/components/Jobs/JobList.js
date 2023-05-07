@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col } from 'reactstrap';
-import { getJobList } from "../../modules/jobManager";
+import { getAllJobsScheduledToday } from "../../modules/jobManager";
 import Job from "./Job";
-import { getCompletedJobs } from "../../modules/completedJobsManager";
+import { GetTodaysCompletedJobsAllUsers } from "../../modules/completedJobsManager";
 import CompletedJob from "../CompletedJobs/CompletedJob";
 
 
@@ -13,10 +13,10 @@ const JobList = () => {
     const [scheduledJobs, setScheduledJobs] = useState([]);
     const [completedJobs, setCompletedJobs] = useState([]);
     const getCompleteJobs = () => {
-        getCompletedJobs().then(data => setCompletedJobs(data));
+        GetTodaysCompletedJobsAllUsers().then(data => setCompletedJobs(data));
     };
     const getScheduledJobList = () => {
-        getJobList().then(data => setScheduledJobs(data));
+        getAllJobsScheduledToday().then(data => setScheduledJobs(data));
     };
     useEffect(() => {
         getCompleteJobs();

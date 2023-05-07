@@ -24,6 +24,7 @@ const Job = ({ job }) => {
             </p>
             <CardBody>
                 <ul className="social-list">
+                    <li>{job.days[0].name}</li>
                     <li> Store: {job.store.name} </li>
                     <li> Employee: {job.userProfile.displayName}</li>
                     <li> Employee Email: {job.userProfile.email}</li>
