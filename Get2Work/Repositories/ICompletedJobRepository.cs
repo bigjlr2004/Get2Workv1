@@ -7,6 +7,7 @@ namespace Get2Work.Repositories
     {
         List<CompletedJob> GetAll();
         List<CompletedJob> GetTodaysCompletedJobsByUserId(string firebaseUserId);
+        public List<CompletedJob> GetTodaysCompletedJobsAllUsers();
         public void Add(CompletedJob job);
     }
 }

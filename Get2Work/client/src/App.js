@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { Spinner } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import firebase from 'firebase';
 import Header from './components/Header';
 import ApplicationViews from './components/ApplicationViews';
 import { getUserDetails, onLoginStatusChange } from './modules/authManager';
+import Login from './components/Login';
+import Register from './components/Register';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null), [role, setRole] = useState("");
@@ -30,11 +32,26 @@ function App() {
   if (isLoggedIn === null) {
     return <Spinner className="app-spinner dark" />;
   }
-
   return (
     <Router>
-      <Header isLoggedIn={isLoggedIn} role={role} />
-      <ApplicationViews isLoggedIn={isLoggedIn} role={role} />
+      <Routes>
+        <Route path="*" element={
+          <>
+            <Header isLoggedIn={isLoggedIn} role={role} />
+            <ApplicationViews isLoggedIn={isLoggedIn} role={role} />
+          </>
+        } />
+        <Route path="login" element={
+          <>
+            <Header isLoggedIn={isLoggedIn} role={role} />
+            <Login />
+          </>}></Route>
+        <Route path="register" element={
+          <>
+            <Header isLoggedIn={isLoggedIn} role={role} />
+            <Register />
+          </>} />
+      </Routes>
     </Router>
   );
 }
