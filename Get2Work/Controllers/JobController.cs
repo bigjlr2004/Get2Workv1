@@ -65,7 +65,7 @@ namespace Get2Work.Controllers
         {
             return Ok(_jobRepository.GetJobsByUserId(id));
         }
-        [HttpGet("{id}")]
+        [HttpGet("getJobById/{id}")]
         public IActionResult GetJobById(int id)
         {
             return Ok(_jobRepository.GetJobById(id));
@@ -74,8 +74,33 @@ namespace Get2Work.Controllers
         [HttpPut("Edit")]
         public IActionResult Edit(int id, Job job)
         {
-            _jobRepository.Update(job);
-            return NoContent();
+            try
+            {
+                job.ActiveStatus = false;
+                _jobRepository.Update(job);
+               
+               
+            } catch (Exception ex)
+            {
+                return BadRequest("Failed on Update");
+            }
+
+            try
+            {
+                job.ActiveStatus = true;
+                int JobId = _jobRepository.Add(job);
+                foreach (var day in job.DayIds)
+                {
+                    int DayId = day;
+                    _dayRepository.AddDaysScheduled(JobId, DayId);
+                }
+                    return Ok();
+            } catch (Exception ex)
+            {
+                return BadRequest("Failed on Update");
+            }
+           
+   
         }
 
         [HttpPost("AddJob")]

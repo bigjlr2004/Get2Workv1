@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { Spinner } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import Header from './components/Header';
 import ApplicationViews from './components/ApplicationViews';
 import { getUserDetails, onLoginStatusChange } from './modules/authManager';

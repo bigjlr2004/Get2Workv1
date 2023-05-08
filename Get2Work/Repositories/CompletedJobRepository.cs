@@ -72,7 +72,7 @@ namespace Get2Work.Repositories
                             JOIN UserProfile up on j.UserProfileId = up.Id
                             JOIN Store s on s.Id = j.StoreId
                             JOIN Day d on d.Id = js.DayId
-                            WHERE CONVERT(DATE, DateCompleted) =  CONVERT(DATE, SYSDATETIME());
+                            WHERE CONVERT(DATE, DateCompleted) = CONVERT(DATE, SYSDATETIME()) AND j.ActiveStatus = 1;
                         
                         ";
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -112,7 +112,7 @@ namespace Get2Work.Repositories
                             JOIN UserProfile up on j.UserProfileId = up.Id
                             JOIN Store s on s.Id = j.StoreId
                             JOIN Day d on d.Id = js.DayId
-                            WHERE CONVERT(DATE, DateCompleted) =  CONVERT(DATE, SYSDATETIME()) AND up.FireBaseUserId = @FirebaseUserId;
+                            WHERE CONVERT(DATE, DateCompleted) =  CONVERT(DATE, SYSDATETIME()) AND up.FireBaseUserId = @FirebaseUserId AND j.ActiveStatus = 1;
                         ";
                             DbUtils.AddParameter(cmd, "@FirebaseUserId", firebaseUserId);
 

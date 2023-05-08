@@ -1,24 +1,7 @@
 import { getToken } from "./authManager";
 const baseUrl = '/api/Job';
 
-export const getDays = () => {
-    return getToken().then((token) => {
-        return fetch("api/Day", {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        }).then((resp) => {
-            if (resp.ok) {
-                return resp.json();
-            } else {
-                throw new Error(
-                    "An unknown error occurred while trying to get Days"
-                );
-            }
-        });
-    });
-};
+
 export const getJobList = () => {
     return getToken().then((token) => {
         return fetch(`${baseUrl}`, {
@@ -114,7 +97,7 @@ export const getScheduledJobsByUser = () => {
 
 export const getJobById = (id) => {
     return getToken().then((token) => {
-        return fetch(`${baseUrl}/${id}`, {
+        return fetch(`${baseUrl}/getJobById/${id}`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -124,7 +107,7 @@ export const getJobById = (id) => {
                 return resp.json();
             } else {
                 throw new Error(
-                    "An unknown error occurred while trying to get scheduledJobs"
+                    "An unknown error occurred while trying to get the Scheduled Job By Id."
                 );
             }
         });
@@ -140,6 +123,18 @@ export const addNewJob = (Job) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(Job),
+        })
+    });
+};
+export const editJob = (job) => {
+    return getToken().then((token) => {
+        return fetch(`${baseUrl}/Edit?${job.id}`, {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(job),
         })
     });
 };

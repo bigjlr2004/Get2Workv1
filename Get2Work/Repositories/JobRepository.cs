@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Xml.Linq;
 using System;
+using System.Reflection.PortableExecutable;
 
 namespace Get2Work.Repositories
 {
@@ -26,10 +27,11 @@ namespace Get2Work.Repositories
                     cmd.CommandText = @"
                   SELECT j.Id, j.UserProfileId, j.Description, j.CreateDateTime, 
                     j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
-                    up.Id as ProfileId, up.FirebaseUserId, up.DisplayName AS UserProfileName, up.FirstName, up.LastName, up.PhoneNumber,
+                    up.Id as ProfileId, up.FirebaseUserId, up.DisplayName,  up.FirstName, up.LastName, up.PhoneNumber,
                     up.Email, up.UserTypeId, up.ActiveStatus,
                     s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus,
-                    d.Id as DayId,d.Name as WeekDay
+                    d.Id as DayId,d.Name as WeekDay,
+                    js.id as JobScheduleId
                     FROM Job j
                     JOIN UserProfile up on j.UserProfileId = up.Id
                     JOIN Store s on s.Id = j.StoreId
@@ -59,7 +61,7 @@ namespace Get2Work.Repositories
                                 {
                                     Id = DbUtils.GetInt(reader, "ProfileId"),
                                     FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
-                                    DisplayName = DbUtils.GetString(reader, "UserProfileName"),
+                                    DisplayName = DbUtils.GetString(reader, "DisplayName"),
                                     FirstName = DbUtils.GetString(reader, "FirstName"),
                                     LastName = DbUtils.GetString(reader, "LastName"),
                                     PhoneNumber = DbUtils.GetString(reader, "PhoneNumber"),
@@ -118,7 +120,7 @@ namespace Get2Work.Repositories
                     JOIN Store s on s.Id = j.StoreId
                     JOIN JobSchedule js on js.jobId = j.Id
                     JOIN Day d on js.DayId = d.Id
-                    WHERE d.Name = @Day
+                    WHERE d.Name = @Day AND j.ActiveStatus = 1
                         ";
 
                     DateTime today = DateTime.Now;
@@ -215,7 +217,7 @@ namespace Get2Work.Repositories
                     JOIN Store s on s.Id = j.StoreId
                     JOIN JobSchedule js on js.jobId = j.Id
                     JOIN Day d on js.DayId = d.Id
-                    WHERE d.Name = @Day
+                    WHERE d.Name = @Day AND j.ActiveStatus = 1
                         ";
 
                     
@@ -269,6 +271,7 @@ namespace Get2Work.Repositories
                                     ActiveStatus = reader.GetBoolean(reader.GetOrdinal("ActiveStatus")),
                                 },
                                 Days = new List<Day>()
+
                             };
                             jobs.Add(existingjob);
                         }
@@ -309,7 +312,7 @@ namespace Get2Work.Repositories
                     JOIN Store s on s.Id = j.StoreId
                     JOIN JobSchedule js on js.jobId = j.Id
                     JOIN Day d on js.DayId = d.Id
-                    WHERE d.Name = @Day AND up.FireBaseUserId = @FirebaseUserId;
+                    WHERE d.Name = @Day AND up.FireBaseUserId = @FirebaseUserId AND j.ActiveStatus = 1
                         ";
                             DbUtils.AddParameter(cmd, "@FirebaseUserId", firebaseUserId);
                         
@@ -408,7 +411,7 @@ namespace Get2Work.Repositories
                     JOIN Store s on s.Id = j.StoreId
                     JOIN JobSchedule js on js.jobId = j.Id
                     JOIN Day d on js.DayId = d.Id
-                    WHERE up.FireBaseUserId = @FirebaseUserId;
+                    WHERE up.FireBaseUserId = @FirebaseUserId AND j.ActiveStatus = 1
                         ";
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", firebaseUserId);
 
@@ -501,16 +504,35 @@ namespace Get2Work.Repositories
                     JOIN Store s on s.Id = j.StoreId
                     JOIN JobSchedule js on js.jobId = j.Id
                     JOIN Day d on js.DayId = d.Id
-                    WHERE j.Id = @Id
+                    WHERE j.Id = @Id 
                         ";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
                     Job job = null;
 
                     var reader = cmd.ExecuteReader();
-                    if (reader.Read())
+
+                    while (reader.Read())
                     {
-                        job = NewJobfromReader(reader);
+                        if (job == null)
+                        {
+                            job = NewJobfromReader(reader);
+
+                            job.Days = new List<Day>();
+                            job.DayIds = new List<int>();
+                        }
+
+
+                        if (DbUtils.IsNotDbNull(reader, "WeekDay"))
+                        {
+                            job.Days.Add(new Day()
+                            {
+                                Id = DbUtils.GetInt(reader, "DayId"),
+                                Name = DbUtils.GetString(reader, "WeekDay"),
+
+                            });
+                            job.DayIds.Add(DbUtils.GetInt(reader, "DayId"));
+                        }
                     }
                     reader.Close();
 
@@ -536,7 +558,7 @@ namespace Get2Work.Repositories
                     FROM Job j
                     JOIN UserProfile up on j.UserProfileId = up.Id
                     JOIN Store s on s.Id = j.StoreId
-                        WHERE j.UserProfileId = @id";
+                        WHERE j.UserProfileId = @id AND j.ActiveStatus = 1";
 
                         cmd.Parameters.AddWithValue("@id", userId);
 
@@ -587,22 +609,10 @@ namespace Get2Work.Repositories
                 {
                     cmd.CommandText = @"
                             Update Job
-                            SET UserProfileId = @UserProfileId,
-                                Description = @Description,
-                                CreateDateTime = @CreateDateTime,
-                                ScheduledTime = @ScheduledTime,
-                                StoreId = @StoreId,
-                                Notes = @Notes,
-                                ActiveStatus = @ActiveStatus
+                            SET ActiveStatus = @ActiveStatus
                             WHERE Id = @Id";
 
                     DbUtils.AddParameter(cmd, "@Id", job.Id);
-                    DbUtils.AddParameter(cmd, "@UserProfileId", job.UserProfileId);
-                    DbUtils.AddParameter(cmd, "@Description", job.Description);
-                    DbUtils.AddParameter(cmd, "@CreateDateTime", job.CreateDateTime);
-                    DbUtils.AddParameter(cmd, "@ScheduledTime", job.ScheduledTime);
-                    DbUtils.AddParameter(cmd, "@StoreId", job.StoreId);
-                    DbUtils.AddParameter(cmd, "@Notes",  job.Notes);
                     DbUtils.AddParameter(cmd, "@ActiveStatus", job.ActiveStatus);
 
                     cmd.ExecuteNonQuery();

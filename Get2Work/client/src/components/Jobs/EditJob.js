@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react"
 import { Card, CardBody } from "reactstrap";
 import { useNavigate, useParams } from 'react-router-dom'
-import { addNewJob } from "../../modules/jobManager";
+import { addNewJob, editJob, getJobById } from "../../modules/jobManager";
 import { getStores } from "../../modules/storeManager";
 import { getUserProfiles } from "../../modules/authManager";
 import { getDays } from "../../modules/dayManager";
 
 
 
-const AddJob = () => {
+const EditJob = () => {
+
+    const { id } = useParams();
     const navigate = useNavigate();
     const [job, setJob] = useState({
         userProfileId: "",
@@ -19,32 +21,33 @@ const AddJob = () => {
         notes: "",
         activestatus: true,
         dayIds: []
-
-
     })
 
     const [stores, setStores] = useState([]);
-    const [days, setDays] = useState([]);
+    const [daysOfWeek, setDaysOfWeek] = useState([]);
     const [users, setUsers] = useState([]);
 
 
     const getStore = () => {
+        getJobById(id).then((data) => setJob(data));
         getStores().then(data => setStores(data));
-        getDays().then(data => setDays(data));
+
         getUserProfiles().then(data => setUsers(data));
 
     };
 
     useEffect(() => {
+        getDays().then(data => setDaysOfWeek(data));
         getStore();
     }, []);
 
     const handleSubmitJob = (evt) => {
         evt.preventDefault();
         if (job.userProfileId && job.description && job.createDateTime && job.scheduledTime && job.storeId) {
+            const copy = { ...job }
+            copy.activestatus = false
 
-
-            addNewJob(job).then(() => {
+            editJob(copy).then(() => {
                 const copy = { ...job };
                 copy.userProfileId = "";
                 copy.description = "";
@@ -54,7 +57,7 @@ const AddJob = () => {
                 copy.notes = "";
                 copy.dayIds = [];
                 setJob(copy);
-                navigate("/")
+                navigate("/alljobs")
 
 
             });
@@ -66,23 +69,44 @@ const AddJob = () => {
 
 
 
-
     const handleCheckboxChange = (event) => {
-        const value = parseInt(event.target.value);
-        if (event.target.checked) {
-            // Add the value to the array if the checkbox is checked
+        const { id, checked } = event.target;
+        if (checked) {
             setJob({
                 ...job,
-                dayIds: [...job.dayIds, value],
+                dayIds: [...job.dayIds, parseInt(id)]
             });
         } else {
-            // Remove the value from the array if the checkbox is unchecked
             setJob({
                 ...job,
-                dayIds: job.dayIds.filter((item) => item !== value),
+                dayIds: job.dayIds.filter((item) => item !== parseInt(id))
             });
         }
     };
+
+    const getCheckboxGroup = (days) => {
+        const dayIds = days.map((day) => day.id);
+        const checkboxes = daysOfWeek.map((day) => (
+            <div key={day.id}>
+                <input
+                    type="checkbox"
+                    id={day.id}
+                    name={day.name}
+                    checked={dayIds.includes(day.id)}
+                    onChange={handleCheckboxChange}
+                />
+                <label htmlFor={day.name}>{day.name}</label>
+            </div>
+        ));
+        return <div>{checkboxes}</div>;
+    };
+
+    const getObjectCheckboxes = () => {
+        const days = daysOfWeek.filter((day) => job.dayIds.includes(day.id));
+        return <div>{getCheckboxGroup(days)}</div>;
+    };
+
+
 
     return (
         <div className="container">
@@ -110,21 +134,8 @@ const AddJob = () => {
                     </fieldset>
                     <fieldset>
                         <div className="form-group" style={{ marginTop: '20px' }}>
-                            <div>Days to Schedule the Job: </div>
-                            {days.map((dayObj) => {
-                                return (
-                                    <div key={dayObj.id} className="checkbox">
-                                        <label>
-                                            <input
-                                                type="checkbox"
-                                                value={(dayObj.id)}
-                                                onChange={handleCheckboxChange}
-                                            />
-                                            {dayObj.name}
-                                        </label>
-                                    </div>
-                                )
-                            })}
+                            <div>{getObjectCheckboxes()}</div>
+
                         </div>
                     </fieldset>
                     <fieldset>
@@ -223,4 +234,4 @@ const AddJob = () => {
     )
 }
 
-export default AddJob;
+export default EditJob;
