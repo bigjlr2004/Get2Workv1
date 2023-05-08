@@ -16,14 +16,14 @@ const CompletedJob = ({ completedJob }) => {
 
     return (
         <Card >
-            <p className="text-left px-2">
-                Job Description: ---
-                <Link to={`/users/${completedJob.id}`}>
-                    {completedJob.job.description}
-                </Link>
-                <p>Completed: {completedJob.date}</p>
-                <p>Completed Time: {completedJob.dateCompleted}</p>
-            </p>
+            <div className="text-left px-2">
+                Job Description: ---{completedJob.job.description}
+
+
+                <div>Scheduled: {completedJob.job.scheduledTime}</div>
+
+                <div>Completed Time: {completedJob.dateCompleted}</div>
+            </div>
             <CardBody>
                 <ul className="social-list">
                     <li> Store: {completedJob.job.store.name} </li>

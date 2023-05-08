@@ -121,6 +121,7 @@ namespace Get2Work.Repositories
                     JOIN JobSchedule js on js.jobId = j.Id
                     JOIN Day d on js.DayId = d.Id
                     WHERE d.Name = @Day AND j.ActiveStatus = 1
+                     ORDER BY CAST(j.scheduledTime as TIME)
                         ";
 
                     DateTime today = DateTime.Now;
@@ -218,6 +219,7 @@ namespace Get2Work.Repositories
                     JOIN JobSchedule js on js.jobId = j.Id
                     JOIN Day d on js.DayId = d.Id
                     WHERE d.Name = @Day AND j.ActiveStatus = 1
+                     ORDER BY CAST(j.scheduledTime as TIME)
                         ";
 
                     
@@ -313,6 +315,7 @@ namespace Get2Work.Repositories
                     JOIN JobSchedule js on js.jobId = j.Id
                     JOIN Day d on js.DayId = d.Id
                     WHERE d.Name = @Day AND up.FireBaseUserId = @FirebaseUserId AND j.ActiveStatus = 1
+                     ORDER BY CAST(j.scheduledTime as TIME)
                         ";
                             DbUtils.AddParameter(cmd, "@FirebaseUserId", firebaseUserId);
                         
@@ -412,6 +415,7 @@ namespace Get2Work.Repositories
                     JOIN JobSchedule js on js.jobId = j.Id
                     JOIN Day d on js.DayId = d.Id
                     WHERE up.FireBaseUserId = @FirebaseUserId AND j.ActiveStatus = 1
+                    ORDER BY CAST(j.scheduledTime as TIME)
                         ";
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", firebaseUserId);
 
@@ -558,7 +562,8 @@ namespace Get2Work.Repositories
                     FROM Job j
                     JOIN UserProfile up on j.UserProfileId = up.Id
                     JOIN Store s on s.Id = j.StoreId
-                        WHERE j.UserProfileId = @id AND j.ActiveStatus = 1";
+                        WHERE j.UserProfileId = @id AND j.ActiveStatus = 1
+                         ORDER BY CAST(j.scheduledTime as TIME)";
 
                         cmd.Parameters.AddWithValue("@id", userId);
 

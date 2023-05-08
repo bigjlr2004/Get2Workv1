@@ -16,6 +16,7 @@ namespace Get2Work.Models
         public int UserTypeId { get; set; }
         public  bool ActiveStatus { get; set; }
         public UserType UserType { get; set; }
+        public List<Job> ScheduledJobs { get; set; }
 
         public string FullName
         {

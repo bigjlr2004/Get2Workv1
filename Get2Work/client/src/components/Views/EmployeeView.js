@@ -16,7 +16,7 @@ export const EmployeeView = () => {
             <Routes>
                 <Route path="/" element={<UserJobList />} />
 
-                <Route path="userdetails" element={<UserDetails />} />
+                <Route path="userdetails/:firebaseId" element={<UserDetails />} />
                 <Route path="userschedule" element={<UserSchedule />} />
                 <Route path="completejob/:id" element={<CompleteJobForm />} />
                 <Route path="*" element={<p>Whoops, nothing here...</p>} />

@@ -10,7 +10,7 @@ const User = ({ user }) => {
         <Card >
             <p className="text-left px-2">
                 Employee Name: ---
-                <Link to={`/users/${user.id}`}>
+                <Link to={`/userdetails/${user.firebaseUserId}`}>
                     {user.displayName}
                 </Link>
             </p>

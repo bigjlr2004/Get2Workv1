@@ -14,7 +14,7 @@ const AddJob = () => {
         userProfileId: "",
         description: "",
         createDateTime: new Date(),
-        scheduledTime: "",
+        scheduledTime: "null",
         storeId: "",
         notes: "",
         activestatus: true,
@@ -39,10 +39,15 @@ const AddJob = () => {
         getStore();
     }, []);
 
+    const availableTimes = [
+        '08:00AM', '08:30AM', '09:00AM', '09:30AM', '10:00AM', '10:30AM',
+        '11:00AM', '11:30AM', '12:00PM', '12:30PM', '01:00PM', '01:30PM',
+        '02:00PM', '02:30PM', '03:00PM', '03:30PM', '04:00PM', '04:30PM',
+        '05:00PM'
+    ];
     const handleSubmitJob = (evt) => {
         evt.preventDefault();
         if (job.userProfileId && job.description && job.createDateTime && job.scheduledTime && job.storeId) {
-
 
             addNewJob(job).then(() => {
                 const copy = { ...job };
@@ -55,8 +60,6 @@ const AddJob = () => {
                 copy.dayIds = [];
                 setJob(copy);
                 navigate("/")
-
-
             });
         }
         else {
@@ -83,6 +86,23 @@ const AddJob = () => {
             });
         }
     };
+    const timeSlotBuilder = () => {
+        return (
+            <select value={job.scheduledTime}
+                onChange={(event) => {
+                    const copy = { ...job };
+                    copy.scheduledTime = event.target.value;
+                    setJob(copy);
+                }}>
+                {availableTimes.map(timeSlot => (
+                    <option key={timeSlot} value={timeSlot}>
+                        {timeSlot}
+                    </option>
+                ))}
+            </select>
+        );
+    };
+
 
     return (
         <div className="container">
@@ -175,21 +195,7 @@ const AddJob = () => {
                     </fieldset>
                     <fieldset>
                         <div className="form-group" style={{ marginTop: '20px' }}>
-                            <label htmlFor="scheduledTime">Scheduled Time: </label>
-                            <input
-                                required
-                                id="scheduledTime"
-                                value={job.scheduledTime}
-                                type="time"
-                                className="form-control"
-                                placeholder="Scheduled Time"
-
-                                onChange={(event) => {
-                                    const copy = { ...job };
-                                    copy.scheduledTime = event.target.value;
-                                    setJob(copy);
-                                }}
-                            />
+                            {timeSlotBuilder()}
                         </div>
                     </fieldset>
                     <fieldset>

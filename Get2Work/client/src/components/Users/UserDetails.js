@@ -1,103 +1,67 @@
 import React, { useEffect, useState } from "react"
-import { Card, CardBody } from "reactstrap";
-import { useNavigate, useParams } from 'react-router-dom'
-import { editStore, getStore } from "../../modules/storeManager";
+import { Card, CardBody, Col, Row } from "reactstrap";
+import { useParams } from 'react-router-dom'
 import { getUserDetails } from "../../modules/authManager";
-import firebase from 'firebase';
+import Job from "../Jobs/Job";
+
 
 const UserDetails = () => {
-    const navigate = useNavigate();
-    const { id } = useParams();
+
+    const { firebaseId } = useParams();
     const [userProfile, setUserProfile] = useState({})
+
     useEffect(() => {
-        getUserDetails(firebase.auth().currentUser.uid).then(setUserProfile);
+        getUserDetails(firebaseId).then(setUserProfile);
     }, []);
 
-    // const handleSubmitStore = (evt) => {
-    //     evt.preventDefault();
-    //     if (store.address && store.name) {
-    //         editStore(store)
-    //             .then(() => {
-    //                 const copy = { ...store };
-    //                 copy.name = "";
-    //                 copy.phoneNumber = "";
-    //                 copy.address = "";
-    //                 setStore(copy);
-    //                 navigate('/storelist')
 
-
-    //             });
-    //     }
-    //     else {
-    //         alert('Store cannot be blank.')
-    // }
-    //     }
     return (
+
+
         <div className="container">
-            <Card>
-                <p className="text-left px-2">Personal Information</p>
-                <CardBody>
+            <Row>
+                <Col>
+                    <Card>
+                        <p className="text-left px-2">Personal Information</p>
+                        <CardBody>
 
-                    <fieldset>
-                        <div className="form-group">
-                            <p>
-                                <label htmlFor="name">Employee: {userProfile.fullName} </label>
-                            </p>
-                            <p>
-                                <label htmlFor="name">Phone: {userProfile.phoneNumber} </label>
-                            </p>
-                            <p>
-                                <label htmlFor="name">Email: {userProfile.email} </label>
-                            </p>
+                            <fieldset>
+                                <div className="form-group">
+                                    <p>
+                                        <label htmlFor="name">Employee: {userProfile.fullName} </label>
+                                    </p>
+                                    <p>
+                                        <label htmlFor="name">Phone: {userProfile.phoneNumber} </label>
+                                    </p>
+                                    <p>
+                                        <label htmlFor="name">Email: {userProfile.email} </label>
+                                    </p>
 
-                        </div>
-                    </fieldset>
-                    {/* <fieldset>
-                        <div className="form-group">
-                            <label htmlFor="phoneNumber">Phone Number: </label>
-                            <input
-                                required
-                                id="phoneNumber"
-                                value={store.phoneNumber}
-                                type="text"
-                                className="form-control"
-                                placeholder="Phone Number"
+                                </div>
+                            </fieldset>
+                        </CardBody>
+                    </Card>
+                </Col>
+                <Col>
+                    <Card>
+                        <Row>
+                            <Col>
+                                <div className="container">
+                                    <h2>Users Schedule</h2>
+                                    <div className="row justify-content-center">
+                                        {userProfile.scheduledJobs?.map((p) => (
+                                            <Job job={p} key={p.id} />
+                                        ))}
+                                    </div>
+                                </div>
+                            </Col>
 
-                                onChange={(event) => {
-                                    const copy = { ...store };
-                                    copy.phoneNumber = event.target.value;
-                                    setStore(copy);
-                                }} />
-                        </div>
-                    </fieldset>
-                    <fieldset>
-                        <div className="form-group">
-                            <label htmlFor="address">Store Address: </label>
-                            <input
-                                required
-                                value={store.address}
-                                id="address"
-                                type="text"
-                                className="form-control"
-                                placeholder="Store Address"
-
-                                onChange={(event) => {
-                                    const copy = { ...store };
-                                    copy.address = event.target.value;
-                                    setStore(copy);
-                                }} />
-                        </div>
-                    </fieldset>
-                    <button
-                        style={{ marginTop: '20px' }}
-                        className="btn btn-success"
-                        onClick={(event) => {
-                            handleSubmitStore(event)
-                        }}>Submit Store</button> */}
-
-                </CardBody>
-            </Card>
+                        </Row>
+                    </Card>
+                </Col>
+            </Row>
         </div>
+
     )
 }
 
