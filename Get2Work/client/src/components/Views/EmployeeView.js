@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom"
 import CompleteJobForm from "../CompletedJobs/CompleteJobForm"
-import JobList from "../Jobs/JobList"
 import UserJobList from "../Jobs/UserJobList"
 import UserDetails from "../Users/UserDetails"
 import UserSchedule from "../Users/UserSchedule"

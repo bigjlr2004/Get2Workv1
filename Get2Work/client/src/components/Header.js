@@ -62,6 +62,10 @@ export default function Header({ isLoggedIn, role }) {
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/weeklyview">Week Schedule</NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/alljobs">ActiveStatus</NavLink>
+                </NavItem>
+
               </>
             }
             {isLoggedIn &&
@@ -70,7 +74,7 @@ export default function Header({ isLoggedIn, role }) {
                 <NavItem>
                   <a aria-current="page" className="nav-link"
                     style={{ cursor: "pointer" }}
-                    onClick={(event) => {
+                    onClick={() => {
                       logout()
                       navigate("/login")
 
