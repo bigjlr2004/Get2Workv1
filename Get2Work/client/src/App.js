@@ -10,7 +10,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(null), [role, setRole] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(null), [role, setRole] = useState(""), [userObj, setUserObj] = useState({});
 
 
   useEffect(() => {
@@ -23,6 +23,7 @@ function App() {
       getUserDetails(firebase.auth().currentUser.uid)
         .then(userObject => {
           setRole(userObject.userType.name)
+          setUserObj(userObject)
         })
     } else {
       setRole("")
@@ -37,7 +38,7 @@ function App() {
       <Routes>
         <Route path="*" element={
           <>
-            <Header isLoggedIn={isLoggedIn} role={role} />
+            <Header isLoggedIn={isLoggedIn} role={role} userObj={userObj} />
             <ApplicationViews isLoggedIn={isLoggedIn} role={role} />
           </>
         } />

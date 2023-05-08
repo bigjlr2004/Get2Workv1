@@ -31,7 +31,6 @@ const EditJob = () => {
     const getStore = () => {
         getJobById(id).then((data) => setJob(data));
         getStores().then(data => setStores(data));
-
         getUserProfiles().then(data => setUsers(data));
 
     };
@@ -40,6 +39,13 @@ const EditJob = () => {
         getDays().then(data => setDaysOfWeek(data));
         getStore();
     }, []);
+
+    const availableTimes = [
+        '08:00AM', '08:30AM', '09:00AM', '09:30AM', '10:00AM', '10:30AM',
+        '11:00AM', '11:30AM', '12:00PM', '12:30PM', '01:00PM', '01:30PM',
+        '02:00PM', '02:30PM', '03:00PM', '03:30PM', '04:00PM', '04:30PM',
+        '05:00PM'
+    ];
 
     const handleSubmitJob = (evt) => {
         evt.preventDefault();
@@ -83,6 +89,24 @@ const EditJob = () => {
             });
         }
     };
+    const timeSlotBuilder = () => {
+        return (
+            <select value={job.scheduledTime}
+
+                onChange={(event) => {
+                    const copy = { ...job };
+                    copy.scheduledTime = event.target.value;
+                    setJob(copy);
+                }}>
+                {availableTimes.map(timeSlot => (
+                    <option key={timeSlot} value={timeSlot} defaultValue={job.scheduledTime}>
+                        {timeSlot}
+                    </option>
+                ))}
+            </select>
+        );
+    };
+
 
     const getCheckboxGroup = (days) => {
         const dayIds = days.map((day) => day.id);
@@ -186,6 +210,9 @@ const EditJob = () => {
                     </fieldset>
                     <fieldset>
                         <div className="form-group" style={{ marginTop: '20px' }}>
+                            {timeSlotBuilder()}
+                        </div>
+                        {/* <div className="form-group" style={{ marginTop: '20px' }}>
                             <label htmlFor="scheduledTime">Scheduled Time: </label>
                             <input
                                 required
@@ -201,7 +228,7 @@ const EditJob = () => {
                                     setJob(copy);
                                 }}
                             />
-                        </div>
+                        </div> */}
                     </fieldset>
                     <fieldset>
                         <div className="form-group" style={{ marginTop: '20px' }}>

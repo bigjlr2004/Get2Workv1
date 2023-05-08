@@ -28,7 +28,7 @@ export const ManagerView = ({ isLoggedIn, role }) => {
                 <Route element={isLoggedIn && role === "Manager" ? <UserList /> : <Navigate to="/login" />} />
                 <Route path="storelist" element={<StoreList />} />
                 <Route path="userlist" element={<UserList />} />
-                <Route path="userdetails" element={<UserDetails />} />
+                <Route path="userdetails/:firebaseId" element={<UserDetails />} />
                 <Route path="userschedule" element={<UserSchedule />} />
                 <Route path="userjoblist" element={<UserJobList />} />
                 <Route path="addstore" element={<AddStore />} />

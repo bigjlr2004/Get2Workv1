@@ -58,6 +58,7 @@ const CompleteJobForm = () => {
         }
     }
 
+
     const returnTime = (datetoBeConverted) => {
         const date = new Date(datetoBeConverted);
         const options = {

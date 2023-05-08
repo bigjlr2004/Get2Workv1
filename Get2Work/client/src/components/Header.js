@@ -13,7 +13,7 @@ import {
 import { logout } from '../modules/authManager';
 
 
-export default function Header({ isLoggedIn, role }) {
+export default function Header({ isLoggedIn, role, userObj }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const navigate = useNavigate();
@@ -40,10 +40,7 @@ export default function Header({ isLoggedIn, role }) {
             {role === "Employee" &&
               <>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/userdetails">MyInfo</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/userschedule">Schedule</NavLink>
+                  <NavLink tag={RRNavLink} to={`/userdetails/${userObj?.firebaseUserId}`}>Schedule</NavLink>
                 </NavItem>
 
               </>

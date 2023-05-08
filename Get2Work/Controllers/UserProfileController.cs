@@ -13,10 +13,12 @@ namespace Get2Work.Controllers
     public class UserProfileController : ControllerBase
     {
         private readonly IUserProfileRepository _userProfileRepository;
+        private IJobRepository _jobRepository;
        
-        public UserProfileController(IUserProfileRepository userProfileRepository)
+        public UserProfileController(IUserProfileRepository userProfileRepository, IJobRepository jobRepository)
         {
             _userProfileRepository = userProfileRepository;
+            _jobRepository  = jobRepository;
             
         }
 
@@ -37,7 +39,9 @@ namespace Get2Work.Controllers
         [HttpGet("{firebaseUserId}")]
         public IActionResult GetUserProfile(string firebaseUserId)
         {
-            return Ok(_userProfileRepository.GetByFirebaseUserId(firebaseUserId));
+            UserProfile user = _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+            user.ScheduledJobs = _jobRepository.GetAllJobsScheduledByUser(firebaseUserId);
+            return Ok(user);
         }
 
         [HttpGet("DoesUserExist/{firebaseUserId}")]
