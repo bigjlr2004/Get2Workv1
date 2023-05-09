@@ -10,8 +10,9 @@ namespace Get2Work.Models
         public int Id { get; set; }
         public string Date { get; set; } 
         public int JobId { get; set; }
-       
 
+
+        List<object> Items { get; set; }
 
         public List<int> DaysScheduled { get; set; }
     }

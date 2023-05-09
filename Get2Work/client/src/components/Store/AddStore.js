@@ -35,66 +35,52 @@ const AddStore = () => {
     return (
         <div className="container">
             <Card>
-                <p className="text-left px-2">Edit Store Form</p>
+                <h3 className="mt-3 ms-3 text-left px-2">New Store</h3>
                 <CardBody>
-
                     <fieldset>
-                        <div className="form-group">
-                            <label htmlFor="name">Store Name: </label>
-                            <input
+                        <div className={"form-floating mb-3"}>
+                            <input type="text" className="form-control" id="floatingInput" placeholder="Store Name"
                                 required
-                                id="name"
-                                type="text"
                                 value={store.name}
-                                className="form-control"
-                                placeholder="Store Name"
-
                                 onChange={(event) => {
                                     const copy = { ...store };
                                     copy.name = event.target.value;
                                     setStore(copy);
                                 }} />
+                            <label htmlFor={"floatingInput"}>Store Description</label>
                         </div>
                     </fieldset>
                     <fieldset>
-                        <div className="form-group">
-                            <label htmlFor="phoneNumber">Phone Number: </label>
-                            <input
+                        <div className={"form-floating mb-3"}>
+                            <input type="text" className="form-control" id="floatingPhone"
                                 required
-                                id="phoneNumber"
-                                value={store.phoneNumber}
-                                type="text"
-                                className="form-control"
                                 placeholder="Phone Number"
-
+                                value={store.phoneNumber}
                                 onChange={(event) => {
                                     const copy = { ...store };
                                     copy.phoneNumber = event.target.value;
                                     setStore(copy);
                                 }} />
+                            <label htmlFor="floatingPhone">Phone Number</label>
                         </div>
                     </fieldset>
                     <fieldset>
-                        <div className="form-group">
-                            <label htmlFor="address">Store Address: </label>
-                            <input
+                        <div className={"form-floating mb-3"}>
+                            <input type="text" className="form-control" id="floatingAddress"
+                                placeholder="Address"
                                 required
                                 value={store.address}
-                                id="address"
-                                type="text"
-                                className="form-control"
-                                placeholder="Store Address"
-
                                 onChange={(event) => {
                                     const copy = { ...store };
                                     copy.address = event.target.value;
                                     setStore(copy);
                                 }} />
+                            <label htmlFor="floatingAddress">Address</label>
                         </div>
                     </fieldset>
                     <button
                         style={{ marginTop: '20px' }}
-                        className="btn btn-success"
+                        className="btn btn-primary"
                         onClick={(event) => {
                             handleSubmitStore(event)
                         }}>Submit Store</button>
