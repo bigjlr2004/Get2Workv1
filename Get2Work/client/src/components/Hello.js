@@ -9,6 +9,8 @@ export default function Hello() {
       top: "50%",
       marginTop: "-0.5rem",
       textAlign: "center",
-    }}><h3>hello beautiful</h3></span>
+    }}><h3>You currently have no jobs scheduled.</h3>
+      <h3>Please check back later to see if you have been scheduled.</h3>
+      <h3> Or if you are feeling lucky call your manager ask him sup??.</h3></span>
   );
 }

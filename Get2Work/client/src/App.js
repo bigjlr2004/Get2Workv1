@@ -39,7 +39,7 @@ function App() {
         <Route path="*" element={
           <>
             <Header isLoggedIn={isLoggedIn} role={role} userObj={userObj} />
-            <ApplicationViews isLoggedIn={isLoggedIn} role={role} />
+            <ApplicationViews isLoggedIn={isLoggedIn} role={role} userObj={userObj} />
           </>
         } />
         <Route path="login" element={

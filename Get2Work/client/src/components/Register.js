@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Container, Card, CardBody } from 'reactstrap';
 import { useNavigate } from "react-router-dom";
 import { register } from "../modules/authManager";
 
@@ -10,7 +10,7 @@ export default function Register() {
   const [lastName, setLastName] = useState();
   const [displayName, setDisplayName] = useState();
   const [email, setEmail] = useState();
-  const [address, setAddress] = useState();
+  const [phoneNumber, setPhoneNumber] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
 
@@ -24,75 +24,120 @@ export default function Register() {
         lastName,
         displayName,
         email,
-        address
+        phoneNumber
       };
       register(userProfile, password).then(() => navigate("/"));
     }
   };
 
   return (
-    <Form onSubmit={registerClick}>
-      <fieldset>
-        <FormGroup>
-          <Label htmlFor="firstName">First Name</Label>
-          <Input
-            id="firstName"
-            type="text"
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="lastName">Last Name</Label>
-          <Input
-            id="lastName"
-            type="text"
-            onChange={(e) => setLastName(e.target.value)}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="displayName">Display Name</Label>
-          <Input
-            id="displayName"
-            type="text"
-            onChange={(e) => setDisplayName(e.target.value)}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="email">Email</Label>
-          <Input
-            id="email"
-            type="text"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="Address">Address</Label>
-          <Input
-            id="Address"
-            type="text"
-            onChange={(e) => setAddress(e.target.value)}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="password">Password</Label>
-          <Input
-            id="password"
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="confirmPassword">Confirm Password</Label>
-          <Input
-            id="confirmPassword"
-            type="password"
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Button>Register</Button>
-        </FormGroup>
-      </fieldset>
-    </Form>
+    <Container>
+      <Card>
+
+        <CardBody>
+          <Form>
+            <fieldset>
+              <FormGroup>
+                <div className="form-floating mb-3">
+                  <input
+                    autoComplete="off"
+                    className="form-control"
+                    id="firstName"
+                    type="text"
+                    placeholder="First Name"
+                    autoFocus
+                    onChange={(e) => setFirstName(e.target.value)}
+                  />
+                  <Label htmlFor="firstName" >First Name</Label>
+                </div>
+              </FormGroup>
+              <FormGroup>
+                <div className="form-floating mb-3">
+                  <input
+                    autoComplete="off"
+                    className="form-control"
+                    id="lastName"
+                    placeholder="First Name"
+                    type="text"
+                    onChange={(e) => setLastName(e.target.value)}
+                  />
+                  <Label htmlFor="lastName">Last Name</Label>
+                </div>
+              </FormGroup>
+              <FormGroup>
+                <div className="form-floating mb-3">
+                  <input
+                    autoComplete="off"
+                    className="form-control"
+                    placeholder="Display Name"
+                    id="displayName"
+                    type="text"
+                    onChange={(e) => setDisplayName(e.target.value)}
+                  />
+                  <Label htmlFor="displayName">Display Name</Label>
+                </div>
+              </FormGroup>
+              <FormGroup>
+                <div className="form-floating mb-3">
+                  <input
+                    autoComplete="off"
+                    className="form-control"
+                    placeholder="Display Name"
+                    id="email"
+                    type="text"
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                  <Label for="email">Email</Label>
+                </div>
+              </FormGroup>
+              <FormGroup>
+                <div className="form-floating mb-3">
+                  <input
+                    autoComplete="off"
+                    className="form-control"
+                    placeholder="Phone Number"
+                    id="phoneNumber"
+                    type="text"
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                  />
+                  <Label htmlFor="phoneNumber">Phone Number</Label>
+                </div>
+              </FormGroup>
+              <FormGroup>
+                <div className="form-floating mb-3">
+                  <input
+                    className="form-control"
+                    autoComplete="off"
+                    placeholder="Password"
+                    id="password"
+                    type="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <Label for="password">Password</Label>
+                </div>
+              </FormGroup>
+              <FormGroup>
+                <div className="form-floating mb-3">
+                  <input
+                    className="form-control"
+                    autoComplete="off"
+                    placeholder="Confirm Password"
+                    id="confirmPassword"
+                    type="password"
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                  <Label for="confirmPassword">Confirm Password</Label>
+                </div>
+              </FormGroup>
+              <FormGroup>
+                <button className="btn btn-primary mt-3"
+                  onClick={registerClick}>Register</button>
+              </FormGroup>
+            </fieldset>
+          </Form>
+        </CardBody>
+      </Card>
+    </Container>
+
   );
 }

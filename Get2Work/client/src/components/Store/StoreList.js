@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { getStores } from "../../modules/storeManager";
 import Store from "./Store";
-import { NavLink } from "reactstrap";
-import { Link, useNavigate } from "react-router-dom";
-import { Button } from 'reactstrap';
+import { Link } from "react-router-dom";
 
 const StoreList = () => {
     const [stores, setStores] = useState([]);
-    const navigate = useNavigate();
+
     const getStore = () => {
         getStores().then(data => setStores(data));
     };

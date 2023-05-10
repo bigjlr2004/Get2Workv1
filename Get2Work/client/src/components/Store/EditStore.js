@@ -14,7 +14,7 @@ const EditStore = () => {
     })
     useEffect(() => {
         getStore(id).then(setStore);
-    }, []);
+    }, [id]);
 
     const handleSubmitStore = (evt) => {
         evt.preventDefault();

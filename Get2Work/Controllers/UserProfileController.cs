@@ -40,8 +40,11 @@ namespace Get2Work.Controllers
         public IActionResult GetUserProfile(string firebaseUserId)
         {
             UserProfile user = _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+
+
             user.ScheduledJobs = _jobRepository.GetAllJobsScheduledByUser(firebaseUserId);
             return Ok(user);
+            
         }
 
         [HttpGet("DoesUserExist/{firebaseUserId}")]

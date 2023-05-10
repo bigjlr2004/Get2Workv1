@@ -3,12 +3,10 @@ using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using Get2Work.Utils;
 using Microsoft.Data.SqlClient;
-using static Azure.Core.HttpHeader;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using System.Xml.Linq;
 using System;
-using System.Reflection.PortableExecutable;
+
 
 namespace Get2Work.Repositories
 {
@@ -222,17 +220,11 @@ namespace Get2Work.Repositories
                      ORDER BY CAST(j.scheduledTime as TIME)
                         ";
 
-                    
-
                     DbUtils.AddParameter(cmd, "@Day", day);
-
-
-
                     var reader = cmd.ExecuteReader();
 
-
-
                     var jobs = new List<Job>();
+
                     while (reader.Read())
                     {
                         var jobId = DbUtils.GetInt(reader, "Id");
@@ -418,20 +410,14 @@ namespace Get2Work.Repositories
                     ORDER BY CAST(j.scheduledTime as TIME)
                         ";
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", firebaseUserId);
-
-
-                   
-
-
-
-                    var reader = cmd.ExecuteReader();
-
-
+                   var reader = cmd.ExecuteReader();
 
                     var jobs = new List<Job>();
                     while (reader.Read())
                     {
-                        var jobId = DbUtils.GetInt(reader, "Id");
+                        if (DbUtils.IsNotDbNull(reader, "Id")) { 
+                        }
+                            var jobId = DbUtils.GetInt(reader, "Id");
                         var existingjob = jobs.FirstOrDefault(p => p.Id == jobId);
                         if (existingjob == null)
                         {

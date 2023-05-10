@@ -51,6 +51,9 @@ export default function Header({ isLoggedIn, role, userObj }) {
                   <NavLink tag={RRNavLink} to="/addjob">New Job</NavLink>
                 </NavItem>
                 <NavItem>
+                  <NavLink tag={RRNavLink} to="/managerschedule">Schedule</NavLink>
+                </NavItem>
+                <NavItem>
                   <NavLink tag={RRNavLink} to="/userlist">Employees</NavLink>
                 </NavItem>
                 <NavItem>
@@ -85,7 +88,7 @@ export default function Header({ isLoggedIn, role, userObj }) {
                   <NavLink tag={RRNavLink} to="/login">Login</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/register">Register</NavLink>
+                  <NavLink tag={RRNavLink} to="/register">New User? / Register Here</NavLink>
                 </NavItem>
               </>
             }

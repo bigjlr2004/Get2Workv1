@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Card, CardBody } from 'reactstrap';
+import { Row, Col, Container } from 'reactstrap';
 import { getAllJobsScheduledToday } from "../../modules/jobManager";
-import Job from "./Job";
 import { GetTodaysCompletedJobsAllUsers } from "../../modules/completedJobsManager";
 import CompletedJob from "../CompletedJobs/CompletedJob";
+import { Scheduled } from "./Scheduled";
 
 
 
@@ -34,35 +34,34 @@ const JobList = () => {
 
 
     return (
-        <Card>
-            <CardBody>
 
 
+        <Container>
+            <Row>
+                <Col>
+                    <div className="container">
+                        <h2>Todays Scheduled Jobs</h2>
 
-                <Row>
-                    <Col>
-                        <div className="container">
-                            <h2>Todays Scheduled Jobs</h2>
-                            <div className="row justify-content-center">
-                                {jobsNotCompleted.map((p) => (
-                                    <Job job={p} key={p.id} />
-                                ))}
-                            </div>
+                        {jobsNotCompleted.map((p) => (
+                            <Scheduled job={p} key={p.id} />
+                        ))}
+                    </div>
+                </Col>
+                <Col>
+
+                    <div className="container">
+                        <h2>Completed Jobs</h2>
+                        <div className="row justify-content-center">
+                            {completedJobs.map((p) => (
+                                <CompletedJob completedJob={p} key={p.id} />
+                            ))}
                         </div>
-                    </Col>
-                    <Col>
-                        <div className="container">
-                            <h2>Completed Jobs</h2>
-                            <div className="row justify-content-center">
-                                {completedJobs.map((p) => (
-                                    <CompletedJob completedJob={p} key={p.id} />
-                                ))}
-                            </div>
-                        </div>
-                    </Col>
-                </Row>
-            </CardBody>
-        </Card>
+                    </div>
+
+                </Col>
+            </Row>
+        </Container>
+
     );
 };
 
