@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { Card, CardBody } from "reactstrap";
 import { useNavigate, useParams } from 'react-router-dom'
-import { addNewJob, editJob, getJobById } from "../../modules/jobManager";
+import { editJob, getJobById } from "../../modules/jobManager";
 import { getStores } from "../../modules/storeManager";
 import { getUserProfiles } from "../../modules/authManager";
 import { getDays } from "../../modules/dayManager";
@@ -32,13 +32,12 @@ const EditJob = () => {
         getJobById(id).then((data) => setJob(data));
         getStores().then(data => setStores(data));
         getUserProfiles().then(data => setUsers(data));
-
+        getDays().then(data => setDaysOfWeek(data));
     };
 
     useEffect(() => {
-        getDays().then(data => setDaysOfWeek(data));
         getStore();
-    }, []);
+    },);
 
     const availableTimes = [
         '08:00AM', '08:30AM', '09:00AM', '09:30AM', '10:00AM', '10:30AM',

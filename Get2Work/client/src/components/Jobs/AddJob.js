@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Card, CardBody } from "reactstrap";
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { addNewJob } from "../../modules/jobManager";
 import { getStores } from "../../modules/storeManager";
 import { getUserProfiles } from "../../modules/authManager";

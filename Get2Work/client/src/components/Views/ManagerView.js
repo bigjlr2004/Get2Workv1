@@ -14,6 +14,7 @@ import WeekDayView from "../Week/WeekDayView";
 import EditJob from "../Jobs/EditJob";
 import AllJobList from "../Jobs/AllJobList";
 import JobList from "../Jobs/JobList";
+import { ManagerSchedule } from "../Jobs/ManagerSchedule";
 
 
 
@@ -39,6 +40,7 @@ export const ManagerView = ({ isLoggedIn, role }) => {
                 <Route path="weeklyview" element={<WeekView />} />
                 <Route path="weeklyview/:day" element={<WeekDayView />} />
                 <Route path="alljobs" element={<AllJobList />} />
+                <Route path="managerschedule" element={<ManagerSchedule />} />
 
 
 

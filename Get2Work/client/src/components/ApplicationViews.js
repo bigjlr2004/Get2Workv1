@@ -1,9 +1,9 @@
 import React from "react";
 import { ManagerView } from "./Views/ManagerView";
 import { EmployeeView } from "./Views/EmployeeView";
-import Login from "./Login";
+import { LoginView } from "./Views/LoginView";
 
-export default function ApplicationViews({ isLoggedIn, role }) {
+export default function ApplicationViews({ isLoggedIn, role, userObj }) {
 
   if (isLoggedIn && role === "Manager") {
     //Return employee Views
@@ -12,11 +12,11 @@ export default function ApplicationViews({ isLoggedIn, role }) {
   } else if (isLoggedIn && role === "Employee") {
     //return customer views
 
-    return <EmployeeView />
+    return <EmployeeView userObj={userObj} />
   }
 
   else {
-    return <Login />
+    return <LoginView />
   };
 
 

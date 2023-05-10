@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { Card, CardBody } from "reactstrap";
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { addStore } from "../../modules/storeManager";
 
 const AddStore = () => {
     const navigate = useNavigate();
-    const { id } = useParams();
     const [store, setStore] = useState({
         name: "",
         phoneNumber: "",

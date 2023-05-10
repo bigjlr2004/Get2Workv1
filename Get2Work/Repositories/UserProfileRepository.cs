@@ -118,14 +118,15 @@ namespace Get2Work.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO UserProfile (DisplayName, FirstName, LastName, Email, ActiveStatus, UserTypeId, FirebaseUserId )
+                        INSERT INTO UserProfile (DisplayName, FirstName, LastName, Email, PhoneNumber, ActiveStatus, UserTypeId, FirebaseUserId )
                         OUTPUT INSERTED.ID
-                        VALUES (@DisplayName, @FirstName, @LastName, @Email, @ActiveStatus, @UserTypeId, @FirebaseUserId)";
+                        VALUES (@DisplayName, @FirstName, @LastName, @Email, @PhoneNumber, @ActiveStatus, @UserTypeId, @FirebaseUserId)";
 
                     DbUtils.AddParameter(cmd, "@FirstName", user.FirstName);
                     DbUtils.AddParameter(cmd, "@LastName", user.LastName);
                     DbUtils.AddParameter(cmd, "@DisplayName", user.DisplayName);
                     DbUtils.AddParameter(cmd, "@Email", user.Email);
+                    DbUtils.AddParameter(cmd, "@PhoneNumber", user.PhoneNumber);
                     DbUtils.AddParameter(cmd, "@ActiveStatus", user.ActiveStatus);
                     DbUtils.AddParameter(cmd, "@UserTypeId", user.UserTypeId);
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", user.FirebaseUserId);
