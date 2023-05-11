@@ -40,7 +40,7 @@ const JobList = () => {
             <Row>
                 <Col>
                     <div className="container">
-                        <h2>Todays Scheduled Jobs</h2>
+                        <h2 className="text-center"> Scheduled Jobs</h2>
 
                         {jobsNotCompleted.map((p) => (
                             <Scheduled job={p} key={p.id} />
@@ -50,7 +50,7 @@ const JobList = () => {
                 <Col>
 
                     <div className="container">
-                        <h2>Completed Jobs</h2>
+                        <h2 className="text-center">Completed Jobs</h2>
                         <div className="row justify-content-center">
                             {completedJobs.map((p) => (
                                 <CompletedJob completedJob={p} key={p.id} />

@@ -4,6 +4,7 @@ using System.Linq;
 using Get2Work.Models;
 using Get2Work.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
 
 namespace Get2Work.Controllers
 {
@@ -25,8 +26,20 @@ namespace Get2Work.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
+            List<UserProfile> UpdateList = new List<UserProfile>();
             var userProfiles = _userProfileRepository.GetAll();
-            return Ok(userProfiles.OrderBy(up => up.DisplayName).ToList());
+            foreach (var userProfile in userProfiles)
+            {
+                List<Job> usersJobs = _jobRepository.GetAllJobsScheduledByUser(userProfile.FirebaseUserId);
+                if (usersJobs != null)
+                {
+                    userProfile.ScheduledJobs = usersJobs;
+                }
+                UpdateList.Add(userProfile);
+                               
+            }
+            
+            return Ok(UpdateList.OrderBy(up => up.FullName).ToList());
         }
 
         [HttpGet("userId/{id}")]
@@ -40,10 +53,16 @@ namespace Get2Work.Controllers
         public IActionResult GetUserProfile(string firebaseUserId)
         {
             UserProfile user = _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+            if (user == null)
+            {
+                return Ok(user);
+            } else
+            {
+                user.ScheduledJobs = _jobRepository.GetAllJobsScheduledByUser(firebaseUserId);
+                return Ok(user);
+            }
 
-
-            user.ScheduledJobs = _jobRepository.GetAllJobsScheduledByUser(firebaseUserId);
-            return Ok(user);
+            
             
         }
 

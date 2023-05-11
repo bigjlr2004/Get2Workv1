@@ -22,7 +22,7 @@ import { ManagerSchedule } from "../Jobs/ManagerSchedule";
 export const ManagerView = ({ isLoggedIn, role }) => {
     return <>
 
-        <main>
+        <main className="main-content">
             <Routes>
                 <Route path="/" element={<JobList />} />
 
@@ -30,7 +30,7 @@ export const ManagerView = ({ isLoggedIn, role }) => {
                 <Route path="storelist" element={<StoreList />} />
                 <Route path="userlist" element={<UserList />} />
                 <Route path="userdetails/:firebaseId" element={<UserDetails />} />
-                <Route path="userschedule" element={<UserSchedule />} />
+                <Route path="userschedule" element={<UserSchedule role={role} />} />
                 <Route path="userjoblist" element={<UserJobList />} />
                 <Route path="addstore" element={<AddStore />} />
                 <Route path="editjob/:id" element={<EditJob />} />
@@ -38,7 +38,7 @@ export const ManagerView = ({ isLoggedIn, role }) => {
                 <Route path="store/:id" element={<EditStore />} />
                 <Route path="completejob/:id" element={<CompleteJobForm />} />
                 <Route path="weeklyview" element={<WeekView />} />
-                <Route path="weeklyview/:day" element={<WeekDayView />} />
+                <Route path="weeklyview/:day" element={<WeekDayView role={role} />} />
                 <Route path="alljobs" element={<AllJobList />} />
                 <Route path="managerschedule" element={<ManagerSchedule />} />
 

@@ -25,7 +25,7 @@ namespace Get2Work.Repositories
                     cmd.CommandText = @"
                   SELECT j.Id, j.UserProfileId, j.Description, j.CreateDateTime, 
                     j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
-                    up.Id as ProfileId, up.FirebaseUserId, up.DisplayName,  up.FirstName, up.LastName, up.PhoneNumber,
+                    up.Id as ProfileId, up.FirebaseUserId,  up.FirstName, up.LastName, up.PhoneNumber,
                     up.Email, up.UserTypeId, up.ActiveStatus,
                     s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus,
                     d.Id as DayId,d.Name as WeekDay,
@@ -59,7 +59,6 @@ namespace Get2Work.Repositories
                                 {
                                     Id = DbUtils.GetInt(reader, "ProfileId"),
                                     FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
-                                    DisplayName = DbUtils.GetString(reader, "DisplayName"),
                                     FirstName = DbUtils.GetString(reader, "FirstName"),
                                     LastName = DbUtils.GetString(reader, "LastName"),
                                     PhoneNumber = DbUtils.GetString(reader, "PhoneNumber"),
@@ -108,7 +107,7 @@ namespace Get2Work.Repositories
                     cmd.CommandText = @"
                   SELECT j.Id, j.UserProfileId, j.Description, j.CreateDateTime, 
                     j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
-                    up.Id as ProfileId, up.FirebaseUserId, up.DisplayName AS UserProfileName, up.FirstName, up.LastName, up.PhoneNumber,
+                    up.Id as ProfileId, up.FirebaseUserId, up.FirstName, up.LastName, up.PhoneNumber,
                     up.Email, up.UserTypeId, up.ActiveStatus,
                     s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus,
                     d.Id as DayId,d.Name as WeekDay,
@@ -157,7 +156,6 @@ namespace Get2Work.Repositories
                                 {
                                     Id = DbUtils.GetInt(reader, "ProfileId"),
                                     FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
-                                    DisplayName = DbUtils.GetString(reader, "UserProfileName"),
                                     FirstName = DbUtils.GetString(reader, "FirstName"),
                                     LastName = DbUtils.GetString(reader, "LastName"),
                                     PhoneNumber = DbUtils.GetString(reader,"PhoneNumber"),
@@ -206,7 +204,7 @@ namespace Get2Work.Repositories
                     cmd.CommandText = @"
                   SELECT j.Id, j.UserProfileId, j.Description, j.CreateDateTime, 
                     j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
-                    up.Id as ProfileId, up.FirebaseUserId, up.DisplayName AS UserProfileName, up.FirstName, up.LastName, up.PhoneNumber,
+                    up.Id as ProfileId, up.FirebaseUserId, up.FirstName, up.LastName, up.PhoneNumber,
                     up.Email, up.UserTypeId, up.ActiveStatus,
                     s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus,
                     d.Id as DayId,d.Name as WeekDay,
@@ -246,7 +244,6 @@ namespace Get2Work.Repositories
                                 {
                                     Id = DbUtils.GetInt(reader, "ProfileId"),
                                     FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
-                                    DisplayName = DbUtils.GetString(reader, "UserProfileName"),
                                     FirstName = DbUtils.GetString(reader, "FirstName"),
                                     LastName = DbUtils.GetString(reader, "LastName"),
                                     PhoneNumber = DbUtils.GetString(reader, "PhoneNumber"),
@@ -296,7 +293,7 @@ namespace Get2Work.Repositories
                     cmd.CommandText = @"
                   SELECT j.Id, j.UserProfileId, j.Description, j.CreateDateTime, 
                     j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
-                    up.Id as ProfileId, up.FirebaseUserId, up.DisplayName, up.FirstName, up.LastName, up.PhoneNumber,
+                    up.Id as ProfileId, up.FirebaseUserId,  up.FirstName, up.LastName, up.PhoneNumber,
                     up.Email, up.UserTypeId, up.ActiveStatus,
                     s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus,
                     d.Id as DayId,d.Name as WeekDay,
@@ -347,7 +344,6 @@ namespace Get2Work.Repositories
                                 {
                                     Id = DbUtils.GetInt(reader, "ProfileId"),
                                     FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
-                                    DisplayName = DbUtils.GetString(reader, "DisplayName"),
                                     FirstName = DbUtils.GetString(reader, "FirstName"),
                                     LastName = DbUtils.GetString(reader, "LastName"),
                                     PhoneNumber = DbUtils.GetString(reader, "PhoneNumber"),
@@ -396,7 +392,7 @@ namespace Get2Work.Repositories
                     cmd.CommandText = @"
                   SELECT j.Id, j.UserProfileId, j.Description, j.CreateDateTime, 
                     j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
-                    up.Id as ProfileId, up.FirebaseUserId, up.DisplayName, up.FirstName, up.LastName, up.PhoneNumber,
+                    up.Id as ProfileId, up.FirebaseUserId,  up.FirstName, up.LastName, up.PhoneNumber,
                     up.Email, up.UserTypeId, up.ActiveStatus,
                     s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus,
                     d.Id as DayId,d.Name as WeekDay,
@@ -436,7 +432,6 @@ namespace Get2Work.Repositories
                                 {
                                     Id = DbUtils.GetInt(reader, "ProfileId"),
                                     FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
-                                    DisplayName = DbUtils.GetString(reader, "DisplayName"),
                                     FirstName = DbUtils.GetString(reader, "FirstName"),
                                     LastName = DbUtils.GetString(reader, "LastName"),
                                     PhoneNumber = DbUtils.GetString(reader, "PhoneNumber"),
@@ -484,7 +479,7 @@ namespace Get2Work.Repositories
                     cmd.CommandText = @"
                      SELECT j.Id, j.UserProfileId, j.Description, j.CreateDateTime, 
                     j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
-                    up.Id as ProfileId, up.FirebaseUserId, up.DisplayName, up.FirstName, up.LastName, up.PhoneNumber,
+                    up.Id as ProfileId, up.FirebaseUserId, up.FirstName, up.LastName, up.PhoneNumber,
                     up.Email, up.UserTypeId, up.ActiveStatus,
                     s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus,
                     d.Id as DayId,d.Name as WeekDay,
@@ -542,7 +537,7 @@ namespace Get2Work.Repositories
                     cmd.CommandText = @"
                      SELECT j.Id, j.UserProfileId, j.Description, j.CreateDateTime, 
                     j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
-                    up.Id as ProfileId, up.FirebaseUserId, up.DisplayName AS UserProfileName, up.FirstName, up.LastName,
+                    up.Id as ProfileId, up.FirebaseUserId, up.FirstName, up.LastName,
                     up.Email, up.UserTypeId, up.ActiveStatus,
                     s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus
                     FROM Job j
@@ -628,7 +623,6 @@ namespace Get2Work.Repositories
                 {
                     Id = DbUtils.GetInt(reader, "ProfileId"),
                     FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
-                    DisplayName = DbUtils.GetString(reader, "DisplayName"),
                     FirstName = DbUtils.GetString(reader, "FirstName"),
                     LastName = DbUtils.GetString(reader, "LastName"),
                     Email = DbUtils.GetString(reader, "Email"),

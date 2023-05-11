@@ -8,7 +8,7 @@ import Job from "../Jobs/Job";
 
 
 
-const WeekDayView = () => {
+const WeekDayView = ({ role }) => {
 
     const [scheduledJobs, setScheduledJobs] = useState([]);
     const { day } = useParams();
@@ -26,7 +26,7 @@ const WeekDayView = () => {
                     <h2>Scheduled Jobs for {day}</h2>
                     <div className="row justify-content-center">
                         {scheduledJobs.map((p) => (
-                            <Job job={p} key={p.id} />
+                            <Job job={p} key={p.id} role={role} />
                         ))}
                     </div>
                 </div>

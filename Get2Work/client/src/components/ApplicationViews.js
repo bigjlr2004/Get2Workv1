@@ -11,8 +11,7 @@ export default function ApplicationViews({ isLoggedIn, role, userObj }) {
 
   } else if (isLoggedIn && role === "Employee") {
     //return customer views
-
-    return <EmployeeView userObj={userObj} />
+    return <EmployeeView userObj={userObj} isLoggedIn={isLoggedIn} role={role} />
   }
 
   else {

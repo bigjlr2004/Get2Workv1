@@ -1,4 +1,4 @@
-import { Button, Card, CardBody, CardFooter, CardGroup, CardHeader, CardImg, CardSubtitle, CardText, CardTitle, Col, ListGroup, ListGroupItem, Row } from "reactstrap"
+import { Card, CardBody, CardFooter, CardSubtitle, CardTitle, } from "reactstrap"
 
 export const Scheduled = ({ job }) => {
 
@@ -18,7 +18,7 @@ export const Scheduled = ({ job }) => {
                 >
                 </CardSubtitle>
             </CardBody>
-            <CardFooter className="bg-primary bg-opacity-90 text-white d-flex justify-content-between">
+            <CardFooter className="card-footer  text-white d-flex justify-content-between">
 
                 <div>
                     {job.userProfile.fullName} - {job.userProfile.phoneNumber}

@@ -108,126 +108,129 @@ const AddJob = () => {
 
 
     return (
-        <div className="container">
-            <Card>
-                <h3 className="mt-3 ms-3 text-left px-2">Create A New Job</h3>
-                <CardBody>
+        <main>
 
-                    <fieldset>
-                        <div className={"form-floating mb-3"}>
-                            <input type="text" className="form-control" id="floatingInput" placeholder="name@example.com"
-                                value={job.description}
-                                onChange={(event) => {
-                                    const copy = { ...job };
-                                    copy.description = event.target.value;
-                                    setJob(copy);
-                                }} />
-                            <label htmlFor="floatingInput">Job Description</label>
+            <div className="container">
+                <Card>
+                    <h3 className="mt-3 ms-3 text-left px-2">Create A New Job</h3>
+                    <CardBody>
 
-                        </div>
-                    </fieldset>
-                    <fieldset>
-                        {days.map((dayObj) => {
-                            return (
-                                <div key={dayObj.id} className=" ms-2 form-check form-check-inline mb-3">
-                                    <label>
-                                        <input
-                                            className="form-check-input"
-                                            id="FlexCheckDefault"
-                                            type="checkbox"
-                                            value={(dayObj.id)}
-                                            onChange={handleCheckboxChange}
-                                        />
-                                        {dayObj.name}
-                                    </label>
-                                </div>
-                            )
-                        })}
+                        <fieldset>
+                            <div className={"form-floating mb-3"}>
+                                <input type="text" className="form-control" id="floatingInput" placeholder="name@example.com"
+                                    value={job.description}
+                                    onChange={(event) => {
+                                        const copy = { ...job };
+                                        copy.description = event.target.value;
+                                        setJob(copy);
+                                    }} />
+                                <label htmlFor="floatingInput">Job Description</label>
 
-                    </fieldset>
-                    <fieldset>
-                        <div className="form-floating">
-                            <select className={"form-select form-select-md mb-3"}
-                                aria-label={"Floating label select example"}
-                                value={job.storeId}
-                                id="floatingstores"
-                                onChange={(event) => {
-                                    const copy = { ...job }
-                                    copy.storeId = parseInt(event.target.value)
-                                    setJob(copy)
-                                }}>
-                                <option>Choose a Store</option>
-                                {
-                                    stores.map((store) => {
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            {days.map((dayObj) => {
+                                return (
+                                    <div key={dayObj.id} className=" ms-2 form-check form-check-inline mb-3">
+                                        <label>
+                                            <input
+                                                className="form-check-input"
+                                                id="FlexCheckDefault"
+                                                type="checkbox"
+                                                value={(dayObj.id)}
+                                                onChange={handleCheckboxChange}
+                                            />
+                                            {dayObj.name}
+                                        </label>
+                                    </div>
+                                )
+                            })}
+
+                        </fieldset>
+                        <fieldset>
+                            <div className="form-floating">
+                                <select className={"form-select form-select-md mb-3"}
+                                    aria-label={"Floating label select example"}
+                                    value={job.storeId}
+                                    id="floatingstores"
+                                    onChange={(event) => {
+                                        const copy = { ...job }
+                                        copy.storeId = parseInt(event.target.value)
+                                        setJob(copy)
+                                    }}>
+                                    <option>Choose a Store</option>
+                                    {
+                                        stores.map((store) => {
+                                            return (
+                                                <option key={store.id} value={store.id}>
+                                                    {store.name}
+                                                </option>
+                                            )
+                                        })
+                                    }
+                                </select>
+                                <label htmlFor="floatingStores">Selected Store</label>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <div className="form-floating">
+                                <select className={"form-select form-select-md mb-3"}
+                                    aria-label={"Floating label select example"}
+                                    value={job.userProfileId}
+                                    id="floatingSelect"
+                                    onChange={(event) => {
+                                        const copy = { ...job }
+                                        copy.userProfileId = parseInt(event.target.value)
+                                        setJob(copy)
+                                    }}>
+                                    <option>Assign an Employee</option>
+                                    {users.map((user) => {
                                         return (
-                                            <option key={store.id} value={store.id}>
-                                                {store.name}
+                                            <option key={user.id} value={user.id}>
+                                                {user.fullName}
                                             </option>
                                         )
                                     })
-                                }
-                            </select>
-                            <label htmlFor="floatingStores">Selected Store</label>
-                        </div>
-                    </fieldset>
-                    <fieldset>
-                        <div className="form-floating">
-                            <select className={"form-select form-select-md mb-3"}
-                                aria-label={"Floating label select example"}
-                                value={job.userProfileId}
-                                id="floatingSelect"
-                                onChange={(event) => {
-                                    const copy = { ...job }
-                                    copy.userProfileId = parseInt(event.target.value)
-                                    setJob(copy)
-                                }}>
-                                <option>Assign an Employee</option>
-                                {users.map((user) => {
-                                    return (
-                                        <option key={user.id} value={user.id}>
-                                            {user.displayName}
-                                        </option>
-                                    )
-                                })
-                                }
-                            </select>
-                            <label htmlFor="floatingSelect">Selected Employee</label>
-                        </div>
-                    </fieldset>
-                    <fieldset>
-                        <div className="form-floating">
+                                    }
+                                </select>
+                                <label htmlFor="floatingSelect">Selected Employee</label>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <div className="form-floating">
 
-                            {timeSlotBuilder()}
-                            <label htmlFor="floatingTime">Scheduled For:</label>
-                        </div>
-                    </fieldset>
-                    <fieldset>
-                        <div className={"form-floating mb-3"}>
-                            <input
-                                required
-                                value={job.notes}
-                                type="text"
-                                className="form-control"
-                                id="floatingNotes"
-                                placeholder="Notes the Job"
-                                onChange={(event) => {
-                                    const copy = { ...job };
-                                    copy.notes = event.target.value;
-                                    setJob(copy);
-                                }} />
-                            <label htmlFor="floatingNotes">Notes About the Job</label>
-                        </div>
-                    </fieldset>
-                    <button
-                        style={{ marginTop: '20px' }}
-                        className="btn btn-primary"
-                        onClick={(event) => {
-                            handleSubmitJob(event)
-                        }}>Submit Job</button>
+                                {timeSlotBuilder()}
+                                <label htmlFor="floatingTime">Scheduled For:</label>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <div className={"form-floating mb-3"}>
+                                <input
+                                    required
+                                    value={job.notes}
+                                    type="text"
+                                    className="form-control"
+                                    id="floatingNotes"
+                                    placeholder="Notes the Job"
+                                    onChange={(event) => {
+                                        const copy = { ...job };
+                                        copy.notes = event.target.value;
+                                        setJob(copy);
+                                    }} />
+                                <label htmlFor="floatingNotes">Notes About the Job</label>
+                            </div>
+                        </fieldset>
+                        <button
+                            style={{ marginTop: '20px' }}
+                            className="btn btn-primary"
+                            onClick={(event) => {
+                                handleSubmitJob(event)
+                            }}>Submit Job</button>
 
-                </CardBody>
-            </Card>
-        </div>
+                    </CardBody>
+                </Card>
+            </div>
+        </main>
     )
 }
 
