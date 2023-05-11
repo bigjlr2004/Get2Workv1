@@ -28,7 +28,7 @@ const EditJob = () => {
     const [users, setUsers] = useState([]);
 
 
-    const getStore = () => {
+    const getStore = (id) => {
         getJobById(id).then((data) => setJob(data));
         getStores().then(data => setStores(data));
         getUserProfiles().then(data => setUsers(data));
@@ -36,8 +36,8 @@ const EditJob = () => {
     };
 
     useEffect(() => {
-        getStore();
-    },);
+        getStore(id);
+    }, []);
 
     const availableTimes = [
         '08:00AM', '08:30AM', '09:00AM', '09:30AM', '10:00AM', '10:30AM',
@@ -195,7 +195,7 @@ const EditJob = () => {
                                 {users.map((user) => {
                                     return (
                                         <option key={user.id} value={user.id}>
-                                            {user.displayName}
+                                            {user.fullName}
                                         </option>
                                     )
                                 })

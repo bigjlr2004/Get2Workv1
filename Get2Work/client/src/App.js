@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { Spinner } from 'reactstrap';
+import { Container, Spinner } from 'reactstrap';
+import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import firebase from 'firebase/app';
 import Header from './components/Header';
@@ -8,6 +9,8 @@ import ApplicationViews from './components/ApplicationViews';
 import { getUserDetails, onLoginStatusChange } from './modules/authManager';
 import Login from './components/Login';
 import Register from './components/Register';
+import { AppFooter } from './components/Footer';
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null), [role, setRole] = useState(""), [userObj, setUserObj] = useState({});
@@ -40,6 +43,7 @@ function App() {
           <>
             <Header isLoggedIn={isLoggedIn} role={role} userObj={userObj} />
             <ApplicationViews isLoggedIn={isLoggedIn} role={role} userObj={userObj} />
+
           </>
         } />
         <Route path="login" element={
@@ -52,6 +56,7 @@ function App() {
             <Header isLoggedIn={isLoggedIn} role={role} />
             <Register />
           </>} />
+
       </Routes>
     </Router>
   );

@@ -10,6 +10,8 @@ const CompleteJobForm = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const [job, setJob] = useState({})
+    const [currentTime, setCurrentTime] = useState()
+
     const [timeDisplay, setTimeDisplay] = useState({
         timeIn: "",
         timeOut: ""
@@ -69,6 +71,10 @@ const CompleteJobForm = () => {
         return formattedDate.toString()
 
     }
+    const getCurrentTime = () => {
+        const now = new Date();
+        return returnTime(now);
+    }
     const handleClockIn = () => {
         const now = new Date();
         const copy = { ...newJob };
@@ -79,7 +85,7 @@ const CompleteJobForm = () => {
     const handleClockOut = () => {
         const now = new Date();
         const copy = { ...newJob };
-        copy.timeOut = now;
+        copy.timeOut = now
         copy.dateCompleted = copy.timeOut;
         timeDisplay.timeOut = returnTime(now)
         setnewJob(copy);
@@ -100,6 +106,11 @@ const CompleteJobForm = () => {
                         <button onClick={handleClockOut}>Time Out</button>
                         <p>{timeDisplay.timeOut}</p>
                     </div>
+                    <div>
+                        <button onClick={() => setCurrentTime(getCurrentTime())}>Current Time</button>
+                        <p>{currentTime}</p>
+                    </div>
+
                     <fieldset>
                         <div className="form-group">
                             <label htmlFor="startingOdometer">Starting Odometer: </label>

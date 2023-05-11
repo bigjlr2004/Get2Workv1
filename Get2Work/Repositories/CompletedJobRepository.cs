@@ -22,7 +22,7 @@ namespace Get2Work.Repositories
                             cj.TimeOut, cj.StartingOdometer,cj.EndingOdometer, cj.Halfs, cj.Pints, 
                             cj.Snacks, cj.Complete,j.Id as JobId, j.UserProfileId, j.Description, j.CreateDateTime, 
                             j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
-                            up.Id as ProfileId, up.FirebaseUserId, up.DisplayName AS UserProfileName, 
+                            up.Id as ProfileId, up.FirebaseUserId, 
                             up.FirstName, up.LastName,up.Email,  
                             up.UserTypeId, up.ActiveStatus, 
                             s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus
@@ -61,7 +61,7 @@ namespace Get2Work.Repositories
                             cj.TimeOut, cj.StartingOdometer,cj.EndingOdometer, cj.Halfs, cj.Pints, 
                             cj.Snacks, cj.Complete,j.Id as JobId, j.UserProfileId, j.Description, j.CreateDateTime, 
                             j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
-                            up.Id as ProfileId, up.FirebaseUserId, up.DisplayName AS UserProfileName, 
+                            up.Id as ProfileId, up.FirebaseUserId, 
                             up.FirstName, up.LastName,up.Email,  
                             up.UserTypeId, up.ActiveStatus, 
                             s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus
@@ -101,7 +101,7 @@ namespace Get2Work.Repositories
                             cj.TimeOut, cj.StartingOdometer,cj.EndingOdometer, cj.Halfs, cj.Pints, 
                             cj.Snacks, cj.Complete,j.Id as JobId, j.UserProfileId, j.Description, j.CreateDateTime, 
                             j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
-                            up.Id as ProfileId, up.FirebaseUserId, up.DisplayName AS UserProfileName, 
+                            up.Id as ProfileId, up.FirebaseUserId,  
                             up.FirstName, up.LastName,up.Email,  
                             up.UserTypeId, up.ActiveStatus, 
                             s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus
@@ -195,7 +195,6 @@ namespace Get2Work.Repositories
                     {
                         Id = DbUtils.GetInt(reader, "ProfileId"),
                         FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
-                        DisplayName = DbUtils.GetString(reader, "UserProfileName"),
                         FirstName = DbUtils.GetString(reader, "FirstName"),
                         LastName = DbUtils.GetString(reader, "LastName"),
                         Email = DbUtils.GetString(reader, "Email"),

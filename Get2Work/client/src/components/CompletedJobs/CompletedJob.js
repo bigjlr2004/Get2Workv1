@@ -1,19 +1,19 @@
 
-import { AccordionBody, AccordionHeader, AccordionItem, CardBody, CardFooter, CardSubtitle, CardText, CardTitle, Container, ListGroup, ListGroupItem, UncontrolledAccordion } from "reactstrap";
+import { AccordionBody, AccordionHeader, CardBody, CardSubtitle, CardText, CardTitle, Container, ListGroup, ListGroupItem, UncontrolledAccordion } from "reactstrap";
 
 
 const CompletedJob = ({ completedJob }) => {
-
     const ReturnTime = (datetoBeConverted) => {
         const date = new Date(datetoBeConverted);
         const options = {
             hour: 'numeric',
             minute: 'numeric'
         };
-        const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
-        return formattedDate
+        const formattedDate = date.toLocaleTimeString('en-US', options);
+        return formattedDate;
     }
-    function getTimeDifference(clockin, clockout) {
+
+    const getTimeDifference = (clockin, clockout) => {
         const startTime = new Date(clockin);
         const endTime = new Date(clockout);
         const timeDiff = endTime.getTime() - startTime.getTime();
@@ -25,6 +25,37 @@ const CompletedJob = ({ completedJob }) => {
         return `${hours} hours, ${minutes} minutes, ${seconds} seconds`;
 
     }
+    // const handletimeConversionfromBackend = (timeGiven) => {
+    //     const utcTimestamp = timeGiven;
+    //     const offset = -5 * 60; // Eastern Time is UTC-4 during daylight savings time
+    //     const d = new Date(utcTimestamp);
+    //     const localTimestamp = d.getTime() + (d.getTimezoneOffset() * 60000) + (offset * 1000);
+    //     const localDate = new Date(localTimestamp);
+    //     const options = {
+    //         hour: 'numeric',
+    //         minute: 'numeric',
+    //         timeZoneName: 'short'
+    //     };
+    //     return localDate.toLocaleTimeString('en-US', options);
+    // }
+    const handletimeConversionfromBackend = (timeGiven) => {
+        const easternTimezone = 'America/New_York';
+        const utcTimestamp = new Date(`${timeGiven}`).toISOString();
+        const d = new Date(utcTimestamp);
+        const offset = (d.getTimezoneOffset() + (d.getTimezoneOffset() < 0 ? 1 : -1) * 5 * 60) * 1000; // Offset for Eastern Time with 5 hours subtracted
+        const localTimestamp = d.getTime() - offset;
+        const localDate = new Date(localTimestamp);
+        const options = {
+            hour: 'numeric',
+            minute: 'numeric'
+        };
+        return localDate.toLocaleTimeString('en-US', options);
+    };
+
+
+
+
+
 
     return (
         <>
@@ -44,7 +75,7 @@ const CompletedJob = ({ completedJob }) => {
                                 className="mb-2 text-muted"
                                 tag="h6"
                             >
-                                Time  In: {ReturnTime(completedJob.timeIn)}  Out: {ReturnTime(completedJob.timeOut)} <br />
+                                {/* Time  In: {handletimeConversionfromBackend(completedJob.timeIn)}  Out: {handletimeConversionfromBackend(completedJob.timeOut)} <br /> */}
                                 Clocked In: {getTimeDifference(completedJob.timeIn, completedJob.timeOut)}
                             </CardSubtitle>
                             <CardText>
@@ -61,13 +92,7 @@ const CompletedJob = ({ completedJob }) => {
                                 </ListGroupItem>
                             </ListGroup>
                         </CardBody>
-                        <CardFooter>
-                            Miscellaneuos Notes: {completedJob.notes}
-                        </CardFooter>
                     </AccordionBody>
-
-                    <AccordionItem>
-                    </AccordionItem>
                 </UncontrolledAccordion>
             </Container>
         </>

@@ -19,7 +19,7 @@ namespace Get2Work.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT up.Id, up.FirebaseUserId, up.DisplayName,  up.FirstName, up.LastName, up.PhoneNumber,
+                        SELECT up.Id, up.FirebaseUserId, up.PhoneNumber,  up.FirstName, up.LastName, up.PhoneNumber,
                             up.Email, up.UserTypeId, up.ActiveStatus,  ut.Name AS UserTypeName
                           FROM UserProfile up
                                 LEFT JOIN UserType ut on up.UserTypeId = ut.Id
@@ -38,7 +38,6 @@ namespace Get2Work.Repositories
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
                             PhoneNumber = DbUtils.GetString(reader, "PhoneNumber"),
-                            DisplayName = DbUtils.GetString(reader, "DisplayName"),
                             Email = DbUtils.GetString(reader, "Email"),
                             ActiveStatus = DbUtils.GetBool(reader, "ActiveStatus"),
                             UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
@@ -63,8 +62,8 @@ namespace Get2Work.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT up.Id, up.FirebaseUserId, up.DisplayName, up.FirstName, up.LastName,
-                            up.Email,up.UserTypeId, up.ActiveStatus
+                        SELECT up.Id, up.FirebaseUserId, up.FirstName, up.LastName,
+                            up.PhoneNumber, up.Email,up.UserTypeId, up.ActiveStatus
                           FROM UserProfile up
                         ";
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -90,7 +89,7 @@ namespace Get2Work.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                         SELECT up.Id, up.FirebaseUserId, up.DisplayName, up.FirstName, up.LastName,
+                         SELECT up.Id, up.FirebaseUserId, up.PhoneNumber, up.FirstName, up.LastName,
                             up.Email, up.UserTypeId, up.ActiveStatus
                           FROM UserProfile up
                           WHERE up.Id = @Id";
@@ -118,13 +117,12 @@ namespace Get2Work.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO UserProfile (DisplayName, FirstName, LastName, Email, PhoneNumber, ActiveStatus, UserTypeId, FirebaseUserId )
+                        INSERT INTO UserProfile (FirstName, LastName, Email, PhoneNumber, ActiveStatus, UserTypeId, FirebaseUserId )
                         OUTPUT INSERTED.ID
-                        VALUES (@DisplayName, @FirstName, @LastName, @Email, @PhoneNumber, @ActiveStatus, @UserTypeId, @FirebaseUserId)";
+                        VALUES (@FirstName, @LastName, @Email, @PhoneNumber, @ActiveStatus, @UserTypeId, @FirebaseUserId)";
 
                     DbUtils.AddParameter(cmd, "@FirstName", user.FirstName);
                     DbUtils.AddParameter(cmd, "@LastName", user.LastName);
-                    DbUtils.AddParameter(cmd, "@DisplayName", user.DisplayName);
                     DbUtils.AddParameter(cmd, "@Email", user.Email);
                     DbUtils.AddParameter(cmd, "@PhoneNumber", user.PhoneNumber);
                     DbUtils.AddParameter(cmd, "@ActiveStatus", user.ActiveStatus);
@@ -146,14 +144,12 @@ namespace Get2Work.Repositories
                                 Update UserProfile
                                 SET FirstName = @FirstName,
                                     LastName = @LastName,
-                                    DisplayName = @DisplayName,
                                     Email = @Email,
                                     WHERE Id = @Id";
 
                     DbUtils.AddParameter(cmd, "@Id", user.Id);
                     DbUtils.AddParameter(cmd, "@FirstName", user.FirstName);
                     DbUtils.AddParameter(cmd, "@LastName", user.LastName);
-                    DbUtils.AddParameter(cmd, "@DisplayName", user.DisplayName);
                     DbUtils.AddParameter(cmd, "@Email", user.Email);
                    
                   
@@ -172,7 +168,6 @@ namespace Get2Work.Repositories
                          Update UserProfile
                                 SET FirstName = @FirstName,
                                     LastName = @LastName,
-                                    DisplayName = @DisplayName,
                                     Email = @Email,
                                     ActiveStatus= @ActiveStatus
                                 WHERE Id = @Id";
@@ -180,7 +175,6 @@ namespace Get2Work.Repositories
                     DbUtils.AddParameter(cmd, "@Id", userProfile.Id);
                     DbUtils.AddParameter(cmd, "@FirstName", userProfile.FirstName);
                     DbUtils.AddParameter(cmd, "@LastName", userProfile.LastName);
-                    DbUtils.AddParameter(cmd, "@DisplayName", userProfile.DisplayName);
                     DbUtils.AddParameter(cmd, "@Email", userProfile.Email);
                     cmd.Parameters.AddWithValue("@ActiveStatus", activated);
 
@@ -195,10 +189,10 @@ namespace Get2Work.Repositories
             {
                 Id = DbUtils.GetInt(reader, "Id"),
                 FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
-                DisplayName = DbUtils.GetString(reader, "DisplayName"),
                 FirstName = DbUtils.GetString(reader, "FirstName"),
                 LastName = DbUtils.GetString(reader, "LastName"),
                 Email = DbUtils.GetString(reader, "Email"),
+                PhoneNumber = DbUtils.GetString(reader, "PhoneNumber"),
                 UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
                 ActiveStatus = reader.GetBoolean(reader.GetOrdinal("ActiveStatus"))
 

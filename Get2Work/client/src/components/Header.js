@@ -18,85 +18,79 @@ export default function Header({ isLoggedIn, role, userObj }) {
   const toggle = () => setIsOpen(!isOpen);
   const navigate = useNavigate();
   return (
-    <div>
-      <Navbar color="light" light expand="md">
-        <div className="front_image">
-          <img src="https://bbcreameries.wpenginepowered.com/wp-content/uploads/2021/04/bluebell-logo-d-sh@2x-300x274.png"
-            style={{ width: 200, height: 175 }} alt="Kandy Korner Picture"></img></div>
-        <NavbarBrand tag={RRNavLink} to="/"></NavbarBrand>
-        <NavbarToggler onClick={toggle} />
-        <Collapse isOpen={isOpen} navbar>
-          <Nav className="mr-auto" navbar>
-            { /* When isLoggedIn === true, we will render the Home link */}
-            {isLoggedIn &&
-              <>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/">Home</NavLink>
-                </NavItem>
-              </>
-            }
-          </Nav>
-          <Nav navbar>
-            {role === "Employee" &&
-              <>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to={`/userdetails/${userObj?.firebaseUserId}`}>Schedule</NavLink>
-                </NavItem>
 
-              </>
-            }
-            {role === "Manager" &&
-              <>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/addjob">New Job</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/managerschedule">Schedule</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/userlist">Employees</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/storelist">Stores</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/weeklyview">Week Schedule</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/alljobs">ActiveStatus</NavLink>
-                </NavItem>
+    <Navbar expand="md"
+      className='navbar-fixed-top' >
 
-              </>
-            }
-            {isLoggedIn &&
-              <>
+      <NavbarBrand tag={RRNavLink} to="/"><div className="front_image ">
+        <img src="https://bbcreameries.wpenginepowered.com/wp-content/uploads/2021/04/bluebell-logo-d-sh@2x-300x274.png"
+          style={{ width: 200, height: 175 }} alt="Blue Bell Inception Picture"></img></div></NavbarBrand >
+      <NavbarToggler onClick={toggle} />
+      <Collapse isOpen={isOpen} navbar>
+        <Nav className="mr-auto" navbar>
 
-                <NavItem>
-                  <a aria-current="page" className="nav-link"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      logout()
-                      navigate("/login")
+        </Nav>
+        <Nav navbar>
+          {role === "Employee" &&
+            <>
+              <NavItem>
+                <NavLink tag={RRNavLink} to={`/userdetails/${userObj?.firebaseUserId}`}>Schedule</NavLink>
+              </NavItem>
 
-                    }} >Logout</a>
-                </NavItem>
-              </>
-            }
-            {!isLoggedIn &&
-              <>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/login">Login</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/register">New User? / Register Here</NavLink>
-                </NavItem>
-              </>
-            }
-          </Nav>
-        </Collapse>
+            </>
+          }
+          {role === "Manager" &&
+            <>
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/addjob">New Job</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/managerschedule">Schedule</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/userlist">Employees</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/storelist">Stores</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/weeklyview">Week Schedule</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/alljobs">ActiveStatus</NavLink>
+              </NavItem>
 
-      </Navbar>
+            </>
+          }
+          {isLoggedIn &&
+            <>
 
-    </div>
+              <NavItem>
+                <a aria-current="page" className="nav-link"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    logout()
+                    navigate("/login")
+
+                  }} >Logout</a>
+              </NavItem>
+            </>
+          }
+          {!isLoggedIn &&
+            <>
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/login">Login</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/register">New User? / Register Here</NavLink>
+              </NavItem>
+            </>
+          }
+        </Nav>
+      </Collapse>
+
+    </Navbar >
+
+
   );
 }

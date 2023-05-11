@@ -1,13 +1,76 @@
 body {
-  margin: 0;
+ 
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+}
+.btn-primary {
+  background-color: #2F4994 !important;
+
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+/* Navbar CSS */
+.navbar-fixed-top {
+  position: fixed;
+  height: 100px;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1030;
+  background-color: #FFEDC0;
+}
+.nav-link {
+  color: #572700 !important;
+}
+/* Main Content CSS */
+.main-content {
+  padding-top: 10px;
+  height: calc(100vh - 210px); /* set height to viewport height - footer height */
+  overflow-y: auto; /* make container scrollable */
+}
+
+.schedule-icon-spacing {
+  margin-left: 10px;
+}
+/* Add some padding to the navbar-brand to avoid content overlap */
+.navbar-brand {
+  margin-right: auto;
+  padding-right: 180px; 
+}
+
+
+/* Footer CSS */
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100px;
+  background-color: #2F4994;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('https://bbcreameries.wpenginepowered.com/wp-content/uploads/2021/06/BlueBell-Logo-Footer.svg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+}
+.front_image {
+  width:160px;
+  position: absolute;
+  top: 6px;
+
+}
+
+.card-footer {
+  background-color:#2F4994 !important;
+  opacity: 90%;
+  color: #FFe3A2 !important;
+  
 }

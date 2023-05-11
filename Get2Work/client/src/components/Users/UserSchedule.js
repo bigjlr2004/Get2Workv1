@@ -9,7 +9,7 @@ import Job from "../Jobs/Job";
 
 
 
-const UserSchedule = () => {
+const UserSchedule = ({ role }) => {
 
     const [scheduledJobs, setScheduledJobs] = useState([]);
 
@@ -30,7 +30,7 @@ const UserSchedule = () => {
                     <h2>Users Schedule</h2>
                     <div className="row justify-content-center">
                         {scheduledJobs.map((p) => (
-                            <Job job={p} key={p.id} />
+                            <Job job={p} key={p.id} role={role} />
                         ))}
                     </div>
                 </div>

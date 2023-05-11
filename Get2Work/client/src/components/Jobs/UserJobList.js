@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col } from 'reactstrap';
+import { Row, Col, Container } from 'reactstrap';
 import { getTodaysScheduledJobsByUser } from "../../modules/jobManager";
 import Job from "./Job";
 import { getUsersCompletedJobs } from "../../modules/completedJobsManager";
@@ -34,29 +34,30 @@ const UserJobList = () => {
 
 
     return (
-
-        <Row>
-            <Col>
-                <div className="container">
-                    <h2>Todays Scheduled Jobs</h2>
-                    <div className="row justify-content-center">
-                        {jobsNotCompleted.map((p) => (
-                            <Job job={p} key={p.id} />
-                        ))}
+        <Container>
+            <Row>
+                <Col>
+                    <div className="container">
+                        <h2>Todays Scheduled Jobs</h2>
+                        <div className="row justify-content-center">
+                            {jobsNotCompleted.map((p) => (
+                                <Job job={p} key={p.id} />
+                            ))}
+                        </div>
                     </div>
-                </div>
-            </Col>
-            <Col>
-                <div className="container">
-                    <h2>Completed Jobs</h2>
-                    <div className="row justify-content-center">
-                        {completedJobs.map((p) => (
-                            <CompletedJob completedJob={p} key={p.id} />
-                        ))}
+                </Col>
+                <Col>
+                    <div className="container">
+                        <h2>Completed Jobs</h2>
+                        <div className="row justify-content-center">
+                            {completedJobs.map((p) => (
+                                <CompletedJob completedJob={p} key={p.id} />
+                            ))}
+                        </div>
                     </div>
-                </div>
-            </Col>
-        </Row>
+                </Col>
+            </Row>
+        </Container>
     );
 };
 

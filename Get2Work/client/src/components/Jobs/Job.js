@@ -1,8 +1,8 @@
 import React from "react";
-import { Card, CardBody } from "reactstrap";
+import { Card, CardBody, CardFooter, CardSubtitle, CardTitle } from "reactstrap";
 import { Link } from "react-router-dom";
 
-const Job = ({ job }) => {
+const Job = ({ job, role }) => {
 
     const ReturnTime = (datetoBeConverted) => {
         const date = new Date(datetoBeConverted);
@@ -14,25 +14,32 @@ const Job = ({ job }) => {
         return formattedDate
     }
 
-    return (
-        <Card >
-            <p className="text-left px-2">
-                Job Description: ---
-                <Link to={`/completejob/${job.id}`}>
-                    {job.description}
-                </Link>
-            </p>
-            <CardBody>
-                <ul className="social-list">
+    return (<>
 
-                    <li> Store: {job.store.name} </li>
-                    <li> Scheduled Time: {job.scheduledTime}</li>
-                    <li> Employee: {job.userProfile.displayName}</li>
-                    <li> Employee Email: {job.userProfile.email}</li>
-                    <li> Phone Number: {job.userProfile.phoneNumber}</li>
-                </ul>
+        <Card>
+
+            <CardBody>
+                <CardTitle tag="h5" className="d-flex justify-content-between">
+                    <div>
+
+                        {/* <div>{user.scheduledJobs.length > 0 ? <Link to={`/userdetails/${user.firebaseUserId}`}><FaClock /></Link> : null}</div> */}
+                        <div><Link to={`/completejob/${job.id}`}> {job.store.name} {job.description} </Link></div>
+                    </div>
+                    <div>
+                        <div>{role == "Manager" ? `${job.userProfile.fullName} -- ${job.scheduledTime}` : `${job.scheduledTime}`}</div>
+                    </div>
+
+                </CardTitle>
+                <CardSubtitle
+                    className="mb-2 text-muted"
+                    tag="h6"
+                >
+                </CardSubtitle>
             </CardBody>
-        </Card>
+
+
+        </Card >
+    </>
     );
 };
 
