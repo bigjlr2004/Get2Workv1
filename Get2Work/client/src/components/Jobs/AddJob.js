@@ -67,9 +67,6 @@ const AddJob = () => {
         }
     };
 
-
-
-
     const handleCheckboxChange = (event) => {
         const value = parseInt(event.target.value);
         if (event.target.checked) {
@@ -106,7 +103,6 @@ const AddJob = () => {
         );
     };
 
-
     return (
         <main>
 
@@ -117,8 +113,9 @@ const AddJob = () => {
 
                         <fieldset>
                             <div className={"form-floating mb-3"}>
-                                <input type="text" className="form-control" id="floatingInput" placeholder="name@example.com"
+                                <input type="text" className="form-control" id="floatingInput" placeholder="Job Description"
                                     value={job.description}
+                                    autoComplete="off"
                                     onChange={(event) => {
                                         const copy = { ...job };
                                         copy.description = event.target.value;
@@ -208,6 +205,7 @@ const AddJob = () => {
                                 <input
                                     required
                                     value={job.notes}
+                                    autoComplete="off"
                                     type="text"
                                     className="form-control"
                                     id="floatingNotes"

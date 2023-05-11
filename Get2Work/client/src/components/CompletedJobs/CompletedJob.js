@@ -75,7 +75,7 @@ const CompletedJob = ({ completedJob }) => {
                                 className="mb-2 text-muted"
                                 tag="h6"
                             >
-                                {/* Time  In: {handletimeConversionfromBackend(completedJob.timeIn)}  Out: {handletimeConversionfromBackend(completedJob.timeOut)} <br /> */}
+                                Time  In: {handletimeConversionfromBackend(completedJob.timeIn)}  Out: {handletimeConversionfromBackend(completedJob.timeOut)} <br />
                                 Clocked In: {getTimeDifference(completedJob.timeIn, completedJob.timeOut)}
                             </CardSubtitle>
                             <CardText>

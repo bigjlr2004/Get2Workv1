@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Card, CardBody } from "reactstrap";
+import { Card, CardBody, CardHeader } from "reactstrap";
 import { useNavigate, useParams } from 'react-router-dom'
 import { getJobById } from "../../modules/jobManager";
 import { completeJob } from "../../modules/completedJobsManager";
@@ -24,11 +24,11 @@ const CompleteJobForm = () => {
         timeIn: "",
         timeOut: "",
         jobScheduleId: "",
-        StartingOdometer: 0,
-        endingOdometer: 0,
-        halfs: 0,
-        pints: 0,
-        snacks: 0,
+        startingOdometer: "",
+        endingOdometer: "",
+        halfs: "",
+        pints: "",
+        snacks: "",
         complete: false
     })
 
@@ -42,7 +42,7 @@ const CompleteJobForm = () => {
     const handleSubmitnewJob = (evt) => {
         evt.preventDefault();
         if (newJob.jobId && newJob.dateCompleted && newJob.notes && newJob.timeIn && newJob.timeOut
-            && newJob.StartingOdometer && newJob.endingOdometer && newJob.halfs && newJob.pints && newJob.snacks) {
+            && newJob.startingOdometer && newJob.endingOdometer && newJob.halfs && newJob.pints && newJob.snacks) {
             newJob.complete = true;
             newJob.jobScheduleId = job.jobScheduleId;
 
@@ -93,65 +93,89 @@ const CompleteJobForm = () => {
     return (
         <div className="container">
             <Card>
-                <p className="text-left px-2">Edit New Job Form</p>
                 {/* <p className="text-left px-2">Store # {job.storeId} {job?.store.name} Address: {job.store?.address} Phone: {job.store.phoneNumber}</p> */}
-                <p className="text-left px-2">Store # {job.storeId}</p>
+                <fieldset>
+                    <CardHeader className="card-footer  text-white d-flex justify-content-between">
+                        <div className="d-flex align-items-center">
+                            <h2 className="text-left px-2">{job.store?.name} - {job.description} </h2>
+                        </div>
+                        <div><h2>Scheduled: {job.scheduledTime}</h2></div>
+
+                    </CardHeader>
+                    {/* //graybar */}<CardHeader className="d-flex align-items-center justify-content-center"></CardHeader>
+
+                    <CardHeader className=" card-footer text-white"> <h3 className="text-left px-2">Record Job Details Below </h3></CardHeader>
+                    {/* //graybar */}<CardHeader className="d-flex align-items-center justify-content-center"></CardHeader>
+                    <CardHeader className="d-flex align-items-center justify-content-center">
+                        <h5 className="px-2">Remember to Rotate Product When Stocking Shelves</h5>
+                    </CardHeader>
+                    {/* //graybar */}<CardHeader className="d-flex align-items-center justify-content-center"></CardHeader>
+
+
+
+                    <CardHeader className="card-footer text-white d-flex justify-content-between">
+                        <CardHeader className="card-footer text-white d-flex justify-content-start">
+                            <div>
+                                <button className="mr-4" onClick={handleClockIn} style={{ borderRadius: '15%', padding: '25px', fontSize: '1.25rem' }}>Clock In</button>
+                            </div>
+                            <div className="pr-2 d-flex align-items-center" style={{ marginLeft: `150px` }}>
+                                <p style={{ fontSize: '300%' }}>{timeDisplay.timeIn}</p>
+                            </div>
+                        </CardHeader>
+                        <div className="d-flex justify-content-end">
+                            <div className="d-flex align-items-center">
+                                <fieldset>
+                                    <label htmlFor="floatingStartingOd">Odometer Start:</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        autoComplete="off"
+                                        id="floatingStartingOd"
+                                        value={newJob.startingOdometer}
+                                        placeholder="Beginning"
+                                        onChange={(event) => {
+                                            const copy = { ...newJob };
+                                            copy.startingOdometer = event.target.value;
+                                            setnewJob(copy);
+                                        }}
+                                    />
+                                </fieldset>
+                            </div>
+                            <div className="d-flex align-items-center">
+                                <fieldset style={{ marginLeft: `25px` }}>
+                                    <label htmlFor="floatingEndingOd">Odometer End:</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        autoComplete="off"
+                                        id="floatingEndingOd"
+                                        value={newJob.endingOdometer}
+                                        placeholder="Ending"
+                                        onChange={(event) => {
+                                            const copy = { ...newJob };
+                                            copy.endingOdometer = event.target.value;
+                                            setnewJob(copy);
+                                        }}
+                                    />
+                                </fieldset>
+                            </div>
+                        </div>
+                    </CardHeader>
+
+
+
+                    {/* //graybar */}<CardHeader className="d-flex align-items-center justify-content-center"></CardHeader>
+
+                </fieldset>
+
+
                 <CardBody>
-
-                    <div>
-                        <button onClick={handleClockIn}>Time  In</button>
-                        <p>{timeDisplay.timeIn}</p>
-                    </div>
-                    <div>
-                        <button onClick={handleClockOut}>Time Out</button>
-                        <p>{timeDisplay.timeOut}</p>
-                    </div>
-                    <div>
-                        <button onClick={() => setCurrentTime(getCurrentTime())}>Current Time</button>
-                        <p>{currentTime}</p>
-                    </div>
-
-                    <fieldset>
-                        <div className="form-group">
-                            <label htmlFor="startingOdometer">Starting Odometer: </label>
-                            <input
-
-                                id="startingOdometer"
-                                type="text"
-                                value={newJob.StartingOdometer}
-                                className="form-control"
-                                placeholder="Starting Odometer"
-
-                                onChange={(event) => {
-                                    const copy = { ...newJob };
-                                    copy.StartingOdometer = event.target.value;
-                                    setnewJob(copy);
-                                }} />
-                        </div>
-                    </fieldset>
-                    <fieldset>
-                        <div className="form-group">
-                            <label htmlFor="name">Ending Odometer: </label>
-                            <input
-
-                                id="endingOdometer"
-                                type="text"
-                                value={newJob.endingOdometer}
-                                className="form-control"
-                                placeholder="Ending Odometer"
-
-                                onChange={(event) => {
-                                    const copy = { ...newJob };
-                                    copy.endingOdometer = event.target.value;
-                                    setnewJob(copy);
-                                }} />
-                        </div>
-                    </fieldset>
                     <fieldset>
                         <div className="form-group">
                             <label htmlFor="halfs">Halfs:</label>
                             <input
                                 required
+                                autoComplete="off"
                                 value={newJob.halfs}
                                 id="halfs"
                                 type="text"
@@ -165,11 +189,12 @@ const CompleteJobForm = () => {
                                 }} />
                         </div>
                     </fieldset>
+
                     <fieldset>
                         <div className="form-group">
                             <label htmlFor="pints">Pints: </label>
                             <input
-                                required
+                                autoComplete="off"
                                 value={newJob.pints}
                                 id="pints"
                                 type="text"
@@ -187,7 +212,7 @@ const CompleteJobForm = () => {
                         <div className="form-group">
                             <label htmlFor="snacks">Snacks: </label>
                             <input
-
+                                autoComplete="off"
                                 value={newJob.snacks}
                                 id="snacks"
                                 type="text"
@@ -201,35 +226,45 @@ const CompleteJobForm = () => {
                                 }} />
                         </div>
                     </fieldset>
+                </CardBody>
+                {/* //bluebar */} <CardHeader className="card-footer d-flex align-items-center justify-content-center"></CardHeader>
+                <CardBody>
                     <fieldset>
-                        <div className="form-group">
-                            <label htmlFor="notes">Notes: </label>
-                            <input
-
-                                id="notes"
+                        <div className={"form-floating mb-3"}>
+                            <input type="text" className="form-control"
+                                autoComplete="off"
+                                id="floatingInput"
                                 value={newJob.notes}
-                                type="text"
-                                className="form-control"
                                 placeholder="Miscellaneous Notes"
-
                                 onChange={(event) => {
                                     const copy = { ...newJob };
                                     copy.notes = event.target.value;
                                     setnewJob(copy);
                                 }} />
+                            <label htmlFor="floatingNotes">Notes: </label>
                         </div>
                     </fieldset>
-
-                    <button
-                        style={{ marginTop: '20px' }}
-                        className="btn btn-success"
-                        onClick={(event) => {
-                            handleSubmitnewJob(event)
-                        }}>Submit newJob</button>
-
                 </CardBody>
+                <CardHeader className="card-footer text-white d-flex justify-content-start">
+                    <CardHeader className="card-footer text-white d-flex justify-content-start">
+
+                        <div>
+                            <button className="mr-4" onClick={handleClockOut} style={{ borderRadius: '15%', padding: '25px', fontSize: '1.25rem' }}>Clock Out</button>
+                        </div>
+                        <div className="pr-2 d-flex align-items-center" style={{ marginLeft: `128px` }}>
+                            <p style={{ fontSize: '300%' }}>{timeDisplay.timeOut}</p>
+                        </div>
+                    </CardHeader>
+                </CardHeader>
+                <button
+                    style={{ marginTop: '20px' }}
+                    className="btn btn-primary"
+                    onClick={(event) => {
+                        handleSubmitnewJob(event)
+                    }}>Submit Job</button>
+
             </Card>
-        </div>
+        </div >
     )
 }
 
