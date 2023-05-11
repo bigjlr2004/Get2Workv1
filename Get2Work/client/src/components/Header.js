@@ -44,9 +44,7 @@ export default function Header({ isLoggedIn, role, userObj }) {
               <NavItem>
                 <NavLink tag={RRNavLink} to="/addjob">New Job</NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink tag={RRNavLink} to="/managerschedule">Schedule</NavLink>
-              </NavItem>
+
               <NavItem>
                 <NavLink tag={RRNavLink} to="/userlist">Employees</NavLink>
               </NavItem>

@@ -55,6 +55,23 @@ const CompletedJob = ({ completedJob }) => {
 
 
 
+    const BackInTimeComponent = (timeIn) => {
+
+
+
+        const originalTime = new Date(timeIn);
+        const newTime = new Date(originalTime.getTime() - 18000000).toLocaleTimeString();
+
+
+        return (
+
+            newTime
+
+        );
+    };
+
+
+
 
 
     return (
@@ -74,8 +91,9 @@ const CompletedJob = ({ completedJob }) => {
                             <CardSubtitle
                                 className="mb-2 text-muted"
                                 tag="h6"
+
                             >
-                                Time  In: {handletimeConversionfromBackend(completedJob.timeIn)}  Out: {handletimeConversionfromBackend(completedJob.timeOut)} <br />
+                                Time  In: {BackInTimeComponent(completedJob.timeIn)} Out: {BackInTimeComponent(completedJob.timeOut)} <br />
                                 Clocked In: {getTimeDifference(completedJob.timeIn, completedJob.timeOut)}
                             </CardSubtitle>
                             <CardText>
