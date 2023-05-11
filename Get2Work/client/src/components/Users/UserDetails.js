@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react"
 import { Card, CardBody, Col, Row } from "reactstrap";
 import { useParams } from 'react-router-dom'
 import { getUserDetails } from "../../modules/authManager";
-import Job from "../Jobs/Job";
+import UserSchedule from "./UserSchedule";
 
 
 const UserDetails = () => {
 
     const { firebaseId } = useParams();
-    const [userProfile, setUserProfile] = useState({})
+    const [userProfile, setUserProfile] = useState({
+        scheduledJobs: []
+    })
 
     useEffect(() => {
         getUserDetails(firebaseId).then(setUserProfile);
@@ -47,11 +49,11 @@ const UserDetails = () => {
                         <Row>
                             <Col>
                                 <div className="container">
-                                    <h2>Users Schedule</h2>
+                                    <h2>Schedule</h2>
                                     <div className="row justify-content-center">
-                                        {userProfile.scheduledJobs?.map((p) => (
-                                            <Job job={p} key={p.id} />
-                                        ))}
+                                        {
+                                            <UserSchedule scheduledJobs={userProfile.scheduledJobs} key={userProfile.Id} />
+                                        }
                                     </div>
                                 </div>
                             </Col>
