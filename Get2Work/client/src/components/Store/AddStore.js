@@ -34,12 +34,13 @@ const AddStore = () => {
     return (
         <div className="container">
             <Card>
-                <h3 className="mt-3 ms-3 text-left px-2">New Store</h3>
+                <h4 className="mt-3 ms-3 text-left px-2">Enter Store Details Below to Add a Store</h4>
                 <CardBody>
                     <fieldset>
                         <div className={"form-floating mb-3"}>
                             <input type="text" className="form-control" id="floatingInput" placeholder="Store Name"
                                 required
+                                autoComplete="off"
                                 value={store.name}
                                 onChange={(event) => {
                                     const copy = { ...store };
@@ -53,6 +54,7 @@ const AddStore = () => {
                         <div className={"form-floating mb-3"}>
                             <input type="text" className="form-control" id="floatingPhone"
                                 required
+                                autoComplete="off"
                                 placeholder="Phone Number"
                                 value={store.phoneNumber}
                                 onChange={(event) => {
@@ -67,6 +69,7 @@ const AddStore = () => {
                         <div className={"form-floating mb-3"}>
                             <input type="text" className="form-control" id="floatingAddress"
                                 placeholder="Address"
+                                autoComplete="off"
                                 required
                                 value={store.address}
                                 onChange={(event) => {

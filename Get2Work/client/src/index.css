@@ -6,7 +6,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   
-}
+   
+  }
+  
+  
+
 .btn-primary {
   background-color: #2F4994 !important;
 
