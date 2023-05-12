@@ -8,7 +8,7 @@ import CompletedJob from "../CompletedJobs/CompletedJob";
 
 
 
-const UserJobList = () => {
+const UserJobList = ({ role }) => {
 
     const [scheduledJobs, setScheduledJobs] = useState([]);
     const [completedJobs, setCompletedJobs] = useState([]);
@@ -41,7 +41,7 @@ const UserJobList = () => {
                         <h2>Todays Scheduled Jobs</h2>
                         <div className="row justify-content-center">
                             {jobsNotCompleted.map((p) => (
-                                <Job job={p} key={p.id} />
+                                <Job job={p} key={p.id} role={role} />
                             ))}
                         </div>
                     </div>

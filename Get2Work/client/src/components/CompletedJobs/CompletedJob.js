@@ -86,7 +86,7 @@ const CompletedJob = ({ completedJob }) => {
                     <AccordionBody accordionId="1">
                         <CardBody>
                             <CardTitle tag="h5">
-                                {completedJob.job.userProfile.displayName}
+                                {completedJob.job.userProfile.fullName}
                             </CardTitle>
                             <CardSubtitle
                                 className="mb-2 text-muted"

@@ -41,18 +41,18 @@ export default function Header({ isLoggedIn, role, userObj }) {
           }
           {role === "Manager" &&
             <>
-              <NavItem>
-                <NavLink tag={RRNavLink} to="/addjob">New Job</NavLink>
-              </NavItem>
 
               <NavItem>
                 <NavLink tag={RRNavLink} to="/userlist">Employees</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink tag={RRNavLink} to="/storelist">Stores</NavLink>
+                <NavLink tag={RRNavLink} to="/addjob">New Job</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink tag={RRNavLink} to="/weeklyview">Week Schedule</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/storelist">Stores</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink tag={RRNavLink} to="/alljobs">ActiveStatus</NavLink>
