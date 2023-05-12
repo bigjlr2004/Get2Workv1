@@ -21,8 +21,6 @@ const Job = ({ job, role }) => {
             <CardBody>
                 <CardTitle tag="h5" className="d-flex justify-content-between">
                     <div>
-
-                        {/* <div>{user.scheduledJobs.length > 0 ? <Link to={`/userdetails/${user.firebaseUserId}`}><FaClock /></Link> : null}</div> */}
                         <div><Link to={`/completejob/${job.id}`}> {job.store.name} {job.description} </Link></div>
                     </div>
                     <div>
@@ -34,6 +32,7 @@ const Job = ({ job, role }) => {
                     className="mb-2 text-muted"
                     tag="h6"
                 >
+                    <div>{role == "Employee" ? `Notes: ${job.notes}` : null}</div>
                 </CardSubtitle>
             </CardBody>
 
