@@ -8,7 +8,7 @@ import { Scheduled } from "./Scheduled";
 
 
 
-const JobList = () => {
+const JobList = ({ role }) => {
 
     const [scheduledJobs, setScheduledJobs] = useState([]);
     const [completedJobs, setCompletedJobs] = useState([]);
@@ -53,7 +53,7 @@ const JobList = () => {
                         <h2 className="text-center">Completed Jobs</h2>
                         <div className="row justify-content-center">
                             {completedJobs.map((p) => (
-                                <CompletedJob completedJob={p} key={p.id} />
+                                <CompletedJob completedJob={p} key={p.id} role={role} />
                             ))}
                         </div>
                     </div>

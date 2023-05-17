@@ -65,6 +65,7 @@ namespace Get2Work.Repositories
                         SELECT up.Id, up.FirebaseUserId, up.FirstName, up.LastName,
                             up.PhoneNumber, up.Email,up.UserTypeId, up.ActiveStatus
                           FROM UserProfile up
+                          Where up.ActiveStatus = 1
                         ";
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {

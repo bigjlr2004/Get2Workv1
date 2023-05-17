@@ -5,6 +5,16 @@ import "firebase/auth";
 
 const _apiUrl = "/api/userprofile";
 
+// export const getUserDetails = (firebaseUUID) => {
+//   return getToken().then(token => {
+//     return fetch(`${_apiUrl}/${firebaseUUID}`, {
+//       method: "GET",
+//       headers: {
+//         Authorization: `Bearer ${token}`
+//       }
+//     }).then(res => res.json())
+//   })
+// }
 export const getUserDetails = (firebaseUUID) => {
   return getToken().then(token => {
     return fetch(`${_apiUrl}/${firebaseUUID}`, {
@@ -12,9 +22,19 @@ export const getUserDetails = (firebaseUUID) => {
       headers: {
         Authorization: `Bearer ${token}`
       }
-    }).then(res => res.json(res.ok))
-  })
-}
+    }).then(res => res.json())
+      .then(user => {
+        if (user.status == 404) {
+          // Redirect to another page
+          window.location.href = "/user-not-found";
+        } else {
+
+          return user;
+        }
+      });
+  });
+};
+
 
 const _doesUserExist = (firebaseUserId) => {
   return getToken().then((token) =>

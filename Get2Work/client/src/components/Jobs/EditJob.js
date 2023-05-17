@@ -143,6 +143,7 @@ const EditJob = () => {
                         <div className={"form-floating mb-3"}>
                             <input type="text" className="form-control" id="floatingInput" placeholder="name@example.com"
                                 value={job.description}
+                                autoComplete="off"
                                 onChange={(event) => {
                                     const copy = { ...job };
                                     copy.description = event.target.value;
@@ -160,7 +161,7 @@ const EditJob = () => {
                             <select className={"form-select form-select-md mb-3"}
                                 aria-label={"Floating label select example"}
                                 value={job.storeId}
-                                id="floatingstores"
+                                id="floatingStores"
                                 onChange={(event) => {
                                     const copy = { ...job }
                                     copy.storeId = parseInt(event.target.value)
@@ -216,6 +217,7 @@ const EditJob = () => {
                             <input
                                 required
                                 value={job.notes}
+                                autoComplete="off"
                                 type="text"
                                 className="form-control"
                                 id="floatingNotes"
