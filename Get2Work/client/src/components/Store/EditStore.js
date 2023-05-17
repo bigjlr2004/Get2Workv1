@@ -46,6 +46,7 @@ const EditStore = () => {
                         <div className={"form-floating mb-3"}>
                             <input type="text" className="form-control" id="floatingInput" placeholder="Store Name"
                                 required
+                                autoComplete="off"
                                 value={store.name}
                                 onChange={(event) => {
                                     const copy = { ...store };
@@ -73,6 +74,7 @@ const EditStore = () => {
                         <div className={"form-floating mb-3"}>
                             <input type="text" className="form-control" id="floatingAddress"
                                 required
+                                autoComplete="off"
                                 value={store.address}
                                 onChange={(event) => {
                                     const copy = { ...store };

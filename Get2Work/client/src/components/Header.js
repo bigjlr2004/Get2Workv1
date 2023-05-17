@@ -55,7 +55,7 @@ export default function Header({ isLoggedIn, role, userObj }) {
                 <NavLink tag={RRNavLink} to="/storelist">Stores</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink tag={RRNavLink} to="/alljobs">ActiveStatus</NavLink>
+                <NavLink tag={RRNavLink} to="/alljobs">Edit Jobs</NavLink>
               </NavItem>
 
             </>

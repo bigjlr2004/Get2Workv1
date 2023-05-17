@@ -24,7 +24,7 @@ export const ManagerView = ({ isLoggedIn, role }) => {
 
         <main className="main-content">
             <Routes>
-                <Route path="/" element={<JobList />} />
+                <Route path="/" element={<JobList role={role} />} />
 
                 <Route element={isLoggedIn && role === "Manager" ? <UserList /> : <Navigate to="/login" />} />
                 <Route path="storelist" element={<StoreList />} />

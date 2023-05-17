@@ -20,8 +20,7 @@ namespace Get2Work.Controllers
         {
             _userProfileRepository = userProfileRepository;
             _jobRepository  = jobRepository;
-            
-        }
+          }
 
         [HttpGet]
         public IActionResult GetAll()
@@ -55,15 +54,13 @@ namespace Get2Work.Controllers
             UserProfile user = _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
             if (user == null)
             {
-                return Ok(user);
+                return NotFound();
+
             } else
             {
                 user.ScheduledJobs = _jobRepository.GetAllJobsScheduledByUser(firebaseUserId);
                 return Ok(user);
-            }
-
-            
-            
+            }  
         }
 
         [HttpGet("DoesUserExist/{firebaseUserId}")]

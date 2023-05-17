@@ -51,7 +51,7 @@ const UserJobList = ({ role }) => {
                         <h2>Completed Jobs</h2>
                         <div className="row justify-content-center">
                             {completedJobs.map((p) => (
-                                <CompletedJob completedJob={p} key={p.id} />
+                                <CompletedJob completedJob={p} key={p.id} role={role} />
                             ))}
                         </div>
                     </div>

@@ -9,7 +9,7 @@ import ApplicationViews from './components/ApplicationViews';
 import { getUserDetails, onLoginStatusChange } from './modules/authManager';
 import Login from './components/Login';
 import Register from './components/Register';
-import { AppFooter } from './components/Footer';
+
 
 
 function App() {
