@@ -24,7 +24,7 @@ export const getUserDetails = (firebaseUUID) => {
       }
     }).then(res => res.json())
       .then(user => {
-        if (user.status == 404) {
+        if (user.status === 404) {
           // Redirect to another page
           window.location.href = "/user-not-found";
         } else {
