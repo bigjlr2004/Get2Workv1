@@ -2,7 +2,11 @@
 using Get2Work.Utils;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Runtime.Intrinsics.X86;
+using System.Security.Policy;
 
 namespace Get2Work.Repositories
 {
@@ -57,27 +61,33 @@ namespace Get2Work.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-          SELECT  cj.Id as CompletedJobId, cj.DateCompleted, cj.JobScheduleId, cj.Notes, cj.TimeIn, 
-                            cj.TimeOut, cj.StartingOdometer,cj.EndingOdometer, cj.Halfs, cj.Pints, 
-                            cj.Snacks, cj.Complete,j.Id as JobId, j.UserProfileId, j.Description, j.CreateDateTime, 
-                            j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
-                            up.Id as ProfileId, up.FirebaseUserId, 
-                            up.FirstName, up.LastName,up.Email,  
-                            up.UserTypeId, up.ActiveStatus, 
-                            s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus
-                           
-                            FROM CompletedJob cj                    
-                            Join JobSchedule js on js.Id = cj.JobScheduleId
-                            Join Job j on j.Id = js.JobId
-                            JOIN UserProfile up on j.UserProfileId = up.Id
-                            JOIN Store s on s.Id = j.StoreId
-                            JOIN Day d on d.Id = js.DayId
-                            WHERE CONVERT(DATE, DateCompleted) = CONVERT(DATE, SYSDATETIME()) AND j.ActiveStatus = 1;
-                        
-                        ";
+                                SELECT
+                                      cj.Id as CompletedJobId, cj.DateCompleted, cj.JobScheduleId, cj.Notes, 
+                                      CONVERT(datetimeoffset, cj.DateCompleted) AT TIME ZONE 'Central Standard Time' AS DateCompleted,
+                                      CONVERT(datetimeoffset, cj.TimeIn) AT TIME ZONE 'Central Standard Time' AS TimeIn,
+                                      CONVERT(datetimeoffset, cj.TimeOut) AT TIME ZONE 'Central Standard Time' AS TimeOut,
+                                      cj.StartingOdometer,cj.EndingOdometer, cj.Halfs, cj.Pints, 
+                                      cj.Snacks, cj.Complete,j.Id as JobId, j.UserProfileId, j.Description, j.CreateDateTime, 
+                                      j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
+                                      up.Id as ProfileId, up.FirebaseUserId, 
+                                      up.FirstName, up.LastName,up.Email,  
+                                      up.UserTypeId, up.ActiveStatus, 
+                                      s.id, s.Name, s.PhoneNumber, s.Address, s.ActiveStatus
+
+                                      FROM CompletedJob cj                    
+                                      Join JobSchedule js on js.Id = cj.JobScheduleId
+                                      Join Job j on j.Id = js.JobId
+                                      JOIN UserProfile up on j.UserProfileId = up.Id
+                                      JOIN Store s on s.Id = j.StoreId
+                                      JOIN Day d on d.Id = js.DayId
+                                      WHERE CONVERT(DATE, DateCompleted) = CONVERT(DATE, SYSDATETIME()) AND j.ActiveStatus = 1
+
+                                  ";
+
+
+
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-
                         var completedJobs = new List<CompletedJob>();
                         while (reader.Read())
                         {
@@ -97,8 +107,13 @@ namespace Get2Work.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                   SELECT  cj.Id as CompletedJobId, cj.DateCompleted, cj.JobScheduleId, cj.Notes, cj.TimeIn, 
-                            cj.TimeOut, cj.StartingOdometer,cj.EndingOdometer, cj.Halfs, cj.Pints, 
+                   SELECT  cj.Id as CompletedJobId, cj.JobScheduleId, cj.Notes,
+                                                        
+                             CONVERT(datetimeoffset, cj.DateCompleted) AT TIME ZONE 'Central Standard Time' AS DateCompleted,
+                             CONVERT(datetimeoffset, cj.TimeIn) AT TIME ZONE 'Central Standard Time' AS TimeIn,
+                             CONVERT(datetimeoffset, cj.TimeOut) AT TIME ZONE 'Central Standard Time' AS TimeOut,
+
+                            cj.StartingOdometer,cj.EndingOdometer, cj.Halfs, cj.Pints, 
                             cj.Snacks, cj.Complete,j.Id as JobId, j.UserProfileId, j.Description, j.CreateDateTime, 
                             j.ScheduledTime, j.StoreId, j.Notes, j.ActiveStatus,
                             up.Id as ProfileId, up.FirebaseUserId,  
@@ -168,11 +183,9 @@ namespace Get2Work.Repositories
             var jobSchedule = new CompletedJob()
             {
                 Id = DbUtils.GetInt(reader, "CompletedJobId"),
-                DateCompleted = DbUtils.GetDateTime(reader, "DateCompleted"),
-
-
-                TimeIn = DbUtils.GetDateTime(reader, "TimeIn"),
-                TimeOut = DbUtils.GetDateTime(reader, "TimeOut"),
+                DateCompleted = DbUtils.GetDateTimeOffSet(reader, "DateCompleted"),
+                TimeIn = DbUtils.GetDateTimeOffSet(reader, "TimeIn"),
+                TimeOut = DbUtils.GetDateTimeOffSet(reader, "TimeOut"),
                 StartingOdometer = DbUtils.GetNullableInt(reader, "StartingOdometer"),
                 EndingOdometer = DbUtils.GetNullableInt(reader, "EndingOdometer"),
                 Halfs = DbUtils.GetNullableInt(reader, "Halfs"),
