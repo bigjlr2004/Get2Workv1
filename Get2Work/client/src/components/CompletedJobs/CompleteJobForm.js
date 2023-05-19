@@ -10,7 +10,7 @@ const CompleteJobForm = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const [job, setJob] = useState({})
-    const [currentTime, setCurrentTime] = useState()
+
 
     const [timeDisplay, setTimeDisplay] = useState({
         timeIn: "",

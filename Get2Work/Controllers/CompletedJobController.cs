@@ -3,7 +3,9 @@ using Get2Work.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Security.Claims;
 
 namespace Get2Work.Controllers
@@ -35,8 +37,11 @@ namespace Get2Work.Controllers
         [HttpPost("Add")]
         public IActionResult Add(CompletedJob job)
         {
+
+         
             try
             {
+               
                 _completedJobRepository.Add(job);
                 return Ok();
             }

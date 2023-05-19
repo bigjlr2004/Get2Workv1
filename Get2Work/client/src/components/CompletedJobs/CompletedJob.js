@@ -26,41 +26,6 @@ const CompletedJob = ({ completedJob, role }) => {
 
     }
 
-    const handletimeConversionfromBackend = (timeGiven) => {
-        const easternTimezone = 'America/New_York';
-        const utcTimestamp = new Date(`${timeGiven}`).toISOString();
-        const d = new Date(utcTimestamp);
-        const offset = (d.getTimezoneOffset() + (d.getTimezoneOffset() < 0 ? 1 : -1) * 5 * 60) * 1000; // Offset for Eastern Time with 5 hours subtracted
-        const localTimestamp = d.getTime() - offset;
-        const localDate = new Date(localTimestamp);
-        const options = {
-            hour: 'numeric',
-            minute: 'numeric'
-        };
-        return localDate.toLocaleTimeString('en-US', options);
-    };
-
-
-
-
-    const BackInTimeComponent = (timeIn) => {
-
-
-
-        const originalTime = new Date(timeIn);
-        const newTime = new Date(originalTime.getTime() - 18000000).toLocaleTimeString();
-
-
-        return (
-
-            newTime
-
-        );
-    };
-
-
-
-
 
     return (
         <>
@@ -82,7 +47,7 @@ const CompletedJob = ({ completedJob, role }) => {
                                     tag="h6"
 
                                 >
-                                    Time  In: {BackInTimeComponent(completedJob.timeIn)} Out: {BackInTimeComponent(completedJob.timeOut)} <br />
+                                    Time  In: {ReturnTime(completedJob.timeIn)} Out: {ReturnTime(completedJob.timeOut)} <br />
                                     Clocked In: {getTimeDifference(completedJob.timeIn, completedJob.timeOut)}
                                 </CardSubtitle>
                                 <CardText>
@@ -106,7 +71,7 @@ const CompletedJob = ({ completedJob, role }) => {
                         </AccordionBody>
                     </UncontrolledAccordion>
                 </Container>
-                </> : <div>{completedJob.job.scheduledTime} -  {completedJob.job.store.name} - {completedJob.job.description} - Completed: {BackInTimeComponent(completedJob.timeOut)}</div>}</div>
+                </> : <div>{completedJob.job.scheduledTime} -  {completedJob.job.store.name} - {completedJob.job.description} - Completed: {ReturnTime(completedJob.dateCompleted)}</div>}</div>
             </div>
         </>
     );

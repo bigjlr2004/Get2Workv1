@@ -54,7 +54,23 @@ namespace Get2Work.Utils
         {
             return reader.GetDateTime(reader.GetOrdinal(column));
         }
-
+        public static DateTimeOffset GetDateTimeOffSet(SqlDataReader reader, string column)
+        {
+            int ordinal = reader.GetOrdinal(column);
+            if (reader.GetFieldType(ordinal) == typeof(DateTimeOffset))
+            {
+                return reader.GetDateTimeOffset(ordinal);
+            }
+            else if (reader.GetFieldType(ordinal) == typeof(DateTime))
+            {
+                DateTime dateTime = reader.GetDateTime(ordinal);
+                return new DateTimeOffset(dateTime, TimeSpan.Zero);
+            }
+            else
+            {
+                throw new InvalidOperationException($"Column '{column}' is not a valid DateTimeOffset or DateTime value.");
+            }
+        }
         /// <summary>
         ///  Get an int? (nullable int) from a data reader object and gracefully handle NULL values
         /// </summary>
